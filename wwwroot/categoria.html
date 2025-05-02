@@ -1,0 +1,66 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title> -->
+
+        <!-- Google Web Fonts -->
+        <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap"
+            rel="stylesheet"> -->
+    
+        <!-- Icon Font Stylesheet -->
+        <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet"> -->
+        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet"> -->
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+     -->
+        <!-- Customized Bootstrap Stylesheet -->
+        <!-- <link href="css/bootstrap.min.css" rel="stylesheet">
+     -->
+        <!-- Template Stylesheet -->
+        <!-- <link href="css/style.css" rel="stylesheet">
+</head>
+<body> -->
+    <div class="container-fluid pt-4 px-4">
+
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4">Categorias</h6>
+            <form style="display: flex;">
+                <div class="mb-3 px-3">
+                    <input type="number" class="form-control" id="categoriaID"
+                        readonly>
+                </div>
+                
+                <div class="mb-3">
+                    <input type="text" class="form-control" id="nombreCategoria" placeholder="Nombre de Categoria">
+                </div>
+                <button type="button" class="btn btn-primary mx-3" id="btnGuardar" onclick="AgregarCategoria();">Guardar</button>
+            </form>
+        </div>
+
+        <div class="col-sm-12 col-xl-6">
+            <div class="bg-secondary rounded h-100 p-4">
+                <h6 class="mb-4">Categorias</h6>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre Categoria</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaDeCategorias">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        window.onload = ObtenerCategorias();
+    </script>
+    
+<!-- </body>
+</html> -->

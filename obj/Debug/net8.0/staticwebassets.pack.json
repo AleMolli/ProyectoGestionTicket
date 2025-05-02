@@ -1,0 +1,73 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\CSS\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\CSS\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\CSS\\style.css",
+      "PackagePath": "staticwebassets\\CSS\\style.css"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\categoria.js",
+      "PackagePath": "staticwebassets\\JS\\categoria.js"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\common\\Capitalizar.js",
+      "PackagePath": "staticwebassets\\JS\\common\\Capitalizar.js"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\common\\main.js",
+      "PackagePath": "staticwebassets\\JS\\common\\main.js"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\login.js",
+      "PackagePath": "staticwebassets\\JS\\login.js"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\registro.js",
+      "PackagePath": "staticwebassets\\JS\\registro.js"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\selectorpaginainicio.js",
+      "PackagePath": "staticwebassets\\JS\\selectorpaginainicio.js"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\Lib\\jquery-3.7.1.min.js",
+      "PackagePath": "staticwebassets\\Lib\\jquery-3.7.1.min.js"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\categoria.html",
+      "PackagePath": "staticwebassets\\categoria.html"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\menu.html",
+      "PackagePath": "staticwebassets\\menu.html"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\registro.html",
+      "PackagePath": "staticwebassets\\registro.html"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ProyectoGestionTicket.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.ProyectoGestionTicket.props",
+      "PackagePath": "build\\ProyectoGestionTicket.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.ProyectoGestionTicket.props",
+      "PackagePath": "buildMultiTargeting\\ProyectoGestionTicket.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.ProyectoGestionTicket.props",
+      "PackagePath": "buildTransitive\\ProyectoGestionTicket.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
