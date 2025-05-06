@@ -277,3 +277,4 @@ C:\Users\ale_m\Desktop\ProyectoGestionTicket\obj\Debug\net8.0\ProyectoGestionTic
 C:\Users\ale_m\Desktop\ProyectoGestionTicket\obj\Debug\net8.0\ProyectoGestionTicket.genruntimeconfig.cache
 C:\Users\ale_m\Desktop\ProyectoGestionTicket\obj\Debug\net8.0\ref\ProyectoGestionTicket.dll
 C:\Users\ale_m\Desktop\ProyectoGestionTicket\bin\Debug\net8.0\ProyectoGestionTicket.staticwebassets.runtime.json
+C:\Users\ale_m\Desktop\ProyectoGestionTicket\obj\Debug\net8.0\ProyectoGestionTicket.sourcelink.json

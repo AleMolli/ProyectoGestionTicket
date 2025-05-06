@@ -36,14 +36,15 @@
                 <div class="mb-3">
                     <input type="text" class="form-control" id="nombreCategoria" placeholder="Nombre de Categoria">
                 </div>
-                <button type="button" class="btn btn-primary mx-3" id="btnGuardar" onclick="AgregarCategoria();">Guardar</button>
+                <button type="button" class="btn btn-primary mx-3" id="btnGuardar" onclick="BotonGuardarCategoria();">Guardar</button>
+                <button type="button" class="btn btn-light mx-3" id="btnCancelar" onclick="VaciadoImput();">Cancelar</button>
             </form>
         </div>
 
         <div class="col-sm-12 col-xl-6">
             <div class="bg-secondary rounded h-100 p-4">
                 <h6 class="mb-4">Categorias</h6>
-                <table class="table">
+                <table class="table table-striped table-hover">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>

@@ -77,6 +77,11 @@ namespace ProyectoGestionTicket.Controllers
         [HttpPost]
         public async Task<ActionResult<Categoria>> PostCategoria(Categoria categoria)
         {
+            if (await _context.Categoria.AnyAsync(c => c.Nombre.ToLower() == categoria.Nombre.ToLower()))
+            {
+                return BadRequest($"La categoría '{categoria.Nombre}' ya existe.");
+            }
+
             _context.Categoria.Add(categoria);
             await _context.SaveChangesAsync();
 
@@ -94,7 +99,12 @@ namespace ProyectoGestionTicket.Controllers
             }
 
             //_context.Categoria.Remove(categoria);
-            categoria.Eliminado = true;
+            if(categoria.Eliminado){
+                categoria.Eliminado = false;
+                }
+                else{
+                    categoria.Eliminado = true;
+                }
 
             _context.Categoria.Update(categoria);
             await _context.SaveChangesAsync();
