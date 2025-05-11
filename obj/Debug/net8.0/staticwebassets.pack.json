@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets\\JS\\common\\main.js"
     },
     {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\common\\selectorpaginainicio.js",
+      "PackagePath": "staticwebassets\\JS\\common\\selectorpaginainicio.js"
+    },
+    {
       "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\login.js",
       "PackagePath": "staticwebassets\\JS\\login.js"
     },
@@ -29,8 +33,8 @@
       "PackagePath": "staticwebassets\\JS\\registro.js"
     },
     {
-      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\selectorpaginainicio.js",
-      "PackagePath": "staticwebassets\\JS\\selectorpaginainicio.js"
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\ticket.js",
+      "PackagePath": "staticwebassets\\JS\\ticket.js"
     },
     {
       "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\Lib\\jquery-3.7.1.min.js",
@@ -51,6 +55,10 @@
     {
       "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\registro.html",
       "PackagePath": "staticwebassets\\registro.html"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\ticket.html",
+      "PackagePath": "staticwebassets\\ticket.html"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ProyectoGestionTicket.Microsoft.AspNetCore.StaticWebAssets.props",

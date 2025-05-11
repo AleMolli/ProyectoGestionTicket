@@ -1,0 +1,19 @@
+function ObtenerPrioridadDropdown() {
+    fetch('http://localhost:5108/api/Tickets/prioridades') // Llama al GET de prioridades
+    .then(response => response.json())
+    .then(data => CompletarDropdownPrioridad(data))
+    .catch(error => console.log("No se pudo acceder a la api.", error));
+}
+
+function CompletarDropdownPrioridad(data) {
+    let bodySelect = document.getElementById('prioridadTicket');
+    bodySelect.innerHTML = '';
+
+    data.forEach(element => {
+        let opt = document.createElement("option");
+        opt.value = element; // Usamos el nombre del enum como valor
+        opt.text = element;  // Mostramos el nombre del enum
+
+        bodySelect.add(opt);
+    });
+}

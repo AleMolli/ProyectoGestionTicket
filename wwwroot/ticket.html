@@ -1,0 +1,83 @@
+<div class="container-fluid pt-4 px-4">
+    <div class="col-12">
+        <div class="bg-secondary rounded h-100 p-4" style="display: flex;">
+            <button type="button" class="btn btn-lg btn-lg-square btn-outline-success m-2" data-bs-toggle="modal" data-bs-target="#modalAgregarTicket"><i
+                    class="bi bi-plus fs-1"></i></button>
+            <h6 class="mb-4">Crear Ticket</h6>
+        </div>
+    </div>
+
+    <!-- TABLA -->
+
+    <div class="col-12">
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4">Tickets Creados</h6>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Titulo</th>
+                            <th scope="col">Descripcion</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Prioridad</th>
+                            <th scope="col">Fecha Creacion</th>
+                            <th scope="col">Categoria</th>
+                        </tr>
+                    </thead>
+                    <tbody id="todosLosTickets">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- MODAL -->
+
+
+    <div class="modal fade" id="modalAgregarTicket" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Nuevo Ticket</h1>
+                </div>
+                <div class="modal-body bg-secondary">
+
+                    <input type="number" id="TicketID" class="form-control" readonly hidden>
+    
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="tituloTicket" placeholder="Alimento">
+                        <label for="tituloTicket">Titulo</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="categoriaTicket" aria-label="Floating label select example">
+    
+                        </select>
+                        <label for="categoriaTicket">Seleccione la Categoria</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <select class="form-select" id="prioridadTicket" aria-label="Floating label select example">
+    
+                        </select>
+                        <label for="prioridadTicket">Seleccione la Prioridad</label>
+                    </div>
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Deja una descripcion para este Ticket"
+                            id="descripcionTicket" style="height: 150px;"></textarea>
+                        <label for="descripcionTicket">Descripcion</label>
+                    </div>
+    
+                </div>
+                <div class="modal-footer bg-secondary">
+                    <button type="button" class="btn btn-danger" onclick="VaciarModal();">Cerrar</button>
+                    <button type="button" class="btn btn-success" onclick="BotonGuardarTicket();">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

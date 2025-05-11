@@ -16,4 +16,5 @@ document.getElementById("registerForm").addEventListener("submit", async (e) => 
 
     const result = await response.text();
     alert(result);
+    window.location.href = "index.html"
 });
