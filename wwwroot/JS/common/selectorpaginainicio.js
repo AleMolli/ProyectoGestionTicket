@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const viewPath = link.getAttribute("data-view"); // Obtiene la ruta de la vista desde 'data-view'
             loadView(viewPath); // Llama a la función para cargar la vista
             ObtenerCategorias(); //para mostrar datos en tabla de categoria
+            ObtenerTickets();
         });
     });
 });

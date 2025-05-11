@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "0ywdqPJ+GcW3vXC/hqkIQM7EC3eKyMOpHmIG1Bc4TpI=",
+  "Hash": "S5j71sq50LGCxd0k4ho1SeO5cFalboqwjM553s7AG/A=",
   "Source": "ProyectoGestionTicket",
   "BasePath": "_content/ProyectoGestionTicket",
   "Mode": "Default",
@@ -150,6 +150,25 @@
       "OriginalItemSpec": "wwwroot\\JS\\common\\main.js"
     },
     {
+      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\common\\selectorpaginainicio.js",
+      "SourceId": "ProyectoGestionTicket",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\",
+      "BasePath": "_content/ProyectoGestionTicket",
+      "RelativePath": "JS/common/selectorpaginainicio.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\JS\\common\\selectorpaginainicio.js"
+    },
+    {
       "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\login.js",
       "SourceId": "ProyectoGestionTicket",
       "SourceType": "Discovered",
@@ -188,12 +207,12 @@
       "OriginalItemSpec": "wwwroot\\JS\\registro.js"
     },
     {
-      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\selectorpaginainicio.js",
+      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\ticket.js",
       "SourceId": "ProyectoGestionTicket",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\",
       "BasePath": "_content/ProyectoGestionTicket",
-      "RelativePath": "JS/selectorpaginainicio.js",
+      "RelativePath": "JS/ticket.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -204,7 +223,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\JS\\selectorpaginainicio.js"
+      "OriginalItemSpec": "wwwroot\\JS\\ticket.js"
     },
     {
       "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\Lib\\jquery-3.7.1.min.js",
@@ -262,6 +281,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\registro.html"
+    },
+    {
+      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\ticket.html",
+      "SourceId": "ProyectoGestionTicket",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\",
+      "BasePath": "_content/ProyectoGestionTicket",
+      "RelativePath": "ticket.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\ticket.html"
     }
   ]
 }

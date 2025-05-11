@@ -40,6 +40,16 @@ namespace ProyectoGestionTicket.Controllers
 
             return ticket;
         }
+        
+
+        // GET para el enum de prioridad
+        [HttpGet("prioridades")]
+        public IActionResult GetPrioridades()
+        {
+            var prioridades = Enum.GetNames(typeof(Ticket.Prioridad)); // Convierte el enum en un array de strings
+            return Ok(prioridades); // Devuelve un JSON con las opciones
+        }
+
 
         // PUT: api/Tickets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
@@ -51,11 +61,19 @@ namespace ProyectoGestionTicket.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(ticket).State = EntityState.Modified;
+            var ticketexistente = await _context.Ticket.FindAsync(id);
 
             try
             {
-                await _context.SaveChangesAsync();
+                if (ticketexistente != null)
+                {
+                    ticketexistente.Titulo = ticket.Titulo;
+                    ticketexistente.Prioridades = ticket.Prioridades;
+                    ticketexistente.Descripcion = ticket.Descripcion;
+                    ticketexistente.CategoriaID = ticket.CategoriaID;
+
+                    await _context.SaveChangesAsync();
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -77,6 +95,11 @@ namespace ProyectoGestionTicket.Controllers
         [HttpPost]
         public async Task<ActionResult<Ticket>> PostTicket(Ticket ticket)
         {
+            ticket.FechaCreacion = DateTime.Now;
+            ticket.FechaCierre = Convert.ToDateTime("01/01/2025"); 
+            ticket.UsuarioClienteID = 0;
+            ticket.Estados = Ticket.Estado.Abierto;
+
             _context.Ticket.Add(ticket);
             await _context.SaveChangesAsync();
 
@@ -92,7 +115,11 @@ namespace ProyectoGestionTicket.Controllers
             {
                 return NotFound();
             }
-
+            if(ticket.Estados != Ticket.Estado.Abierto)
+            {
+                return BadRequest("No se puede eliminar un Ticket que esta en proceso o ya ha sido contestado.");
+            }
+  
             _context.Ticket.Remove(ticket);
             await _context.SaveChangesAsync();
 

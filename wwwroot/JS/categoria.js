@@ -1,3 +1,13 @@
+function getToken(){
+    return (localStorage.getItem("token"))
+}
+
+const authHeaders = () => ({
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${getToken()}`
+});
+
+
 function ObtenerCategorias(){
     fetch('http://localhost:5108/api/Categorias')
     .then(response => response.json())
@@ -5,11 +15,11 @@ function ObtenerCategorias(){
     .catch(error => console.log("No se puede ingresar a la api: ", error));
 }
 
-
+//MOSTRAMOS EN UNA TABLA LOS DATOS GUARDADOS EN TABLA CATEGORIA
 function MostrarCategorias(data){
     $("#tablaDeCategorias").empty();
     
-    $.each(data, function(index, item) {
+    $.each(data, function(index, item) { //SI EL CAMPO ELIMINADO ES FALSO LO MOSTRAMOS ASI
         if(item.eliminado == false){
             $('#tablaDeCategorias').append(
                 "<tr>",
@@ -19,9 +29,9 @@ function MostrarCategorias(data){
                 "<td><a onclick='BuscarCategoria(" + item.categoriaID + ")'<i class='bi bi-brush'></i></a></td>"
             )
         }
-        else{
+        else{//SI EL CAMPO ELIMINADO ES VERDADERO LO MOSTRAMOS ASI
             $('#tablaDeCategorias').append(
-                "<tr class = 'filaRoja td'>",
+                "<tr class = 'filaRoja'>", //¡¡¡¡NO FUNCIONA LA CLASE!!!!
                 "<td>" + item.categoriaID + "</td>",
                 "<td>" + item.nombre + "</td>",
                 "<td><a onclick='habilitarCategoria(" + item.categoriaID + ")'<i class='bi bi-arrow-clockwise'></i></a></td>"
@@ -38,33 +48,57 @@ function VaciadoImput(){
 }
 
 
-//
+//FUNCION PARA AGREGAR UNA CATEGORIA NUEVA
 function AgregarCategoria(){
-    let nombreCategoria = document.getElementById("nombreCategoria").value;
+    let nombreCategoria = document.getElementById("nombreCategoria").value; //CAPTURA LO QUE GUARDAMOS EN EL IMPUT
 
-    if (nombreCategoria.trim() != 0){
+    if (nombreCategoria.trim() != 0){ //VALIDA QUE NO ESTE VACIO
         let categoria = {
-            nombre: capitalizarTexto(nombreCategoria),
+            nombre: capitalizarTexto(nombreCategoria.trim()),
             eliminado: false
         };
 
         fetch('http://localhost:5108/api/Categorias',
         {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: authHeaders(),
             body: JSON.stringify(categoria)
         })
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById("nombreCategoria").value = "";
-            ObtenerCategorias();
+        .then(async response => {
+            if (!response.ok){
+                let textoError = await response.text(); //CAPTURA ERROR DEL CONTROLADOR SI LA CATEGORIA YA EXISTE Y LA MUESTRA EN EL CATCH
+                throw (textoError);
+            }
+            return response.json();
         })
-        .catch(error => console.log("No se puede ingresar a la api: ", error))
+        .then(data => {
+            if(data.status == 201 || data.status == undefined){ //SI ESTA BIEN VACIAMOS IMPUT REFRESCAMOS PAGINA Y MOSTRAMOS MENSAJE OK
+                document.getElementById("nombreCategoria").value = "";
+                ObtenerCategorias();
+                Swal.fire({
+                    icon: "success",
+                    title: "Categoria creada",
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+            }
+        })
+        .catch(error => {
+                Swal.fire({
+                    icon: "warning",
+                    title: error,
+                    showConfirmButton: false,
+                    timer: 2000
+                });
+        })
     }
     else {
-        alert("Debe ingresar un nombre valido para la Categoria")
+        Swal.fire({
+            icon: "warning",
+            title: "Debe ingresar un nombre valido para la Categoria",
+            showConfirmButton: false,
+            timer: 1500
+        })
     }
 }
 //deshabilita un dato
@@ -73,7 +107,7 @@ function deshabilitarCategorias(id) {
 
     if (quieredeshabilitar) {
         fetch(`http://localhost:5108/api/Categorias/${id}`, {
-            method: 'DELETE'
+            method: 'DELETE'  //EN EL METODO DELETE TENEMOS UN IF PREGUNTANDO EN QUE ESTADO ESTA EL ATRIBUTO "ELIMINADO"
         })
         .then(() => {
             ObtenerCategorias();
@@ -82,10 +116,10 @@ function deshabilitarCategorias(id) {
     }
 }
 
-
+//FUNCION PARA HABILITAR UNA CATEGORIA DESHABILITADA
 function habilitarCategoria(id){
     fetch(`http://localhost:5108/api/Categorias/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE'  //EN EL METODO DELETE TENEMOS UN IF PREGUNTANDO EN QUE ESTADO ESTA EL ATRIBUTO "ELIMINADO"
     })
     .then(() => {
         ObtenerCategorias();
@@ -108,31 +142,62 @@ function BuscarCategoria(id){
     .catch(error => console.log("No se puede ingresar a la api: ", error))
 }
 
+
+//PARA EDITAR UNA CATEGORIA YA CREADA
+
 function EditarunaCategoria(){
     let idCategoria = document.getElementById("categoriaID").value;
     let nombreCategoriaEditado = document.getElementById("nombreCategoria").value;
 
-    if (nombreCategoriaEditado.trim() != 0) {
+    if (nombreCategoriaEditado.trim() != 0) {//PARA CORROBORAR DE QUE EL IMPUT NO ESTE VACIO
         let categoriaEditada = {
             categoriaID: idCategoria,
-            nombre: capitalizarTexto(nombreCategoriaEditado)
+            nombre: capitalizarTexto(nombreCategoriaEditado.trim()) //LLAMA A UNA FUNCION PARA GUARDAR EL CAMPO CON LA PRIMER LETRA DE CADA PALABRA EN MAYUSCULA
         };
 
         fetch(`http://localhost:5108/api/Categorias/${idCategoria}`, {
             method: 'PUT',
-            headers:{
-                'Content-Type': 'application/json'
-            },
+            headers: authHeaders(),
             body: JSON.stringify(categoriaEditada)
         })
-        .then(data => {
-            VaciadoImput();
+        .then(async response => {
+            if (!response.ok){
+                let textoErrorEditar = await response.text();//CAPTURA EL ERROR DESDE EL CONTROLADOR 
+                throw (textoErrorEditar);                    //DONDE HACEMOS VALIDACION QUE NO EXISTA LA CATEGORIA
+            }
+            else{
+                VaciadoImput();
 
-            ObtenerCategorias();
+                ObtenerCategorias();
+                Swal.fire({
+                    icon: "success",
+                    title: "Categoria creada",
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            }
         })
-        .catch(error => console.log("No se puede ingresar a la api: ", error))
+        .catch(error => {         //ACA MOSTRAMOS EL ERROR DEL THEN
+                Swal.fire({
+                    icon: "warning",
+                    title: error,
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+        })
+    }
+    else {
+        Swal.fire({
+            icon: "warning",
+            title: "Debe ingresar un nombre valido para la Categoria",
+            showConfirmButton: false,
+            timer: 3000
+        })
     }
 }
+
+
+//PARA INDICARLE AL BOTON GUARDAR A QUE CATEGORIA LLAMAR.
 
 function BotonGuardarCategoria(){
     let inputIDconvalor = document.getElementById("categoriaID").value;

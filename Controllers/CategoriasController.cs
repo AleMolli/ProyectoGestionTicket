@@ -46,6 +46,11 @@ namespace ProyectoGestionTicket.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategoria(int id, Categoria categoria)
         {
+            if (await _context.Categoria.AnyAsync(c => c.Nombre.ToLower() == categoria.Nombre.ToLower() && c.CategoriaID != id))
+            {
+                return BadRequest($"La categoría '{categoria.Nombre}' ya existe.");
+            }
+
             if (id != categoria.CategoriaID)
             {
                 return BadRequest();
@@ -69,7 +74,7 @@ namespace ProyectoGestionTicket.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/Categorias
