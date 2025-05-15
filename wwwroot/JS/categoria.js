@@ -1,15 +1,9 @@
-function getToken(){
-    return (localStorage.getItem("token"))
-}
-
-const authHeaders = () => ({
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${getToken()}`
-});
-
 
 function ObtenerCategorias(){
-    fetch('http://localhost:5108/api/Categorias')
+    fetch('http://localhost:5108/api/Categorias',{
+        method: 'GET',
+        headers: authHeaders()
+    })
     .then(response => response.json())
     .then(data => MostrarCategorias(data))
     .catch(error => console.log("No se puede ingresar a la api: ", error));
@@ -25,8 +19,8 @@ function MostrarCategorias(data){
                 "<tr>",
                 "<td>" + item.categoriaID + "</td>",
                 "<td>" + item.nombre + "</td>",
-                "<td><a onclick='deshabilitarCategorias(" + item.categoriaID + ")'<i class='bi bi-trash'></i></a></td>",
-                "<td><a onclick='BuscarCategoria(" + item.categoriaID + ")'<i class='bi bi-brush'></i></a></td>"
+                "<td><a onclick='deshabilitarCategorias(" + item.categoriaID + ")'><i class='bi bi-trash'></i></a></td>",
+                "<td><a onclick='BuscarCategoria(" + item.categoriaID + ")'><i class='bi bi-brush'></i></a></td>"
             )
         }
         else{//SI EL CAMPO ELIMINADO ES VERDADERO LO MOSTRAMOS ASI
@@ -34,7 +28,7 @@ function MostrarCategorias(data){
                 "<tr class = 'filaRoja'>", //¡¡¡¡NO FUNCIONA LA CLASE!!!!
                 "<td>" + item.categoriaID + "</td>",
                 "<td>" + item.nombre + "</td>",
-                "<td><a onclick='habilitarCategoria(" + item.categoriaID + ")'<i class='bi bi-arrow-clockwise'></i></a></td>"
+                "<td><a onclick='habilitarCategoria(" + item.categoriaID + ")'><i class='bi bi-arrow-clockwise'></i></a></td>"
             )
         }
     })
@@ -107,7 +101,8 @@ function deshabilitarCategorias(id) {
 
     if (quieredeshabilitar) {
         fetch(`http://localhost:5108/api/Categorias/${id}`, {
-            method: 'DELETE'  //EN EL METODO DELETE TENEMOS UN IF PREGUNTANDO EN QUE ESTADO ESTA EL ATRIBUTO "ELIMINADO"
+            method: 'DELETE',  //EN EL METODO DELETE TENEMOS UN IF PREGUNTANDO EN QUE ESTADO ESTA EL ATRIBUTO "ELIMINADO"
+            headers: authHeaders()
         })
         .then(() => {
             ObtenerCategorias();
@@ -119,7 +114,8 @@ function deshabilitarCategorias(id) {
 //FUNCION PARA HABILITAR UNA CATEGORIA DESHABILITADA
 function habilitarCategoria(id){
     fetch(`http://localhost:5108/api/Categorias/${id}`, {
-        method: 'DELETE'  //EN EL METODO DELETE TENEMOS UN IF PREGUNTANDO EN QUE ESTADO ESTA EL ATRIBUTO "ELIMINADO"
+        method: 'DELETE',  //EN EL METODO DELETE TENEMOS UN IF PREGUNTANDO EN QUE ESTADO ESTA EL ATRIBUTO "ELIMINADO"
+        headers: authHeaders()
     })
     .then(() => {
         ObtenerCategorias();
@@ -132,7 +128,8 @@ function habilitarCategoria(id){
 //busca una categoria para completar el modal para despues editar
 function BuscarCategoria(id){
     fetch(`http://localhost:5108/api/Categorias/${id}`, {
-        method: 'GET'
+        method: 'GET',
+        headers: authHeaders()
     })
     .then(response => response.json())
     .then(data => {
@@ -209,3 +206,5 @@ function BotonGuardarCategoria(){
         AgregarCategoria();
     }
 }
+
+ObtenerCategorias();

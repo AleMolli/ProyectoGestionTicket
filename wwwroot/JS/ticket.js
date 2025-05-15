@@ -1,14 +1,9 @@
-function getToken(){
-    return (localStorage.getItem("token"))
-}
-
-const authHeaders = () => ({
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${getToken()}`
-});
 
 function ObtenerTickets(){
-    fetch('http://localhost:5108/api/Tickets')
+    fetch('http://localhost:5108/api/Tickets', {
+        method: 'GET',
+        headers: authHeaders()
+    })
     .then(response => response.json())
     .then(data => MostrarTickets(data))
     .catch(error => console.log("No se puede ingresar a la api: ", error));
@@ -19,17 +14,44 @@ function MostrarTickets(data) {
     $("#todosLosTickets").empty();
 
     $.each(data, function (index, item) {
+        let estado;
+        switch(item.estados){
+            case 0:
+                estado = "Abierto";
+                break;
+            case 1:
+                estado = "En Proceso";
+                break;
+            case 2:
+                estado = "Cerrado";
+                break;
+            case 3:
+                estado = "Cancelado";
+                break;
+        }
+        let prioridades;
+        switch(item.prioridades){
+            case 0:
+                prioridades = "Baja";
+                break;
+            case 1:
+                prioridades = "Media";
+                break;
+            case 2:
+                prioridades = "Alta";
+                break;
+        }
         $('#todosLosTickets').append(
             "<tr>",
             "<td>" + item.ticketID + "</td>",
             "<td>" + item.titulo + "</td>",
             "<td>" + item.descripcion + "</td>",
-            "<td>" + item.estado + "</td>",
-            "<td>" + item.prioridad + "</td>",
+            "<td>" + estado + "</td>",
+            "<td>" + prioridades + "</td>",
             "<td>" + item.fechaCreacion + "</td>",
             "<td>" + item.categoria.nombre + "</td>",
-            "<td><a onclick='ConfirmacionEliminacion(" + item.ticketID + ")'<i class='bi bi-trash'></i></a></td>",
-            "<td><a onclick='BuscarTicketparaEditar(" + item.ticketID + ")'<i class='bi bi-brush'></i></a></td>"
+            "<td><a onclick='ConfirmacionEliminacion(" + item.ticketID + ")'><i class='bi bi-trash'></i></a></td>",
+            "<td><a onclick='BuscarTicketparaEditar(" + item.ticketID + ")'><i class='bi bi-brush'></i></a></td>"
         )
     })
 }
@@ -37,23 +59,23 @@ function MostrarTickets(data) {
 
 
 function CrearTicketNuevo(){
-    let tituloTicket = document.getElementById("tituloTicket").value;
-    let descripcionTicket = document.getElementById("descripcionTicket").value;
+    let tituloTicket = document.getElementById("tituloTicket").value.trim();
+    let descripcionTicket = document.getElementById("descripcionTicket").value.trim();
     let prioridadTicket = document.getElementById("prioridadTicket").value;
     let categoriaTicket = document.getElementById("categoriaTicket").value;
 
     let posiblesErrores = "";
     
-    if(tituloTicket.trim() = 0){
+    if(!tituloTicket){
         posiblesErrores = "Debe cargar un Titulo para el Ticket.";
     }
-    if(categoriaTicket = 0){
+    if(categoriaTicket == 0){
         posiblesErrores += " - Debera seleccionar una Categoria para el Ticket.";
     } 
     if(!prioridadTicket){
         posiblesErrores += " - Seleccione una Prioridad valida.";
     }
-    if(descripcionTicket.trim() = 0){
+    if(!descripcionTicket){
         posiblesErrores += " - Cargue una descripcion para el Ticket.";
     }
     
@@ -65,35 +87,42 @@ function CrearTicketNuevo(){
         });
     }
     else{
-        let nuevoTicket = {
-            titulo: Capitalizar(tituloTicket.trim()),
-            descripcion: descripcionTicket.trim(),
-            prioridades: prioridadTicket,
-            categoriaID: categoriaTicket
+        let ticket = {
+            titulo: capitalizarTexto(tituloTicket),
+            descripcion: descripcionTicket,
+            prioridades: parseInt(prioridadTicket),
+            categoriaID: categoriaTicket,
         };
 
         fetch('http://localhost:5108/api/Tickets',
             {
                 method: 'POST',
                 headers: authHeaders(),
-                body: JSON.stringify(nuevoTicket)
+                body: JSON.stringify(ticket)
             }
         )
         .then(response => response.json())
         .then(data => {
-            document.getElementById("tituloTicket").value = "";
-            document.getElementById("descripcionTicket").value = "";
-            document.getElementById("prioridadTicket").value = "";
-            document.getElementById("categoriaTicket").value = "";
+            if(data.status == 201 || data.status == undefined){
+                document.getElementById("tituloTicket").value = "";
+                document.getElementById("descripcionTicket").value = "";
+                document.getElementById("prioridadTicket").value = "";
+                document.getElementById("categoriaTicket").value = "";
 
+                    $('#modalAgregarTicket').modal('hide');
             ObtenerTickets();
 
-            Swal.fire({
-                icon: "success",
-                title: "Categoria creada",
-                showConfirmButton: false,
-                timer: 1000
-            });
+                Swal.fire({
+                    icon: "success",
+                    title: "Categoria creada",
+                    showConfirmButton: false,
+                    timer: 1000
+                });
+            }
+            else{
+                //console.log(data);
+            }
+            
         })
         .catch(error => console.log("No se puede acceder a la api: ", error))
     }
@@ -104,7 +133,8 @@ function CrearTicketNuevo(){
 function EliminarTicket(id){
     fetch(`http://localhost:5108/api/Tickets/${id}`,
         {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: authHeaders()
         }
     )
     .then(async response => {
@@ -145,12 +175,14 @@ function ConfirmacionEliminacion(id){
 function BuscarTicketparaEditar(id){
     fetch(`http://localhost:5108/api/Tickets/${id}`,
         {
-            method: 'GET'
+            method: 'GET',
+            headers: authHeaders()
         }
     )
     .then(response => response.json())
     .then(data => {
-        if(data.Estados != 0){
+        //console.log(data);
+        if(data.estados != 0){
             Swal.fire({
                 icon: "warning",
                 title: "No se puede Editar un Ticket que esta en proceso o ya ha sido contestado",
@@ -176,23 +208,23 @@ function BuscarTicketparaEditar(id){
 
 function EditarTicket(){
     let IDticket = document.getElementById("TicketID").value;
-    let tituloTicketeditar = document.getElementById("tituloTicket").value;
-    let descripcionTicketeditar = document.getElementById("descripcionTicket").value;
+    let tituloTicketeditar = document.getElementById("tituloTicket").value.trim();
+    let descripcionTicketeditar = document.getElementById("descripcionTicket").value.trim();
     let prioridadTicketeditar = document.getElementById("prioridadTicket").value;
     let categoriaTicketeditar = document.getElementById("categoriaTicket").value;
 
     let posiblesErroreseditar = "";
     
-    if(tituloTicketeditar.trim() = 0){
+    if(!tituloTicketeditar){
         posiblesErrores = "Debe cargar un Titulo para el Ticket.";
     }
-    if(categoriaTicketeditar = 0){
+    if(categoriaTicketeditar == 0){
         posiblesErrores += " - Debera seleccionar una Categoria para el Ticket.";
     } 
     if(!prioridadTicketeditar){
         posiblesErrores += " - Seleccione una Prioridad valida.";
     }
-    if(descripcionTicketeditar.trim() = 0){
+    if(!descripcionTicketeditar){
         posiblesErrores += " - Cargue una descripcion para el Ticket.";
     }
     
@@ -205,9 +237,10 @@ function EditarTicket(){
     }
     else{
         let editarTicket = {
-            titulo: Capitalizar(tituloTicketeditar.trim()),
-            descripcion: descripcionTicketeditar.trim(),
-            prioridades: prioridadTicketeditar,
+            ticketID: IDticket,
+            titulo: capitalizarTexto(tituloTicketeditar),
+            descripcion: descripcionTicketeditar,
+            prioridades: parseInt(prioridadTicketeditar),
             categoriaID: categoriaTicketeditar
         };
 
@@ -218,10 +251,12 @@ function EditarTicket(){
                 body: JSON.stringify(editarTicket)
             }
         )
+        //.then(response => response.json())
         .then(data => {
-            VaciarModal();
-
-            ObtenerTickets();
+                VaciarModal();
+                //$('#modalAgregarTicket').modal('hide');
+                //ObtenerTickets();
+                document.getElementById("staticBackdropLabel").innerText = "Nuevo Ticket";
         })
         .catch(error => console.log("No se puede acceder a la api: ", error))
     }
@@ -236,6 +271,7 @@ function VaciarModal(){
     document.getElementById("categoriaTicket").value = "";
 
     $('#modalAgregarTicket').modal('hide');
+    ObtenerTickets();
 }
 
 
@@ -249,3 +285,5 @@ function BotonGuardarTicket(){
         CrearTicketNuevo();
     }
 }
+
+//ObtenerTickets();

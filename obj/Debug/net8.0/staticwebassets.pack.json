@@ -17,8 +17,20 @@
       "PackagePath": "staticwebassets\\JS\\common\\Capitalizar.js"
     },
     {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\common\\auth.js",
+      "PackagePath": "staticwebassets\\JS\\common\\auth.js"
+    },
+    {
       "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\common\\main.js",
       "PackagePath": "staticwebassets\\JS\\common\\main.js"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\common\\obtenerCategoriaparaTicket.js",
+      "PackagePath": "staticwebassets\\JS\\common\\obtenerCategoriaparaTicket.js"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\common\\obtenerprioridadesparaTicket.js",
+      "PackagePath": "staticwebassets\\JS\\common\\obtenerprioridadesparaTicket.js"
     },
     {
       "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\common\\selectorpaginainicio.js",
