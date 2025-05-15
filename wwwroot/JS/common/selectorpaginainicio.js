@@ -22,12 +22,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const links = document.querySelectorAll("a[data-view]"); // Seleccionar todos los enlaces con el atributo 'data-view'
 
     links.forEach(link => {
-        link.addEventListener("click", (event) => {
+        link.addEventListener("click", async (event) => {
             event.preventDefault(); // Evita el comportamiento predeterminado del enlace (recargar la página)
             const viewPath = link.getAttribute("data-view"); // Obtiene la ruta de la vista desde 'data-view'
-            loadView(viewPath); // Llama a la función para cargar la vista
+
+            await loadView(viewPath); // Llama a la función para cargar la vista
+
             ObtenerCategorias(); //para mostrar datos en tabla de categoria
             ObtenerTickets();
+            ObtenerCategoriaDropdown();
+            ObtenerPrioridadDropdown();
         });
     });
 });

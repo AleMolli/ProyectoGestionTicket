@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using ProyectoGestionTicket.Models.General;
 
 namespace ProyectoGestionTicket.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TicketsController : ControllerBase
@@ -24,7 +26,8 @@ namespace ProyectoGestionTicket.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Ticket>>> GetTicket()
         {
-            return await _context.Ticket.ToListAsync();
+            var tickets = await _context.Ticket.Include(x => x.Categoria).ToListAsync();
+            return tickets;
         }
 
         // GET: api/Tickets/5
@@ -87,7 +90,7 @@ namespace ProyectoGestionTicket.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/Tickets
