@@ -28,10 +28,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
             await loadView(viewPath); // Llama a la función para cargar la vista
 
-            ObtenerCategorias(); //para mostrar datos en tabla de categoria
-            ObtenerTickets();
-            ObtenerCategoriaDropdown();
-            ObtenerPrioridadDropdown();
+            if(viewPath.includes("categoria.html")){
+                ObtenerCategorias();
+            } else if (viewPath.includes("ticket.html")){
+                ObtenerTickets();
+                ObtenerCategoriaDropdown();
+                ObtenerPrioridadDropdown();
+            } else if (viewPath.includes("clientes.html")){
+                ObtenerCliente();
+            }
         });
     });
 });

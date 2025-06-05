@@ -1,8 +1,8 @@
 <div class="container-fluid pt-4 px-4">
     <div class="col-12">
         <div class="bg-secondary rounded h-100 p-4" style="display: flex;">
-            <button type="button" class="btn btn-lg btn-lg-square btn-outline-success m-2" data-bs-toggle="modal" data-bs-target="#modalAgregarTicket"><i
-                    class="bi bi-plus fs-1"></i></button>
+            <button type="button" class="btn btn-lg btn-lg-square btn-outline-success m-2" data-bs-toggle="modal"
+                data-bs-target="#modalAgregarTicket"><i class="bi bi-plus fs-1"></i></button>
             <h6 class="mb-4">Crear Ticket</h6>
         </div>
     </div>
@@ -23,10 +23,13 @@
                             <th scope="col">Prioridad</th>
                             <th scope="col">Fecha Creacion</th>
                             <th scope="col">Categoria</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="todosLosTickets">
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -47,20 +50,20 @@
                 <div class="modal-body bg-secondary">
 
                     <input type="number" id="TicketID" class="form-control" readonly hidden>
-    
+
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="tituloTicket" placeholder="Alimento">
                         <label for="tituloTicket">Titulo</label>
                     </div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="categoriaTicket" aria-label="Floating label select example">
-    
+
                         </select>
                         <label for="categoriaTicket">Seleccione la Categoria</label>
                     </div>
                     <div class="form-floating mb-3">
                         <select class="form-select" id="prioridadTicket" aria-label="Floating label select example">
-    
+
                         </select>
                         <label for="prioridadTicket">Seleccione la Prioridad</label>
                     </div>
@@ -69,7 +72,7 @@
                             id="descripcionTicket" style="height: 150px;"></textarea>
                         <label for="descripcionTicket">Descripcion</label>
                     </div>
-    
+
                 </div>
                 <div class="modal-footer bg-secondary">
                     <button type="button" class="btn btn-danger" onclick="VaciarModal();">Cerrar</button>
@@ -80,4 +83,47 @@
     </div>
 
 
+    <!-- MODAL PARA MOSTRAR HISTORIAL -->
+
+    <div class="modal fade" id="modalHistorialTicket" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Historial Ticket</h1>
+                </div>
+                <div class="modal-body bg-secondary">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">CampoModificado</th>
+                                    <th scope="col">ValorAnterior</th>
+                                    <th scope="col">ValorNuevo</th>
+                                    <th scope="col">FechaCambio</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historialdeTickets">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer bg-secondary">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
+<script src="./JS/common/Capitalizar.js"></script>
+<script src="./JS/common/auth.js"></script>
+<script src="./JS/ticket.js"></script>
+<script src="./JS/common/obtenerCategoriaparaTicket.js"></script>
+<script src="./JS/common/obtenerprioridadesparaTicket.js"></script>
+<script type="text/javascript">
+    window.onload = ObtenerTickets();
+</script>

@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 using ProyectoGestionTicket.Models.General;
 
 namespace ProyectoGestionTicket.Controllers
@@ -65,9 +67,65 @@ namespace ProyectoGestionTicket.Controllers
             }
 
             var ticketexistente = await _context.Ticket.FindAsync(id);
+            //corroborar si algunos de los campos(titulo, descripcion, prioridad o categoria) modifico su valor.
+            //guardar el valor viejo
 
+            var historial = new List<HistorialTicket>();
+            
             try
             {
+
+                if (ticketexistente.Titulo != ticket.Titulo)
+                {
+                    historial.Add(new HistorialTicket
+                    {
+                        TicketID = ticket.TicketID,
+                        CampoModificado = "Titulo",
+                        ValorAnterior = ticketexistente.Titulo,
+                        ValorNuevo = ticket.Titulo,
+                        FechaCambio = DateTime.Now
+                    });
+                }
+                if (ticketexistente.Prioridades != ticket.Prioridades)
+                {
+                    historial.Add(new HistorialTicket
+                    {
+                        TicketID = ticket.TicketID,
+                        CampoModificado = "Prioridad",
+                        ValorAnterior = ticketexistente.Prioridades.ToString(),
+                        ValorNuevo = ticket.Prioridades.ToString(),
+                        FechaCambio = DateTime.Now
+                    });
+                }
+                if (ticketexistente.Descripcion != ticket.Descripcion)
+                {
+                    historial.Add(new HistorialTicket
+                    {
+                        TicketID = ticket.TicketID,
+                        CampoModificado = "Descripcion",
+                        ValorAnterior = ticketexistente.Descripcion,
+                        ValorNuevo = ticket.Descripcion,
+                        FechaCambio = DateTime.Now
+                    });
+                }
+                if (ticketexistente.CategoriaID != ticket.CategoriaID)
+                {
+                    historial.Add(new HistorialTicket
+                    {
+                        TicketID = ticket.TicketID,
+                        CampoModificado = "Categoria",
+                        ValorAnterior = ticketexistente.CategoriaID.ToString(),
+                        ValorNuevo = ticket.CategoriaID.ToString(),
+                        FechaCambio = DateTime.Now
+                    });
+                }
+
+                if (historial.Any())
+                {
+                    _context.HistorialTicket.AddRange(historial);
+                    await _context.SaveChangesAsync();
+                }
+
                 if (ticketexistente != null)
                 {
                     ticketexistente.Titulo = ticket.Titulo;
