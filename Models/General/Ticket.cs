@@ -16,8 +16,10 @@ namespace ProyectoGestionTicket.Models.General
         public int CategoriaID { get; set; }
 
         public virtual Categoria? Categoria { get; set; }
+        public virtual ICollection<HistorialTicket>? HistorialTicket { get; set; }
 
-        public enum Estado {
+        public enum Estado
+        {
             Abierto,
             EnProceso,
             Cerrado,

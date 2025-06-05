@@ -13,4 +13,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
         public DbSet<Categoria> Categoria { get; set; } = default!;
 
         public DbSet<Ticket> Ticket { get; set; } = default!;
+
+public DbSet<ProyectoGestionTicket.Models.General.HistorialTicket> HistorialTicket { get; set; } = default!;
+
+public DbSet<ProyectoGestionTicket.Models.General.Cliente> Cliente { get; set; } = default!;
     }

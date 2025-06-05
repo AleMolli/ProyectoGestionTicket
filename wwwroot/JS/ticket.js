@@ -51,7 +51,8 @@ function MostrarTickets(data) {
             "<td>" + item.fechaCreacion + "</td>",
             "<td>" + item.categoria.nombre + "</td>",
             "<td><a onclick='ConfirmacionEliminacion(" + item.ticketID + ")'><i class='bi bi-trash'></i></a></td>",
-            "<td><a onclick='BuscarTicketparaEditar(" + item.ticketID + ")'><i class='bi bi-brush'></i></a></td>"
+            "<td><a onclick='BuscarTicketparaEditar(" + item.ticketID + ")'><i class='bi bi-brush'></i></a></td>",
+            "<td><a onclick='ObtenerHistorialTicket(" + item.ticketID + ")'><i class='bi bi-search'></i></a></td>"
         )
     })
 }
@@ -202,6 +203,7 @@ function BuscarTicketparaEditar(id){
             $('#modalAgregarTicket').modal('show');
         }
     })
+    .catch(error => console.log("No se puede acceder a la api: ", error))
 }
 
 
@@ -269,7 +271,7 @@ function VaciarModal(){
     document.getElementById("descripcionTicket").value = "";
     document.getElementById("prioridadTicket").value = 0;
     document.getElementById("categoriaTicket").value = "";
-
+    document.getElementById("staticBackdropLabel").innerText = "Nuevo Ticket";
     $('#modalAgregarTicket').modal('hide');
     ObtenerTickets();
 }
@@ -286,4 +288,32 @@ function BotonGuardarTicket(){
     }
 }
 
+
+function ObtenerHistorialTicket(id){
+
+    fetch(`http://localhost:5108/api/HistorialTickets/${id}`, {
+        method: 'GET',
+        headers: authHeaders()
+    })
+    .then(response => response.json())
+    .then(data => {
+        $('#modalHistorialTicket').modal('show');
+        MostrarHistorialTickets(data);
+    })
+    .catch(error => console.log("No se puede acceder a la api: ", error))
+}
+
+function MostrarHistorialTickets(data) {
+    $("#historialdeTickets").empty();
+
+    $.each(data, function (index, item) {
+        $('#historialdeTickets').append(
+            "<tr>",
+            "<td>" + item.campoModificado + "</td>",
+            "<td>" + item.valorAnterior + "</td>",
+            "<td>" + item.valorNuevo + "</td>",
+            "<td>" + item.fechaCambio + "</td>"
+        )
+    })
+}
 //ObtenerTickets();

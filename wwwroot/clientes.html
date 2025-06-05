@@ -1,0 +1,79 @@
+<div class="container-fluid pt-4 px-4">
+    <div class="col-12">
+        <div class="bg-secondary rounded h-100 p-4" style="display: flex;">
+            <button type="button" class="btn btn-lg btn-lg-square btn-outline-success m-2" data-bs-toggle="modal"
+                data-bs-target="#modalAgregarCliente"><i class="bi bi-plus fs-1"></i></button>
+            <h6 class="mb-4">Crear Cliente</h6>
+        </div>
+    </div>
+
+    <!-- TABLA -->
+
+    <div class="col-12">
+        <div class="bg-secondary rounded h-100 p-4">
+            <h6 class="mb-4">Clientes</h6>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Telefono</th>
+                            <th scope="col">Observaciones</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="todosLosClientes">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- MODAL -->
+
+
+    <div class="modal fade" id="modalAgregarCliente" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary">
+                    <h1 class="modal-title fs-5" id="CrearEditar">Nuevo Cliente</h1>
+                </div>
+                <div class="modal-body bg-secondary">
+
+                    <input type="number" id="ClienteID" class="form-control" readonly hidden>
+
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="nombreCliente" placeholder="Alejandro Molli">
+                        <label for="nombreCliente">Nombre y Apellido</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="emailCliente" placeholder="alemolli@gmail.com">
+                        <label for="emailCliente">Email</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="telefonoCliente" placeholder="3562510850">
+                        <label for="telefonoCliente">Telefono</label>
+                    </div>
+                    
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Deje una observacion para este Cliente"
+                            id="observacionCliente" style="height: 150px;"></textarea>
+                        <label for="observacionCliente">Observaciones</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer bg-secondary">
+                    <button type="button" class="btn btn-danger" onclick="VaciarModalCliente();">Cerrar</button>
+                    <button type="button" class="btn btn-success" onclick="BotonGuardarCliente();">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>

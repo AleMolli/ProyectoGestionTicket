@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "CiinX8eJc8Onf5a21CroPX0Eqm4+iKKUh6gXd5LR41s=",
+  "Hash": "CzlUECppmG0UiaoQccpngSZAPrTdD8lFLhSnDESbGe0=",
   "Source": "ProyectoGestionTicket",
   "BasePath": "_content/ProyectoGestionTicket",
   "Mode": "Default",
@@ -34,6 +34,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\categoria.html"
+    },
+    {
+      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\clientes.html",
+      "SourceId": "ProyectoGestionTicket",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\",
+      "BasePath": "_content/ProyectoGestionTicket",
+      "RelativePath": "clientes.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\clientes.html"
     },
     {
       "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\CSS\\bootstrap.min.css",
@@ -110,6 +129,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\JS\\categoria.js"
+    },
+    {
+      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\cliente.js",
+      "SourceId": "ProyectoGestionTicket",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\",
+      "BasePath": "_content/ProyectoGestionTicket",
+      "RelativePath": "JS/cliente.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\JS\\cliente.js"
     },
     {
       "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\common\\auth.js",
@@ -243,6 +281,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\JS\\login.js"
+    },
+    {
+      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\logout.js",
+      "SourceId": "ProyectoGestionTicket",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\",
+      "BasePath": "_content/ProyectoGestionTicket",
+      "RelativePath": "JS/logout.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\JS\\logout.js"
     },
     {
       "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\registro.js",

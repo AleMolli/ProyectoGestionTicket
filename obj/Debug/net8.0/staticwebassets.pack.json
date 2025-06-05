@@ -13,6 +13,10 @@
       "PackagePath": "staticwebassets\\JS\\categoria.js"
     },
     {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\cliente.js",
+      "PackagePath": "staticwebassets\\JS\\cliente.js"
+    },
+    {
       "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\common\\Capitalizar.js",
       "PackagePath": "staticwebassets\\JS\\common\\Capitalizar.js"
     },
@@ -41,6 +45,10 @@
       "PackagePath": "staticwebassets\\JS\\login.js"
     },
     {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\logout.js",
+      "PackagePath": "staticwebassets\\JS\\logout.js"
+    },
+    {
       "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\registro.js",
       "PackagePath": "staticwebassets\\JS\\registro.js"
     },
@@ -55,6 +63,10 @@
     {
       "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\categoria.html",
       "PackagePath": "staticwebassets\\categoria.html"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\clientes.html",
+      "PackagePath": "staticwebassets\\clientes.html"
     },
     {
       "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\index.html",
