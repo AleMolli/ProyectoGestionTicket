@@ -1,6 +1,6 @@
 
-(function ($) {
-    "use strict";
+//(function ($) {
+   // "use strict";
 
     // Spinner
     /*var spinner = function () {
@@ -13,9 +13,23 @@
     spinner();*/
 
     // Sidebar Toggler
-    $('.sidebar-toggler').click(function () {
-        $('.sidebar, .content').toggleClass("open");
-        return false;
-    });
+   // $('.sidebar-toggler').click(function () {
+       // $('.sidebar, .content').toggleClass("open");
+        //return false;
+    //});
 
-})
+//})
+
+function verificarUsuario(){
+    const token = getToken();
+    const email = getEmail(); // suponiendo que guardaste el email al hacer login
+   
+    $("#NombredeUsuario").text(email);
+
+    if (!token) {
+        localStorage.removeItem("token");
+        localStorage.removeItem("email");
+        window.location.href = "login.html";
+        return;
+    }
+} 

@@ -1,12 +1,117 @@
-
-function ObtenerTickets(){
-    fetch('http://localhost:5108/api/Tickets', {
+function ObtenerCategoriaDropdown(){
+    fetch('http://localhost:5108/api/Categorias', {
         method: 'GET',
         headers: authHeaders()
     })
     .then(response => response.json())
-    .then(data => MostrarTickets(data))
-    .catch(error => console.log("No se puede ingresar a la api: ", error));
+    .then(data => CompletarDropdown(data))
+    .catch(error => console.log("No se pudo acceder acceder al servicio.", error))
+}
+
+function CompletarDropdown(data){
+    let bodySelect = document.getElementById("categoriaTicket");
+    bodySelect.innerHTML = "";
+    let bodySelectFiltro = document.getElementById("categoriaFiltro");
+    bodySelectFiltro.innerHTML = "";
+
+        optFiltro = document.createElement("option");
+        optFiltro.value = 0;
+        optFiltro.text = "[Todas las Categorias]"
+
+        bodySelectFiltro.add(optFiltro);
+
+    data.forEach(element => {
+        optmodal = document.createElement("option"); 
+        optmodal.value = element.categoriaID;
+        optmodal.text = element.nombre
+
+        bodySelect.add(optmodal);
+
+        optFiltro = document.createElement("option");
+        optFiltro.value = element.categoriaID;
+        optFiltro.text = element.nombre
+
+        bodySelectFiltro.add(optFiltro);
+        //console.log(optFiltro);
+    })
+    //ObtenerTickets();
+    ObtenerPrioridadDropdown();
+}
+
+ObtenerCategoriaDropdown();
+
+function ObtenerPrioridadDropdown() {
+    fetch('http://localhost:5108/api/Tickets/prioridades',{
+        method: 'GET',
+        headers: authHeaders()
+    }) // Llama al GET de prioridades
+    .then(response => response.json())
+    .then(data => CompletarDropdownPrioridad(data))
+    .catch(error => console.log("No se pudo acceder a la api.", error));
+}
+
+function CompletarDropdownPrioridad(data) {
+    let bodySelect = document.getElementById("prioridadTicket");
+    bodySelect.innerHTML = "";
+    let bodySelectfiltro = document.getElementById("prioridadFiltro");
+    bodySelectfiltro.innerHTML = "";
+
+    data.forEach((element,index) => {
+        let opt = document.createElement("option");
+        opt.value = index; // Usamos el nombre del enum como valor
+        opt.text = element;  // Mostramos el nombre del enum
+
+        bodySelect.add(opt);
+
+        let optB = `<option value="3">[Todas las prioridades]</option>`;
+        let opt2 = document.createElement("option");
+        opt2.value = index;
+        opt2.text = element;
+
+        bodySelectfiltro.add(opt2);
+    });
+    ObtenerTickets();
+}
+
+//ObtenerPrioridadDropdown();
+
+// const input = document.getElementById("categoriaFiltro");
+// input.onchange = function () {
+//   ObtenerTickets();
+// };
+
+$('#prioridadFiltro').on("change", 
+    function() {
+        alert()});
+
+// function ObtenerTickets(){
+//     fetch('http://localhost:5108/api/Tickets', {
+//         method: 'GET',
+//         headers: authHeaders()
+//     })
+//     .then(response => response.json())
+//     .then(data => MostrarTickets(data))
+//     .catch(error => console.log("No se puede ingresar a la api: ", error));
+// }
+
+function ObtenerTickets(){
+    console.log("hola")
+    let categoriaIDBuscar = document.getElementById("categoriaFiltro").value;
+    const filtrosCategoria = {
+        categoriaID: categoriaIDBuscar
+    };
+
+    fetch('http://localhost:5108/api/Tickets/Filtrar',
+        {
+            method: 'POST',
+            headers: authHeaders(),
+            body: JSON.stringify(filtrosCategoria)
+        }
+    )
+        .then(response => response.json())
+        .then(data => MostrarTickets(data))
+        //.then(data => console.log(data))
+        .catch(error => console.log("No se puede acceder a la api: ", error))
 }
 
 //MOSTRAMOS EN UNA TABLA LOS DATOS GUARDADOS EN TABLA TICKETS
@@ -48,8 +153,8 @@ function MostrarTickets(data) {
             "<td>" + item.descripcion + "</td>",
             "<td>" + estado + "</td>",
             "<td>" + prioridades + "</td>",
-            "<td>" + item.fechaCreacion + "</td>",
-            "<td>" + item.categoria.nombre + "</td>",
+            "<td>" + item.fechaCreacionString + "</td>",
+            "<td>" + item.categoriaString + "</td>",
             "<td><a onclick='ConfirmacionEliminacion(" + item.ticketID + ")'><i class='bi bi-trash'></i></a></td>",
             "<td><a onclick='BuscarTicketparaEditar(" + item.ticketID + ")'><i class='bi bi-brush'></i></a></td>",
             "<td><a onclick='ObtenerHistorialTicket(" + item.ticketID + ")'><i class='bi bi-search'></i></a></td>"
@@ -110,8 +215,8 @@ function CrearTicketNuevo(){
                 document.getElementById("prioridadTicket").value = "";
                 document.getElementById("categoriaTicket").value = "";
 
-                    $('#modalAgregarTicket').modal('hide');
-            ObtenerTickets();
+                $('#modalAgregarTicket').modal('hide');
+                ObtenerTickets();
 
                 Swal.fire({
                     icon: "success",
@@ -183,7 +288,7 @@ function BuscarTicketparaEditar(id){
     .then(response => response.json())
     .then(data => {
         //console.log(data);
-        if(data.estados != 0){
+        if(data.estados != 1){
             Swal.fire({
                 icon: "warning",
                 title: "No se puede Editar un Ticket que esta en proceso o ya ha sido contestado",

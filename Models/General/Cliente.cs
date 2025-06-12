@@ -7,6 +7,7 @@ namespace ProyectoGestionTicket.Models.General
         [Key]
         public int ClienteID { get; set; }
         public string? Nombre { get; set; }
+        public long Dni { get; set; }
         public string? Email { get; set; }
         public string? Telefono { get; set; }
         public string? Observaciones { get; set; }

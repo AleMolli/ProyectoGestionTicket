@@ -41,6 +41,10 @@
       "PackagePath": "staticwebassets\\JS\\common\\selectorpaginainicio.js"
     },
     {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\jsPdf\\pdfCategoria.js",
+      "PackagePath": "staticwebassets\\JS\\jsPdf\\pdfCategoria.js"
+    },
+    {
       "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\login.js",
       "PackagePath": "staticwebassets\\JS\\login.js"
     },
@@ -73,8 +77,8 @@
       "PackagePath": "staticwebassets\\index.html"
     },
     {
-      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\menu.html",
-      "PackagePath": "staticwebassets\\menu.html"
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\login.html",
+      "PackagePath": "staticwebassets\\login.html"
     },
     {
       "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\registro.html",

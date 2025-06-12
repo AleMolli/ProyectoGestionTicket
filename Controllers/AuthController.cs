@@ -63,7 +63,9 @@ public class AuthController : ControllerBase
             //SI EL USUARIO ES ENCONTRADO Y LA CONTRASEÑA ES CORRECTA
             var claims = new[]
             {
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.Role, "ADMIN"),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -90,7 +92,8 @@ public class AuthController : ControllerBase
             return Ok(new
             {
                 token = jwt,
-                refreshToken = refreshToken
+                refreshToken = refreshToken,
+                email = user.Email
             });
         }
 

@@ -31,9 +31,9 @@ document.addEventListener("DOMContentLoaded", () => {
             if(viewPath.includes("categoria.html")){
                 ObtenerCategorias();
             } else if (viewPath.includes("ticket.html")){
-                ObtenerTickets();
+                //ObtenerTickets();
                 ObtenerCategoriaDropdown();
-                ObtenerPrioridadDropdown();
+                //ObtenerPrioridadDropdown();
             } else if (viewPath.includes("clientes.html")){
                 ObtenerCliente();
             }

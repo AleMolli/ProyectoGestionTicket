@@ -11,12 +11,30 @@ function ObtenerCategoriaDropdown(){
 function CompletarDropdown(data){
     let bodySelect = document.getElementById("categoriaTicket");
     bodySelect.innerHTML = "";
-    
-    data.forEach(element => {
-        opt = document.createElement("option"); 
-        opt.value = element.categoriaID;
-        opt.text = element.nombre
+    let bodySelectFiltro = document.getElementById("categoriaFiltro");
+    bodySelectFiltro.innerHTML = "";
 
-        bodySelect.add(opt);
+        optFiltro = document.createElement("option");
+        optFiltro.value = 0;
+        optFiltro.text = "[Todas las Categorias]"
+
+        bodySelectFiltro.add(optFiltro);
+
+    data.forEach(element => {
+        optmodal = document.createElement("option"); 
+        optmodal.value = element.categoriaID;
+        optmodal.text = element.nombre
+
+        bodySelect.add(optmodal);
+
+        optFiltro = document.createElement("option");
+        optFiltro.value = element.categoriaID;
+        optFiltro.text = element.nombre
+
+        bodySelectFiltro.add(optFiltro);
+        //console.log(optFiltro);
     })
+    ObtenerTickets();
 }
+
+ObtenerCategoriaDropdown();

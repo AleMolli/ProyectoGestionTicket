@@ -19,8 +19,9 @@ async function IngresarconUsuario() {
         const result = await response.json();
         //document.getElementById("tokenOutput").textContent = result.token;
         localStorage.setItem("token", result.token);
-        document.getElementById("NombredeUsuario").value = 
-        window.location.href = "menu.html";
+        localStorage.setItem("refreshToken", result.refreshToken);
+        localStorage.setItem("email", document.getElementById("loginEmail").value);
+        window.location.href = "index.html";
     } else {
         alert("Login fallido");
     }
