@@ -80,9 +80,9 @@ function CompletarDropdownPrioridad(data) {
 //   ObtenerTickets();
 // };
 
-$('#prioridadFiltro').on("change", 
-    function() {
-        alert()});
+// $('#prioridadFiltro').on("change", 
+//     function() {
+//         alert()});
 
 // function ObtenerTickets(){
 //     fetch('http://localhost:5108/api/Tickets', {

@@ -7,13 +7,13 @@
         </div>
         <div class="bg-secondary rounded h-100 p-4" style="display: flex;">
             <div class="form-floating col-2">
-                <select class="form-select" id="prioridadFiltro" aria-label="Floating label select example">
-            
+                <select class="form-select" id="prioridadFiltro" onchange="ObtenerTickets()" aria-label="Floating label select example">
+                    
                 </select>
                 <label for="prioridadFiltro">Seleccione la Prioridad</label>
             </div>
             <div class="form-floating col-2">
-                <select class="form-select" id="categoriaFiltro" aria-label="Floating label select example">
+                <select class="form-select" id="categoriaFiltro" onchange="ObtenerTickets()" aria-label="Floating label select example">
                     
                 </select>
                 <label for="categoriaFiltro">Seleccione la Categoria</label>
