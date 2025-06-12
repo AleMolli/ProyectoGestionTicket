@@ -14,22 +14,36 @@ function MostrarClientes(data) {
     $("#todosLosClientes").empty();
 
     $.each(data, function (index, item) {
-        $('#todosLosClientes').append(
-            "<tr>",
-            "<td>" + item.clienteID + "</td>",
-            "<td>" + item.nombre + "</td>",
-            "<td>" + item.email + "</td>",
-            "<td>" + item.telefono + "</td>",
-            "<td>" + item.observaciones + "</td>",
-            "<td><a onclick='ConfirmacionEliminacionCliente(" + item.clienteID + ")'><i class='bi bi-trash'></i></a></td>",
-            "<td><a onclick='BuscarClienteparaEditar(" + item.clienteID + ")'><i class='bi bi-brush'></i></a></td>"
-        )
+        if(item.eliminado == false){
+            $('#todosLosClientes').append(
+                "<tr>",
+                "<td>" + item.clienteID + "</td>",
+                "<td>" + item.nombre + "</td>",
+                "<td>" + item.email + "</td>",
+                "<td>" + item.telefono + "</td>",
+                "<td>" + item.observaciones + "</td>",
+                "<td><a onclick='ConfirmacionEliminacionCliente(" + item.clienteID + ")'><i class='bi bi-trash'></i></a></td>",
+                "<td><a onclick='BuscarClienteparaEditar(" + item.clienteID + ")'><i class='bi bi-brush'></i></a></td>"
+            )
+        }else{
+            $('#todosLosClientes').append(
+                "<tr>",
+                "<td>" + item.clienteID + "</td>",
+                "<td>" + item.nombre + "</td>",
+                "<td>" + item.email + "</td>",
+                "<td>" + item.telefono + "</td>",
+                "<td>" + item.observaciones + "</td>",
+                //"<td><a onclick='ConfirmacionEliminacionCliente(" + item.clienteID + ")'><i class='bi bi-trash'></i></a></td>",
+                "<td><a onclick='habilitarCliente(" + item.clienteID + ")'><i class='bi bi-arrow-clockwise'></i></a></td>"
+            )
+        }
     })
 }
 
 
 function CrearClienteNuevo(){
     let nombreCliente = document.getElementById("nombreCliente").value.trim();
+    let dniCliente = document.getElementById("dniCliente").value.trim();
     let emailCliente = document.getElementById("emailCliente").value.trim();
     let telefonoCliente = document.getElementById("telefonoCliente").value.trim();
     let observacionCliente = document.getElementById("observacionCliente").value.trim();
@@ -39,9 +53,9 @@ function CrearClienteNuevo(){
     if(!nombreCliente){
         posiblesErrores = "Debe cargar un Nombre para el Cliente.";
     }
-    // if(!emailCliente){
-    //     posiblesErrores += " - Debe cargar un Email para el Cliente.";
-    // } 
+    if(!dniCliente){
+        posiblesErrores += " - Debe cargar un DNI para el Cliente.";
+    } 
     // if(!telefonoCliente){
     //     posiblesErrores += " - SDebe cargar un numero de Telefono para el Cliente.";
     // }
@@ -56,6 +70,7 @@ function CrearClienteNuevo(){
     else{
         let cliente = {
             nombre: capitalizarTexto(nombreCliente),
+            dni: dniCliente,
             email: emailCliente,
             telefono: telefonoCliente,
             observaciones: observacionCliente,
@@ -150,6 +165,18 @@ function EliminarCliente(id){
 }
 
 
+function habilitarCliente(id){
+    fetch(`http://localhost:5108/api/Clientes/${id}`, {
+        method: 'DELETE',  //EN EL METODO DELETE TENEMOS UN IF PREGUNTANDO EN QUE ESTADO ESTA EL ATRIBUTO "ELIMINADO"
+        headers: authHeaders()
+    })
+    .then(() => {
+        ObtenerCliente();
+    })
+    .catch(error => console.log("No se puede ingresar a la api: ", error))
+}
+
+
 function BuscarClienteparaEditar(id) {
     fetch(`http://localhost:5108/api/Clientes/${id}`,
         {
@@ -217,7 +244,7 @@ function EditarCliente(){
                 VaciarModalCliente();
                 //$('#modalAgregarTicket').modal('hide');
                 //ObtenerTickets();
-                document.getElementById("staticBackdropLabel").innerText = "Nuevo Ticket";
+                document.getElementById("CrearEditar").innerText = "Nuevo Ticket";
         })
         .catch(error => console.log("No se puede acceder a la api: ", error))
     }

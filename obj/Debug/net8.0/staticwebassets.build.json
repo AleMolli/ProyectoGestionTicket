@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "CzlUECppmG0UiaoQccpngSZAPrTdD8lFLhSnDESbGe0=",
+  "Hash": "vORGz60StwiSlbAM+nBwVJO5NyK0bMym0V4uNGYbwoE=",
   "Source": "ProyectoGestionTicket",
   "BasePath": "_content/ProyectoGestionTicket",
   "Mode": "Default",
@@ -264,6 +264,25 @@
       "OriginalItemSpec": "wwwroot\\JS\\common\\selectorpaginainicio.js"
     },
     {
+      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\jsPdf\\pdfCategoria.js",
+      "SourceId": "ProyectoGestionTicket",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\",
+      "BasePath": "_content/ProyectoGestionTicket",
+      "RelativePath": "JS/jsPdf/pdfCategoria.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\JS\\jsPdf\\pdfCategoria.js"
+    },
+    {
       "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\login.js",
       "SourceId": "ProyectoGestionTicket",
       "SourceType": "Discovered",
@@ -359,12 +378,12 @@
       "OriginalItemSpec": "wwwroot\\Lib\\jquery-3.7.1.min.js"
     },
     {
-      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\menu.html",
+      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\login.html",
       "SourceId": "ProyectoGestionTicket",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\",
       "BasePath": "_content/ProyectoGestionTicket",
-      "RelativePath": "menu.html",
+      "RelativePath": "login.html",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -375,7 +394,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\menu.html"
+      "OriginalItemSpec": "wwwroot\\login.html"
     },
     {
       "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\registro.html",

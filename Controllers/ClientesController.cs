@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using ProyectoGestionTicket.Models.General;
 
 namespace ProyectoGestionTicket.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientesController : ControllerBase
@@ -24,7 +26,7 @@ namespace ProyectoGestionTicket.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cliente>>> GetCliente()
         {
-            return await _context.Cliente.Where(c => c.Eliminado == false).OrderBy(c => c.Nombre).ToListAsync();
+            return await _context.Cliente.ToListAsync();
         }
 
         // GET: api/Clientes/5
@@ -46,9 +48,9 @@ namespace ProyectoGestionTicket.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCliente(int id, Cliente cliente)
         {
-            if (await _context.Cliente.AnyAsync(c => c.Nombre.ToLower() == cliente.Nombre.ToLower() && c.ClienteID != id))
+            if (await _context.Cliente.AnyAsync(c => c.Dni == cliente.Dni && c.ClienteID != id))
             {
-                return BadRequest($"El Cliente '{cliente.Nombre}' ya existe.");
+                return BadRequest($"El Cliente con DNI: '{cliente.Dni}' ya existe.");
             }
 
             if (id != cliente.ClienteID)
@@ -82,9 +84,9 @@ namespace ProyectoGestionTicket.Controllers
         [HttpPost]
         public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
         {
-            if (await _context.Cliente.AnyAsync(c => c.Nombre.ToLower() == cliente.Nombre.ToLower()))
+            if (await _context.Cliente.AnyAsync(c => c.Dni == cliente.Dni))
             {
-                return BadRequest($"El Cliente '{cliente.Nombre}' ya existe.");
+                return BadRequest($"El Cliente con DNI: '{cliente.Dni}' ya existe.");
             }
 
             _context.Cliente.Add(cliente);
@@ -103,9 +105,14 @@ namespace ProyectoGestionTicket.Controllers
                 return NotFound();
             }
 
-            if(cliente.Eliminado == false){
+            if (cliente.Eliminado)
+            {
+                cliente.Eliminado = false;
+            }
+            else
+            {
                 cliente.Eliminado = true;
-                }
+            }
 
             _context.Cliente.Update(cliente);
             await _context.SaveChangesAsync();

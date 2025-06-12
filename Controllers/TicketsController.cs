@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using ProyectoGestionTicket.Models.General;
+using static ProyectoGestionTicket.Models.General.Ticket;
 
 namespace ProyectoGestionTicket.Controllers
 {
@@ -46,6 +47,35 @@ namespace ProyectoGestionTicket.Controllers
             return ticket;
         }
         
+        [HttpPost("Filtrar")]
+        public async Task<ActionResult<IEnumerable<VistaTickets>>> FiltrarTickets([FromBody] FiltroTicket filtro)
+        {
+            List<VistaTickets> vista = new List<VistaTickets>();
+
+            var tickets = _context.Ticket.Include(t => t.Categoria).AsQueryable();
+
+            if (filtro.CategoriaID > 0)
+                tickets = tickets.Where(t => t.CategoriaID == filtro.CategoriaID);
+
+            foreach (var ticket in tickets.OrderByDescending(t => t.FechaCreacion))
+            {
+                var ticketMostrar = new VistaTickets
+                {
+                    TicketID = ticket.TicketID,
+                    Titulo = ticket.Titulo,
+                    Descripcion = ticket.Descripcion,
+                    FechaCreacionString = ticket.FechaCreacionString,
+                    Prioridades = ticket.Prioridades,
+                    EstadoString = ticket.EstadoString,
+                    Estados = ticket.Estados,
+                    CategoriaString = ticket.CategoriaString,
+                    PrioridadString = ticket.PrioridadString
+                };
+                vista.Add(ticketMostrar);
+            }
+
+            return vista.ToList();
+        }
 
         // GET para el enum de prioridad
         [HttpGet("prioridades")]
@@ -54,6 +84,14 @@ namespace ProyectoGestionTicket.Controllers
             var prioridades = Enum.GetNames(typeof(Ticket.Prioridad)); // Convierte el enum en un array de strings
             return Ok(prioridades); // Devuelve un JSON con las opciones
         }
+
+        //GET para enum de Estados
+        // [HttpGet("estados")]
+        // public IActionResult GetEstados()
+        // {
+        //     var estados = Enum.GetName(typeof(Ticket.Estado));
+        //     return Ok(estados);
+        // }
 
 
         // PUT: api/Tickets/5

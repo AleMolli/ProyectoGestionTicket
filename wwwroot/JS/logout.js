@@ -3,12 +3,12 @@
 
 async function cerrarSesion() {
     const token = getToken();
-    const email = localStorage.getItem("email"); // suponiendo que guardaste el email al hacer login
+    const email = getEmail(); // suponiendo que guardaste el email al hacer login
 
     if (!token || !email) {
         localStorage.removeItem("token");
         localStorage.removeItem("email");
-        window.location.href = "index.html";
+        window.location.href = "login.html";
         return;
     }
 
@@ -34,5 +34,5 @@ async function cerrarSesion() {
     // Limpiar token y redirigir
     localStorage.removeItem("token");
     localStorage.removeItem("email");
-    window.location.href = "index.html";
+    window.location.href = "login.html";
 };
