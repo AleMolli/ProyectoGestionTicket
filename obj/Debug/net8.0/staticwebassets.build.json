@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "vORGz60StwiSlbAM+nBwVJO5NyK0bMym0V4uNGYbwoE=",
+  "Hash": "LDy6wTQQDMx+cNSQ/pTwT8KGV4Qk0QrTK0QQhGz0IS0=",
   "Source": "ProyectoGestionTicket",
   "BasePath": "_content/ProyectoGestionTicket",
   "Mode": "Default",
@@ -17,12 +17,12 @@
   ],
   "Assets": [
     {
-      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\categoria.html",
+      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\Categoria.html",
       "SourceId": "ProyectoGestionTicket",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\",
       "BasePath": "_content/ProyectoGestionTicket",
-      "RelativePath": "categoria.html",
+      "RelativePath": "Categoria.html",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -33,15 +33,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\categoria.html"
+      "OriginalItemSpec": "wwwroot\\Categoria.html"
     },
     {
-      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\clientes.html",
+      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\Cliente.html",
       "SourceId": "ProyectoGestionTicket",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\",
       "BasePath": "_content/ProyectoGestionTicket",
-      "RelativePath": "clientes.html",
+      "RelativePath": "Cliente.html",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -52,7 +52,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\clientes.html"
+      "OriginalItemSpec": "wwwroot\\Cliente.html"
     },
     {
       "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\CSS\\bootstrap.min.css",
@@ -93,6 +93,25 @@
       "OriginalItemSpec": "wwwroot\\CSS\\style.css"
     },
     {
+      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\home.html",
+      "SourceId": "ProyectoGestionTicket",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\",
+      "BasePath": "_content/ProyectoGestionTicket",
+      "RelativePath": "home.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\home.html"
+    },
+    {
       "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\index.html",
       "SourceId": "ProyectoGestionTicket",
       "SourceType": "Discovered",
@@ -112,12 +131,12 @@
       "OriginalItemSpec": "wwwroot\\index.html"
     },
     {
-      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\categoria.js",
+      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\Categoria.js",
       "SourceId": "ProyectoGestionTicket",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\",
       "BasePath": "_content/ProyectoGestionTicket",
-      "RelativePath": "JS/categoria.js",
+      "RelativePath": "JS/Categoria.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -128,15 +147,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\JS\\categoria.js"
+      "OriginalItemSpec": "wwwroot\\JS\\Categoria.js"
     },
     {
-      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\cliente.js",
+      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\Cliente.js",
       "SourceId": "ProyectoGestionTicket",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\",
       "BasePath": "_content/ProyectoGestionTicket",
-      "RelativePath": "JS/cliente.js",
+      "RelativePath": "JS/Cliente.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -147,7 +166,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\JS\\cliente.js"
+      "OriginalItemSpec": "wwwroot\\JS\\Cliente.js"
     },
     {
       "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\common\\auth.js",
@@ -340,12 +359,12 @@
       "OriginalItemSpec": "wwwroot\\JS\\registro.js"
     },
     {
-      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\ticket.js",
+      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\Ticket.js",
       "SourceId": "ProyectoGestionTicket",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\",
       "BasePath": "_content/ProyectoGestionTicket",
-      "RelativePath": "JS/ticket.js",
+      "RelativePath": "JS/Ticket.js",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -356,7 +375,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\JS\\ticket.js"
+      "OriginalItemSpec": "wwwroot\\JS\\Ticket.js"
     },
     {
       "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\Lib\\jquery-3.7.1.min.js",
@@ -416,12 +435,12 @@
       "OriginalItemSpec": "wwwroot\\registro.html"
     },
     {
-      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\ticket.html",
+      "Identity": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\Ticket.html",
       "SourceId": "ProyectoGestionTicket",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\",
       "BasePath": "_content/ProyectoGestionTicket",
-      "RelativePath": "ticket.html",
+      "RelativePath": "Ticket.html",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -432,7 +451,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\ticket.html"
+      "OriginalItemSpec": "wwwroot\\Ticket.html"
     }
   ]
 }

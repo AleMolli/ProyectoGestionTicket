@@ -6,17 +6,27 @@
             <h6 class="mb-4">Crear Ticket</h6>
         </div>
         <div class="bg-secondary rounded h-100 p-4" style="display: flex;">
-            <div class="form-floating col-2">
-                <select class="form-select" id="prioridadFiltro" onchange="ObtenerTickets()" aria-label="Floating label select example">
-                    
-                </select>
-                <label for="prioridadFiltro">Seleccione la Prioridad</label>
-            </div>
-            <div class="form-floating col-2">
+            <div class="form-floating col-3">
                 <select class="form-select" id="categoriaFiltro" onchange="ObtenerTickets()" aria-label="Floating label select example">
                     
                 </select>
-                <label for="categoriaFiltro">Seleccione la Categoria</label>
+                <label for="categoriaFiltro">Categoria:</label>
+            </div>
+            <div class="form-floating col-3">
+                <select class="form-select" id="prioridadFiltro" onchange="ObtenerTickets()" aria-label="Floating label select example">
+                    
+                </select>
+                <label for="prioridadFiltro">Prioridad:</label>
+            </div>
+            <div class="form-floating col-3">
+                <select class="form-select" id="estadoFiltro" onchange="ObtenerTickets()" aria-label="Floating label select example">
+                    <option selected>[Todos los estados]</option>
+                    <option value="1">Abierto</option>
+                    <option value="2">En Proceso</option>
+                    <option value="3">Cerrado</option>
+                    <option value="4">Cancelado</option>
+                </select>
+                <label for="estadoFiltro">Estado:</label>
             </div>
         </div>
     </div>
@@ -134,8 +144,8 @@
 
 </div>
 <script src="./JS/common/Capitalizar.js"></script>
-<script src="./JS/common/auth.js"></script>
-<script src="./JS/ticket.js"></script>
+<!-- <script src="./JS/common/auth.js"></script> -->
+<script src="./JS/Ticket.js"></script>
 <!-- <script src="./JS/common/obtenerCategoriaparaTicket.js"></script>
 <script src="./JS/common/obtenerprioridadesparaTicket.js"></script> -->
 <!-- <script type="text/javascript">

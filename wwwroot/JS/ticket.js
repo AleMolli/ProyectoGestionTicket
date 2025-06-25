@@ -56,6 +56,12 @@ function CompletarDropdownPrioridad(data) {
     let bodySelectfiltro = document.getElementById("prioridadFiltro");
     bodySelectfiltro.innerHTML = "";
 
+        opt2 = document.createElement("option");
+        opt2.value = 0;
+        opt2.text = "[Todas las Prioridades]"
+
+        bodySelectfiltro.add(opt2);
+
     data.forEach((element,index) => {
         let opt = document.createElement("option");
         opt.value = index; // Usamos el nombre del enum como valor
@@ -63,7 +69,6 @@ function CompletarDropdownPrioridad(data) {
 
         bodySelect.add(opt);
 
-        let optB = `<option value="3">[Todas las prioridades]</option>`;
         let opt2 = document.createElement("option");
         opt2.value = index;
         opt2.text = element;
@@ -95,10 +100,14 @@ function CompletarDropdownPrioridad(data) {
 // }
 
 function ObtenerTickets(){
-    console.log("hola")
+    //console.log("hola")
     let categoriaIDBuscar = document.getElementById("categoriaFiltro").value;
+    let prioridadesBuscar = document.getElementById("prioridadFiltro").value;
+    let estadoBuscar = document.getElementById("estadoFiltro").value;
     const filtrosCategoria = {
-        categoriaID: categoriaIDBuscar
+        categoriaID: categoriaIDBuscar,
+        prioridades: parseInt(prioridadesBuscar),
+        estados: parseInt(estadoBuscar)
     };
 
     fetch('http://localhost:5108/api/Tickets/Filtrar',
@@ -121,28 +130,28 @@ function MostrarTickets(data) {
     $.each(data, function (index, item) {
         let estado;
         switch(item.estados){
-            case 0:
+            case 1:
                 estado = "Abierto";
                 break;
-            case 1:
+            case 2:
                 estado = "En Proceso";
                 break;
-            case 2:
+            case 3:
                 estado = "Cerrado";
                 break;
-            case 3:
+            case 4:
                 estado = "Cancelado";
                 break;
         }
         let prioridades;
         switch(item.prioridades){
-            case 0:
+            case 1:
                 prioridades = "Baja";
                 break;
-            case 1:
+            case 2:
                 prioridades = "Media";
                 break;
-            case 2:
+            case 3:
                 prioridades = "Alta";
                 break;
         }
@@ -421,4 +430,4 @@ function MostrarHistorialTickets(data) {
         )
     })
 }
-//ObtenerTickets();
+ObtenerTickets();

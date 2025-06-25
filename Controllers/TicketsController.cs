@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO.Compression;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -52,27 +54,35 @@ namespace ProyectoGestionTicket.Controllers
         {
             List<VistaTickets> vista = new List<VistaTickets>();
 
-            var tickets = _context.Ticket.Include(t => t.Categoria).AsQueryable();
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            var tickets = _context.Ticket.Where(t => t.UsuarioClienteID == userId).Include(t => t.Categoria).AsQueryable();
 
             if (filtro.CategoriaID > 0)
                 tickets = tickets.Where(t => t.CategoriaID == filtro.CategoriaID);
 
+            if (filtro.Prioridades > 0)
+                tickets = tickets.Where(t => t.Prioridades == filtro.Prioridades);
+
+            if (filtro.Estados > 0)
+                tickets = tickets.Where(t => t.Estados == filtro.Estados);
+
             foreach (var ticket in tickets.OrderByDescending(t => t.FechaCreacion))
-            {
-                var ticketMostrar = new VistaTickets
                 {
-                    TicketID = ticket.TicketID,
-                    Titulo = ticket.Titulo,
-                    Descripcion = ticket.Descripcion,
-                    FechaCreacionString = ticket.FechaCreacionString,
-                    Prioridades = ticket.Prioridades,
-                    EstadoString = ticket.EstadoString,
-                    Estados = ticket.Estados,
-                    CategoriaString = ticket.CategoriaString,
-                    PrioridadString = ticket.PrioridadString
-                };
-                vista.Add(ticketMostrar);
-            }
+                    var ticketMostrar = new VistaTickets
+                    {
+                        TicketID = ticket.TicketID,
+                        Titulo = ticket.Titulo,
+                        Descripcion = ticket.Descripcion,
+                        FechaCreacionString = ticket.FechaCreacionString,
+                        Prioridades = ticket.Prioridades,
+                        EstadoString = ticket.EstadoString,
+                        Estados = ticket.Estados,
+                        CategoriaString = ticket.CategoriaString,
+                        PrioridadString = ticket.PrioridadString
+                    };
+                    vista.Add(ticketMostrar);
+                }
 
             return vista.ToList();
         }
@@ -81,7 +91,7 @@ namespace ProyectoGestionTicket.Controllers
         [HttpGet("prioridades")]
         public IActionResult GetPrioridades()
         {
-            var prioridades = Enum.GetNames(typeof(Ticket.Prioridad)); // Convierte el enum en un array de strings
+            var prioridades = Enum.GetNames(typeof(Prioridad)); // Convierte el enum en un array de strings
             return Ok(prioridades); // Devuelve un JSON con las opciones
         }
 
@@ -194,10 +204,12 @@ namespace ProyectoGestionTicket.Controllers
         [HttpPost]
         public async Task<ActionResult<Ticket>> PostTicket(Ticket ticket)
         {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            
             ticket.FechaCreacion = DateTime.Now;
             ticket.FechaCierre = Convert.ToDateTime("01/01/2025"); 
-            ticket.UsuarioClienteID = 0;
-            ticket.Estados = Ticket.Estado.Abierto;
+            ticket.UsuarioClienteID = userId;
+            ticket.Estados = Estado.Abierto;
 
             _context.Ticket.Add(ticket);
             await _context.SaveChangesAsync();
@@ -214,7 +226,7 @@ namespace ProyectoGestionTicket.Controllers
             {
                 return NotFound();
             }
-            if(ticket.Estados != Ticket.Estado.Abierto)
+            if(ticket.Estados != Estado.Abierto)
             {
                 return BadRequest("No se puede eliminar un Ticket que esta en proceso o ya ha sido contestado.");
             }

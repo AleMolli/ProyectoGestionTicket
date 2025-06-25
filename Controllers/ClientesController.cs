@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoGestionTicket.Models.General;
@@ -16,10 +18,12 @@ namespace ProyectoGestionTicket.Controllers
     public class ClientesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ClientesController(ApplicationDbContext context)
+        public ClientesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: api/Clientes
@@ -57,11 +61,17 @@ namespace ProyectoGestionTicket.Controllers
             {
                 return BadRequest();
             }
-
-            _context.Entry(cliente).State = EntityState.Modified;
-
+            var clienteemail = await _context.Cliente.FindAsync(id);
+            
             try
             {
+                if (clienteemail != null)
+                {
+                    clienteemail.Nombre = cliente.Nombre;
+                    clienteemail.Dni = cliente.Dni;
+                    clienteemail.Telefono = cliente.Telefono;
+                    clienteemail.Observaciones = cliente.Observaciones;
+                }
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -91,6 +101,20 @@ namespace ProyectoGestionTicket.Controllers
 
             _context.Cliente.Add(cliente);
             await _context.SaveChangesAsync();
+
+            var newuser = new ApplicationUser
+            {
+                UserName = cliente.Email,
+                Email = cliente.Email,
+                NombreCompleto = cliente.Nombre
+            };
+            var result = await _userManager.CreateAsync(newuser, "Ezpeleta2025!");
+
+            if (result.Succeeded)
+            {
+                return Ok(new{Mensaje = "Usuario Registrado", result.Errors});
+            }
+                
 
             return CreatedAtAction("GetCliente", new { id = cliente.ClienteID }, cliente);
         }

@@ -9,7 +9,7 @@ function getRefreshToken() {
 function getEmail() {
   return localStorage.getItem("email");
 }
-console.log(localStorage.getItem("email"));
+//console.log(localStorage.getItem("email"));
 
 function saveTokens(token, refreshToken) {
   localStorage.setItem("token", token);

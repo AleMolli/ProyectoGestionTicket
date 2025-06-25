@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +27,10 @@ namespace ProyectoGestionTicket.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Categoria>>> GetCategoria()
         {
-            return await _context.Categoria.ToListAsync();
+            var usuarioLogueadoID = HttpContext.User.Identity.Name;
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var rol = HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;
+            return await _context.Categoria.OrderBy(c => c.Nombre).ToListAsync();
         }
 
         // GET: api/Categorias/5
@@ -106,12 +110,14 @@ namespace ProyectoGestionTicket.Controllers
             }
 
             //_context.Categoria.Remove(categoria);
-            if(categoria.Eliminado){
+            if (categoria.Eliminado)
+            {
                 categoria.Eliminado = false;
-                }
-                else{
-                    categoria.Eliminado = true;
-                }
+            }
+            else
+            {
+                categoria.Eliminado = true;
+            }
 
             _context.Categoria.Update(categoria);
             await _context.SaveChangesAsync();

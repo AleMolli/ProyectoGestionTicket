@@ -9,12 +9,24 @@
       "PackagePath": "staticwebassets\\CSS\\style.css"
     },
     {
-      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\categoria.js",
-      "PackagePath": "staticwebassets\\JS\\categoria.js"
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\Categoria.html",
+      "PackagePath": "staticwebassets\\Categoria.html"
     },
     {
-      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\cliente.js",
-      "PackagePath": "staticwebassets\\JS\\cliente.js"
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\Cliente.html",
+      "PackagePath": "staticwebassets\\Cliente.html"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\Categoria.js",
+      "PackagePath": "staticwebassets\\JS\\Categoria.js"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\Cliente.js",
+      "PackagePath": "staticwebassets\\JS\\Cliente.js"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\Ticket.js",
+      "PackagePath": "staticwebassets\\JS\\Ticket.js"
     },
     {
       "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\common\\Capitalizar.js",
@@ -57,20 +69,16 @@
       "PackagePath": "staticwebassets\\JS\\registro.js"
     },
     {
-      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\JS\\ticket.js",
-      "PackagePath": "staticwebassets\\JS\\ticket.js"
-    },
-    {
       "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\Lib\\jquery-3.7.1.min.js",
       "PackagePath": "staticwebassets\\Lib\\jquery-3.7.1.min.js"
     },
     {
-      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\categoria.html",
-      "PackagePath": "staticwebassets\\categoria.html"
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\Ticket.html",
+      "PackagePath": "staticwebassets\\Ticket.html"
     },
     {
-      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\clientes.html",
-      "PackagePath": "staticwebassets\\clientes.html"
+      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\home.html",
+      "PackagePath": "staticwebassets\\home.html"
     },
     {
       "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\index.html",
@@ -83,10 +91,6 @@
     {
       "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\registro.html",
       "PackagePath": "staticwebassets\\registro.html"
-    },
-    {
-      "Id": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\wwwroot\\ticket.html",
-      "PackagePath": "staticwebassets\\ticket.html"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.ProyectoGestionTicket.Microsoft.AspNetCore.StaticWebAssets.props",

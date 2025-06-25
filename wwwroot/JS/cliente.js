@@ -19,6 +19,7 @@ function MostrarClientes(data) {
                 "<tr>",
                 "<td>" + item.clienteID + "</td>",
                 "<td>" + item.nombre + "</td>",
+                "<td>" + item.dni + "</td>",
                 "<td>" + item.email + "</td>",
                 "<td>" + item.telefono + "</td>",
                 "<td>" + item.observaciones + "</td>",
@@ -30,6 +31,7 @@ function MostrarClientes(data) {
                 "<tr>",
                 "<td>" + item.clienteID + "</td>",
                 "<td>" + item.nombre + "</td>",
+                "<td>" + item.dni + "</td>",
                 "<td>" + item.email + "</td>",
                 "<td>" + item.telefono + "</td>",
                 "<td>" + item.observaciones + "</td>",
@@ -190,11 +192,13 @@ function BuscarClienteparaEditar(id) {
 
         document.getElementById("ClienteID").value = data.clienteID;
         document.getElementById("nombreCliente").value = data.nombre;
+        document.getElementById("dniCliente").value = data.dni;
         document.getElementById("emailCliente").value = data.email;
         document.getElementById("telefonoCliente").value = data.telefono;
         document.getElementById("observacionCliente").value = data.observaciones;
 
         document.getElementById("CrearEditar").innerText = "Editar Cliente";
+        document.getElementById("emailCliente").disabled = true;
 
         $('#modalAgregarCliente').modal('show');
     })
@@ -205,7 +209,7 @@ function BuscarClienteparaEditar(id) {
 function EditarCliente(){
     let IDCliente = document.getElementById("ClienteID").value;
     let nombreClienteeditar = document.getElementById("nombreCliente").value.trim();
-    let emailClienteeditar = document.getElementById("emailCliente").value.trim();
+    let dniClienteeditar = document.getElementById("dniCliente").value.trim();
     let telefonoClienteeditar = document.getElementById("telefonoCliente").value.trim();
     let observacioneseditar = document.getElementById("observacionCliente").value.trim();
 
@@ -226,7 +230,7 @@ function EditarCliente(){
         let editarCliente = {
             clienteID: IDCliente,
             nombre: capitalizarTexto(nombreClienteeditar),
-            email: emailClienteeditar,
+            dni: dniClienteeditar,
             telefono: telefonoClienteeditar,
             observaciones: observacioneseditar,
             eliminado: false
@@ -273,3 +277,5 @@ function BotonGuardarCliente(){
         CrearClienteNuevo();
     }
 }
+
+ObtenerCliente();
