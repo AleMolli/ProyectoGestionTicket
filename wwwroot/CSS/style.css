@@ -1,6 +1,6 @@
 /********** Template CSS **********/
 :root {
-    --primary: #EB1616;
+    --primari: #EB1616;
     --secondary: #191C24;
     --light: #6C7293;
     --dark: #000000;
@@ -130,9 +130,9 @@
 
 .sidebar .navbar .navbar-nav .nav-link:hover,
 .sidebar .navbar .navbar-nav .nav-link.active {
-    color: var(--primary);
+    color: var(--primari);
     background: var(--dark);
-    border-color: var(--primary);
+    border-color: var(--primari);
 }
 
 .sidebar .navbar .navbar-nav .nav-link i {
@@ -185,7 +185,7 @@
 
 .content .navbar .navbar-nav .nav-link:hover,
 .content .navbar .navbar-nav .nav-link.active {
-    color: var(--primary);
+    color: var(--primari);
 }
 
 .content .navbar .sidebar-toggler,
@@ -249,11 +249,11 @@
 
 .bootstrap-datetimepicker-widget table td.active,
 .bootstrap-datetimepicker-widget table td.active:hover {
-    background: var(--primary);
+    background: var(--primari);
 }
 
 .bootstrap-datetimepicker-widget table td.today::before {
-    border-bottom-color: var(--primary);
+    border-bottom-color: var(--primari);
 }
 
 
@@ -278,16 +278,12 @@
     margin: 0 5px;
     width: 15px;
     height: 15px;
-    border: 5px solid var(--primary);
+    border: 5px solid var(--primari);
     border-radius: 15px;
     transition: .5s;
 }
 
 .testimonial-carousel .owl-dot.active {
     background: var(--dark);
-    border-color: var(--primary);
-}
-
-.filaRoja td {
-    color: var(--primary);
+    border-color: var(--primari);
 }

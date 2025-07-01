@@ -13,25 +13,28 @@
 spinner();*/
 
 // Sidebar Toggler
-// $('.sidebar-toggler').click(function () {
-// $('.sidebar, .content').toggleClass("open");
-//return false;
-//});
+$('.sidebar-toggler').click(function () {
+  $('.sidebar, .content').toggleClass("open");
+  return false;
+});
 
-//})
+
 
 function verificarUsuario() {
-    const token = getToken();
-    const email = getEmail(); // suponiendo que guardaste el email al hacer login
+  const token = getToken();
+  const email = getEmail(); // suponiendo que guardaste el email al hacer login
+  const rolusuario = getRol();
+  const nombre = localStorage.getItem("nombre");
 
-    $("#NombredeUsuario").text(email);
+  $("#NombredeUsuario").text(nombre);
+  $("#rolusuario").text(rolusuario);
 
-    if (!token) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("email");
-        window.location.href = "login.html";
-        return;
-    }
+  if (!token) {
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    window.location.href = "login.html";
+    return;
+  }
 }
 
 
@@ -44,27 +47,27 @@ function verificarUsuario() {
 // }
 
 function cargarVista(view) {
-    fetch(`${view}.html`)
-        .then(res => res.text())
-        .then(html => {
-            const app = document.getElementById('app');
-            app.innerHTML = html;
+  fetch(`${view}.html`)
+    .then(res => res.text())
+    .then(html => {
+      const app = document.getElementById('app');
+      app.innerHTML = html;
 
-            // Ejecutar scripts de la vista si hay
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-            const scripts = tempDiv.querySelectorAll('script');
+      // Ejecutar scripts de la vista si hay
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = html;
+      const scripts = tempDiv.querySelectorAll('script');
 
-            scripts.forEach(script => {
-                const nuevoScript = document.createElement('script');
-                if (script.src) {
-                    nuevoScript.src = script.src;
-                } else {
-                    nuevoScript.textContent = script.textContent;
-                }
-                document.body.appendChild(nuevoScript);
-            });
-        });
+      scripts.forEach(script => {
+        const nuevoScript = document.createElement('script');
+        if (script.src) {
+          nuevoScript.src = script.src;
+        } else {
+          nuevoScript.textContent = script.textContent;
+        }
+        document.body.appendChild(nuevoScript);
+      });
+    });
 }
 
 function cargarVistaPorHash() {
@@ -130,12 +133,12 @@ window.addEventListener('hashchange', cargarVistaPorHash);
 window.addEventListener('load', actualizarLinkActivo);
 //DOMContentLoaded se ejecuta cuando el HTML ha sido completamente cargado y analizado, sin importar si los recursos externos (imágenes, hojas de estilo, etc.) se han cargado
 window.addEventListener('DOMContentLoaded', () => {
-//   cargarComponente('accordionSidebar', '../components/sidebar.html')
-//   .then(() => {//ES UNA PROMESA QUE DESENCADENA UNA ACCION
-//     actualizarLinkActivo(); //Se ejecuta después de cargar el menú
-//   });
+  //   cargarComponente('accordionSidebar', '../components/sidebar.html')
+  //   .then(() => {//ES UNA PROMESA QUE DESENCADENA UNA ACCION
+  //     actualizarLinkActivo(); //Se ejecuta después de cargar el menú
+  //   });
 
-//   cargarComponente('footer', '../components/footer.html');
+  //   cargarComponente('footer', '../components/footer.html');
   cargarVistaPorHash();
   verificarUsuario(); //Se ejecuta después de cargar el menú
 });

@@ -20,7 +20,7 @@ namespace ProyectoGestionTicket.Models.General
         public DateTime FechaCreacion { get; set; }
 
         [NotMapped]
-        public string FechaCreacionString { get { return FechaCreacion.ToString("dd/MM/yyyy HH:mm"); } }
+        public string FechaCreacionString { get { return FechaCreacion.ToString("dd/MM/yyyy"); } }
         public DateTime FechaCierre { get; set; }
         public string? UsuarioClienteID { get; set; }
         public int CategoriaID { get; set; }
@@ -63,7 +63,7 @@ namespace ProyectoGestionTicket.Models.General
     public class FiltroTicket
     {
         public int CategoriaID { get; set; }
-        public Prioridad Prioridades { get; set; }
-        public Estado Estados { get; set; }
+        public int Prioridad { get; set; }
+        public int Estado { get; set; }
     }
 }

@@ -21,6 +21,8 @@ async function IngresarconUsuario() {
         localStorage.setItem("token", result.token);
         localStorage.setItem("refreshToken", result.refreshToken);
         localStorage.setItem("email", document.getElementById("loginEmail").value);
+        localStorage.setItem("nombre", result.nombreCompleto);
+        localStorage.setItem("rolusuario", result.rol);
         window.location.href = "index.html";
     } else {
         alert("Login fallido");

@@ -8000,11 +8000,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\ProyectoGestionTicket.csproj",
+      "projectUniqueName": "C:\\Users\\ale_m\\Desktop\\DESARROLLO SOFTWARE\\ProyectoGestionTicket\\ProyectoGestionTicket.csproj",
       "projectName": "ProyectoGestionTicket",
-      "projectPath": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\ProyectoGestionTicket.csproj",
+      "projectPath": "C:\\Users\\ale_m\\Desktop\\DESARROLLO SOFTWARE\\ProyectoGestionTicket\\ProyectoGestionTicket.csproj",
       "packagesPath": "C:\\Users\\ale_m\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ale_m\\Desktop\\ProyectoGestionTicket\\obj\\",
+      "outputPath": "C:\\Users\\ale_m\\Desktop\\DESARROLLO SOFTWARE\\ProyectoGestionTicket\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ale_m\\AppData\\Roaming\\NuGet\\NuGet.Config"

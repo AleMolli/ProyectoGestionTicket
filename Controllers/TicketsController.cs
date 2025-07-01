@@ -39,7 +39,9 @@ namespace ProyectoGestionTicket.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Ticket>> GetTicket(int id)
         {
-            var ticket = await _context.Ticket.FindAsync(id);
+            var ticket = await _context.Ticket
+                .Include(t => t.Categoria)
+                .FirstOrDefaultAsync(t => t.TicketID == id);
 
             if (ticket == null)
             {
@@ -54,18 +56,23 @@ namespace ProyectoGestionTicket.Controllers
         {
             List<VistaTickets> vista = new List<VistaTickets>();
 
-            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var tickets = _context.Ticket.Include(t => t.Categoria).AsQueryable();
 
-            var tickets = _context.Ticket.Where(t => t.UsuarioClienteID == userId).Include(t => t.Categoria).AsQueryable();
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var rol = HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;
+
+            if (rol == "CLIENTE") {
+                  tickets = tickets.Where(t => t.UsuarioClienteID == userId);
+             }
 
             if (filtro.CategoriaID > 0)
                 tickets = tickets.Where(t => t.CategoriaID == filtro.CategoriaID);
 
-            if (filtro.Prioridades > 0)
-                tickets = tickets.Where(t => t.Prioridades == filtro.Prioridades);
+            if (filtro.Prioridad > 0)
+                tickets = tickets.Where(t => (int)t.Prioridades == filtro.Prioridad);
 
-            if (filtro.Estados > 0)
-                tickets = tickets.Where(t => t.Estados == filtro.Estados);
+            if (filtro.Estado > 0)
+                tickets = tickets.Where(t => (int)t.Estados == filtro.Estado);
 
             foreach (var ticket in tickets.OrderByDescending(t => t.FechaCreacion))
                 {
@@ -86,23 +93,6 @@ namespace ProyectoGestionTicket.Controllers
 
             return vista.ToList();
         }
-
-        // GET para el enum de prioridad
-        [HttpGet("prioridades")]
-        public IActionResult GetPrioridades()
-        {
-            var prioridades = Enum.GetNames(typeof(Prioridad)); // Convierte el enum en un array de strings
-            return Ok(prioridades); // Devuelve un JSON con las opciones
-        }
-
-        //GET para enum de Estados
-        // [HttpGet("estados")]
-        // public IActionResult GetEstados()
-        // {
-        //     var estados = Enum.GetName(typeof(Ticket.Estado));
-        //     return Ok(estados);
-        // }
-
 
         // PUT: api/Tickets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

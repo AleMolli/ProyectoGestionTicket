@@ -12,11 +12,12 @@
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="./CSS/bootstrap.min.css">
     <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="stylesheet" href="./csspropio/main.css">
 </head>
 <body>
     
@@ -33,8 +34,8 @@
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-secondary navbar-dark">
-                <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>DarkPan</h3>
+                <a href="home.html" class="navbar-brand mx-4 mb-3">
+                    <h4 class="text-primary"><i class="fa fa-user-edit me-2"></i>Gestion Tickets</h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
@@ -43,7 +44,7 @@
                     </div>
                     <div class="ms-3">
                         <h6 class="mb-0" id="NombredeUsuario"></h6>
-                        <span>Admin</span>
+                        <span id="rolusuario"></span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
@@ -155,7 +156,7 @@
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <!-- <img class="rounded-circle me-lg-2" src="img/user.jpg" alt="" style="width: 40px; height: 40px;"> -->
-                            <span class="d-none d-lg-inline-flex" id="NombredeUsuario"></span>
+                            <span class="d-none d-lg-inline-flex" id="NombredeUsuario">Perfil</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
                             <a href="#" class="dropdown-item">My Profile</a>
@@ -203,6 +204,9 @@
 
     <script src="./Lib/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./JS/jsPdf/jspdf.umd.min.js"></script>
+    <script src="./JS/jsPdf/jspdf.debug.js"></script>
+    <script src="./JS/jsPdf/jspdf.plugin.autotable.js"></script>
     <!-- <script src="./JS/common/selectorpaginainicio.js"></script> -->
     <script src="./JS/common/main.js"></script>
     <script src="./JS/common/auth.js"></script>

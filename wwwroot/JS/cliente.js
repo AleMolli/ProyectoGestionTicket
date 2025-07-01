@@ -1,13 +1,9 @@
 function ObtenerCliente(){
-    fetch('http://localhost:5108/api/Clientes',{
-        method: 'GET',
-        headers: authHeaders()
-    })
+    authFetch("Clientes")
     .then(response => response.json())
     .then(data => MostrarClientes(data))
     .catch(error => console.log("No se puede ingresar a la api: ", error));
 }
-
 
 
 function MostrarClientes(data) {
@@ -17,26 +13,23 @@ function MostrarClientes(data) {
         if(item.eliminado == false){
             $('#todosLosClientes').append(
                 "<tr>",
-                "<td>" + item.clienteID + "</td>",
-                "<td>" + item.nombre + "</td>",
-                "<td>" + item.dni + "</td>",
-                "<td>" + item.email + "</td>",
-                "<td>" + item.telefono + "</td>",
-                "<td>" + item.observaciones + "</td>",
-                "<td><a onclick='ConfirmacionEliminacionCliente(" + item.clienteID + ")'><i class='bi bi-trash'></i></a></td>",
-                "<td><a onclick='BuscarClienteparaEditar(" + item.clienteID + ")'><i class='bi bi-brush'></i></a></td>"
+                "<td class='celda-titulo data-ticket data-false'>" + item.nombre + "</td>",
+                "<td class='celda-titulo data-ticket'>" + item.dni + "</td>",
+                "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.email + "</td>",
+                "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.telefono + "</td>",
+                "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.observaciones + "</td>",
+                "<td class='text-center'><a onclick='ConfirmacionEliminacionCliente(" + item.clienteID + ")'><i class='bi bi-trash text-danger'></i></a></td>",
+                "<td class='text-center'><a onclick='BuscarClienteparaEditar(" + item.clienteID + ")'><i class='bi bi-brush text-info'></i></a></td>"
             )
         }else{
             $('#todosLosClientes').append(
                 "<tr>",
-                "<td>" + item.clienteID + "</td>",
-                "<td>" + item.nombre + "</td>",
-                "<td>" + item.dni + "</td>",
-                "<td>" + item.email + "</td>",
-                "<td>" + item.telefono + "</td>",
-                "<td>" + item.observaciones + "</td>",
-                //"<td><a onclick='ConfirmacionEliminacionCliente(" + item.clienteID + ")'><i class='bi bi-trash'></i></a></td>",
-                "<td><a onclick='habilitarCliente(" + item.clienteID + ")'><i class='bi bi-arrow-clockwise'></i></a></td>"
+                "<td class='celda-titulo data-ticket data-true'>" + item.nombre + "</td>",
+                "<td class='celda-titulo data-ticket'>" + item.dni + "</td>",
+                "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.email + "</td>",
+                "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.telefono + "</td>",
+                "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.observaciones + "</td>",
+                "<td class='text-center'><a onclick='habilitarCliente(" + item.clienteID + ")'><i class='bi bi-arrow-clockwise fs-5 text-success' style='text-shadow: 0 0 4px green;'></i></a></td>"
             )
         }
     })
@@ -79,10 +72,9 @@ function CrearClienteNuevo(){
             eliminado: false
         };
 
-        fetch('http://localhost:5108/api/Clientes',
+        authFetch('Clientes',
             {
                 method: 'POST',
-                headers: authHeaders(),
                 body: JSON.stringify(cliente)
             }
         )
@@ -143,10 +135,9 @@ function ConfirmacionEliminacionCliente(id){
 
 
 function EliminarCliente(id){
-    fetch(`http://localhost:5108/api/Clientes/${id}`,
+    authFetch(`Clientes/${id}`,
         {
             method: 'DELETE',
-            headers: authHeaders()
         }
     )
     .then(async response => {
@@ -168,9 +159,8 @@ function EliminarCliente(id){
 
 
 function habilitarCliente(id){
-    fetch(`http://localhost:5108/api/Clientes/${id}`, {
+    authFetch(`Clientes/${id}`, {
         method: 'DELETE',  //EN EL METODO DELETE TENEMOS UN IF PREGUNTANDO EN QUE ESTADO ESTA EL ATRIBUTO "ELIMINADO"
-        headers: authHeaders()
     })
     .then(() => {
         ObtenerCliente();
@@ -180,10 +170,9 @@ function habilitarCliente(id){
 
 
 function BuscarClienteparaEditar(id) {
-    fetch(`http://localhost:5108/api/Clientes/${id}`,
+    authFetch(`Clientes/${id}`,
         {
             method: 'GET',
-            headers: authHeaders()
         }
     )
     .then(response => response.json())
@@ -236,10 +225,9 @@ function EditarCliente(){
             eliminado: false
         };
 
-        fetch(`http://localhost:5108/api/Clientes/${IDCliente}`,
+        authFetch(`Clientes/${IDCliente}`,
             {
                 method: 'PUT',
-                headers: authHeaders(),
                 body: JSON.stringify(editarCliente)
             }
         )

@@ -1,9 +1,15 @@
 
+// function getToken(){
+//     return (localStorage.getItem("token"))
+// }
+
+// const authHeaders = () => ({
+//     "Content-Type": "application/json",
+//     "Authorization": `Bearer ${getToken()}`
+// });
+
 function ObtenerCategorias(){
-    fetch('http://localhost:5108/api/Categorias',{
-        method: 'GET',
-        headers: authHeaders()
-    })
+    authFetch("Categorias")
     .then(response => response.json())
     .then(data => MostrarCategorias(data))
     .catch(error => console.log("No se puede ingresar a la api: ", error));
@@ -14,21 +20,20 @@ function MostrarCategorias(data){
     $("#tablaDeCategorias").empty();
     
     $.each(data, function(index, item) { //SI EL CAMPO ELIMINADO ES FALSO LO MOSTRAMOS ASI
+
         if(item.eliminado == false){
             $('#tablaDeCategorias').append(
                 "<tr>",
-                "<td>" + item.categoriaID + "</td>",
-                "<td>" + item.nombre + "</td>",
-                "<td><a onclick='deshabilitarCategorias(" + item.categoriaID + ")'><i class='bi bi-trash'></i></a></td>",
-                "<td><a onclick='BuscarCategoria(" + item.categoriaID + ")'><i class='bi bi-brush'></i></a></td>"
+                "<td class='data-false celda-titulo'>" + item.nombre + "</td>",
+                "<td class='text-center'><a onclick='deshabilitarCategorias(" + item.categoriaID + ")'><i class='bi bi-trash text-danger'></i></a></td>",
+                "<td class='text-center'><a onclick='BuscarCategoria(" + item.categoriaID + ")'><i class='bi bi-brush text-info'></i></a></td>"
             )
         }
         else{//SI EL CAMPO ELIMINADO ES VERDADERO LO MOSTRAMOS ASI
             $('#tablaDeCategorias').append(
-                "<tr class = 'filaRoja'>", //¡¡¡¡NO FUNCIONA LA CLASE!!!!
-                "<td>" + item.categoriaID + "</td>",
-                "<td>" + item.nombre + "</td>",
-                "<td><a onclick='habilitarCategoria(" + item.categoriaID + ")'><i class='bi bi-arrow-clockwise'></i></a></td>"
+                "<tr>",
+                "<td class='data-true'>" + item.nombre + "</td>",
+                "<td class='text-center'><a onclick='habilitarCategoria(" + item.categoriaID + ")'><i class='bi bi-arrow-clockwise fs-5 text-success' style='text-shadow: 0 0 4px green;'></i></a></td>"
             )
         }
     })
@@ -52,10 +57,9 @@ function AgregarCategoria(){
             eliminado: false
         };
 
-        fetch('http://localhost:5108/api/Categorias',
+        authFetch(`Categorias`,
         {
             method: 'POST',
-            headers: authHeaders(),
             body: JSON.stringify(categoria)
         })
         .then(async response => {
@@ -100,9 +104,8 @@ function deshabilitarCategorias(id) {
     let quieredeshabilitar = confirm("Esta seguro de borrar esta Categoria?")
 
     if (quieredeshabilitar) {
-        fetch(`http://localhost:5108/api/Categorias/${id}`, {
+        authFetch(`Categorias/${id}`, {
             method: 'DELETE',  //EN EL METODO DELETE TENEMOS UN IF PREGUNTANDO EN QUE ESTADO ESTA EL ATRIBUTO "ELIMINADO"
-            headers: authHeaders()
         })
         .then(() => {
             ObtenerCategorias();
@@ -113,9 +116,8 @@ function deshabilitarCategorias(id) {
 
 //FUNCION PARA HABILITAR UNA CATEGORIA DESHABILITADA
 function habilitarCategoria(id){
-    fetch(`http://localhost:5108/api/Categorias/${id}`, {
+    authFetch(`Categorias/${id}`, {
         method: 'DELETE',  //EN EL METODO DELETE TENEMOS UN IF PREGUNTANDO EN QUE ESTADO ESTA EL ATRIBUTO "ELIMINADO"
-        headers: authHeaders()
     })
     .then(() => {
         ObtenerCategorias();
@@ -127,9 +129,8 @@ function habilitarCategoria(id){
 
 //busca una categoria para completar el modal para despues editar
 function BuscarCategoria(id){
-    fetch(`http://localhost:5108/api/Categorias/${id}`, {
+    authFetch(`Categorias/${id}`, {
         method: 'GET',
-        headers: authHeaders()
     })
     .then(response => response.json())
     .then(data => {
@@ -152,9 +153,8 @@ function EditarunaCategoria(){
             nombre: capitalizarTexto(nombreCategoriaEditado.trim()) //LLAMA A UNA FUNCION PARA GUARDAR EL CAMPO CON LA PRIMER LETRA DE CADA PALABRA EN MAYUSCULA
         };
 
-        fetch(`http://localhost:5108/api/Categorias/${idCategoria}`, {
+        authFetch(`Categorias/${idCategoria}`, {
             method: 'PUT',
-            headers: authHeaders(),
             body: JSON.stringify(categoriaEditada)
         })
         .then(async response => {
@@ -168,7 +168,7 @@ function EditarunaCategoria(){
                 ObtenerCategorias();
                 Swal.fire({
                     icon: "success",
-                    title: "Categoria creada",
+                    title: "Categoria Editada",
                     showConfirmButton: false,
                     timer: 3000
                 });

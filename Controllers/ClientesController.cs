@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ using ProyectoGestionTicket.Models.General;
 
 namespace ProyectoGestionTicket.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "ADMINISTRADOR")]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientesController : ControllerBase
@@ -30,7 +31,7 @@ namespace ProyectoGestionTicket.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cliente>>> GetCliente()
         {
-            return await _context.Cliente.ToListAsync();
+            return await _context.Cliente.OrderBy(c => c.Nombre).ToListAsync();
         }
 
         // GET: api/Clientes/5
@@ -62,7 +63,7 @@ namespace ProyectoGestionTicket.Controllers
                 return BadRequest();
             }
             var clienteemail = await _context.Cliente.FindAsync(id);
-            
+
             try
             {
                 if (clienteemail != null)
@@ -94,27 +95,34 @@ namespace ProyectoGestionTicket.Controllers
         [HttpPost]
         public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
         {
-            if (await _context.Cliente.AnyAsync(c => c.Dni == cliente.Dni))
+            if (!String.IsNullOrEmpty(cliente.Nombre) && !String.IsNullOrEmpty(cliente.Dni.ToString()) && !String.IsNullOrEmpty(cliente.Email))
             {
-                return BadRequest($"El Cliente con DNI: '{cliente.Dni}' ya existe.");
+                if (await _context.Cliente.AnyAsync(c => c.Dni == cliente.Dni))
+                {
+                    return BadRequest($"El Cliente con DNI: '{cliente.Dni}' ya existe.");
+                }
+                if (await _context.Cliente.AnyAsync(c => c.Email == cliente.Email))
+                {
+                    return BadRequest($"El Cliente con DNI: '{cliente.Email}' ya existe.");
+                }
+
+                _context.Cliente.Add(cliente);
+                await _context.SaveChangesAsync();
+
+                var newuser = new ApplicationUser
+                {
+                    UserName = cliente.Email,
+                    Email = cliente.Email,
+                    NombreCompleto = cliente.Nombre
+                };
+                var result = await _userManager.CreateAsync(newuser, "Ezpeleta2025!");
+
+                if (result.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(newuser, "CLIENTE");
+                    return Ok(new { Mensaje = "Usuario Registrado", result.Errors });
+                }
             }
-
-            _context.Cliente.Add(cliente);
-            await _context.SaveChangesAsync();
-
-            var newuser = new ApplicationUser
-            {
-                UserName = cliente.Email,
-                Email = cliente.Email,
-                NombreCompleto = cliente.Nombre
-            };
-            var result = await _userManager.CreateAsync(newuser, "Ezpeleta2025!");
-
-            if (result.Succeeded)
-            {
-                return Ok(new{Mensaje = "Usuario Registrado", result.Errors});
-            }
-                
 
             return CreatedAtAction("GetCliente", new { id = cliente.ClienteID }, cliente);
         }

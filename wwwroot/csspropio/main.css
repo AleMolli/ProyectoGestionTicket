@@ -1,0 +1,59 @@
+/* clases tablas */
+
+table tr th{
+    font-size: 18px;
+    background-color: #212529;
+    color: #f8f9fa;            
+}
+
+.contenedortablasgeneral{
+    background-color:#191C24;
+    height:100%;
+    padding:1.5rem;
+}
+
+.celda-titulo   { color: #6e9bc4; font-weight: bold; }
+
+/* tabla categoria y cliente */
+.data-false{
+    text-align: left;
+    font-size: 14px;
+    padding: 8px;
+    text-decoration: underline rgb(22, 191, 39);
+}
+
+.data-true{
+    text-align: left;
+    font-size: 14px;
+    padding: 8px;
+    text-decoration: line-through rgb(211, 11, 11);
+}
+
+/* tabla ticket */
+
+.data-ticket{
+    text-align: left;
+    font-size: 14px;
+    padding: 8px;
+}
+
+.subrayado {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prioridad-alta {
+  color: #dc3545; /* rojo Bootstrap */
+  text-decoration-color: #dc3545;
+}
+
+.prioridad-media {
+  color: #fd7e14; /* naranja Bootstrap */
+  text-decoration-color: #fd7e14;
+}
+
+.prioridad-baja {
+  color: #198754; /* verde Bootstrap */
+  text-decoration-color: #198754;
+}
+
