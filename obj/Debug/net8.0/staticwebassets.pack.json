@@ -49,8 +49,20 @@
       "PackagePath": "staticwebassets\\JS\\common\\obtenerprioridadesparaTicket.js"
     },
     {
-      "Id": "C:\\Users\\ale_m\\Desktop\\DESARROLLO SOFTWARE\\ProyectoGestionTicket\\wwwroot\\JS\\jsPdf\\pdfCategoria.js",
-      "PackagePath": "staticwebassets\\JS\\jsPdf\\pdfCategoria.js"
+      "Id": "C:\\Users\\ale_m\\Desktop\\DESARROLLO SOFTWARE\\ProyectoGestionTicket\\wwwroot\\JS\\jsPdf\\jspdf.debug.js",
+      "PackagePath": "staticwebassets\\JS\\jsPdf\\jspdf.debug.js"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\DESARROLLO SOFTWARE\\ProyectoGestionTicket\\wwwroot\\JS\\jsPdf\\jspdf.min.js",
+      "PackagePath": "staticwebassets\\JS\\jsPdf\\jspdf.min.js"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\DESARROLLO SOFTWARE\\ProyectoGestionTicket\\wwwroot\\JS\\jsPdf\\jspdf.plugin.autotable.js",
+      "PackagePath": "staticwebassets\\JS\\jsPdf\\jspdf.plugin.autotable.js"
+    },
+    {
+      "Id": "C:\\Users\\ale_m\\Desktop\\DESARROLLO SOFTWARE\\ProyectoGestionTicket\\wwwroot\\JS\\jsPdf\\jspdf.umd.min.js",
+      "PackagePath": "staticwebassets\\JS\\jsPdf\\jspdf.umd.min.js"
     },
     {
       "Id": "C:\\Users\\ale_m\\Desktop\\DESARROLLO SOFTWARE\\ProyectoGestionTicket\\wwwroot\\JS\\login.js",

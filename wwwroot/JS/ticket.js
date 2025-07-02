@@ -89,9 +89,9 @@ function MostrarTickets(data) {
         $('#todosLosTickets').append(
             "<tr>",
             "<td class='data-ticket celda-titulo'>" + item.fechaCreacionString + "</td>",
-            "<td class='data-ticket celda-titulo'>" + item.titulo + "</td>",
-            "<td class='data-ticket celda-titulo d-none d-sm-table-cell'>" + item.estadoString + "</td>",
-            "<td class='data-ticket subrayado " + clase + " d-none d-md-table-cell'>" + icono + " " + item.prioridadString + "</td>",
+            "<td class='data-ticket celda-titulo d-none d-sm-table-cell'>" + item.titulo + "</td>",
+            "<td class='data-ticket celda-titulo d-none d-md-table-cell'>" + item.estadoString + "</td>",
+            "<td class='data-ticket subrayado " + clase + " '>" + icono + " " + item.prioridadString + "</td>",
             "<td class='data-ticket celda-titulo d-none d-lg-table-cell'>" + item.categoriaString + "</td>",
             "<td class='text-center'><a onclick='BuscarTicketparaEditar(" + item.ticketID + ")'><i class='bi bi-brush text-info'></i></a></td>",
             "<td class='text-center'><a onclick='BuscarTicketparadetalle(" + item.ticketID + ")'><i class='bi bi-card-checklist text-success'></i></a></td>",
