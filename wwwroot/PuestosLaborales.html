@@ -1,0 +1,46 @@
+<div class="container-fluid pt-4 px-4">
+
+    <div class="bg-secondary rounded h-100 p-4 mb-3">
+        <h6 class="mb-4">Crear Puesto Laboral</h6>
+        <form style="display: flex;">
+            <div class="mb-3 px-3">
+                <input type="number" class="form-control" id="puestoID" readonly hidden>
+            </div>
+
+            <div class="mb-3">
+                <input type="text" class="form-control" id="nombrePuesto" placeholder="Nombre del Puesto">
+            </div>
+            <button type="button" class="btn btn-primary mx-3" id="btnGuardar"
+                onclick="BotonGuardarPuesto();">Guardar</button>
+            <button type="button" class="btn btn-light mx-3" id="btnCancelar"
+                onclick="VaciadoImput();">Cancelar</button>
+        </form>
+    </div>
+
+
+            <!-- TABLA -->
+
+    <div class="col-12">
+        <div class="contenedortablasgeneral rounded">
+            <h6 class="mb-4">Listado de Puestos Laborales</h6>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre Puesto</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tablaDePuestos">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="./JS/common/Capitalizar.js"></script>
+<script src="./JS/Puestos.js"></script>

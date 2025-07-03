@@ -223,7 +223,7 @@ function BuscarTicketparaEditar(id) {
         .then(response => response.json())
         .then(data => {
             //console.log(data);
-            if (data.estados != 1) {
+            if (data.ticket.estados != 1) {
                 Swal.fire({
                     icon: "warning",
                     title: "No se puede Editar un Ticket que esta en proceso o ya ha sido contestado",
@@ -232,13 +232,17 @@ function BuscarTicketparaEditar(id) {
                 });
             }
             else {
-                document.getElementById("TicketID").value = data.ticketID;
-                document.getElementById("tituloTicket").value = data.titulo;
-                document.getElementById("descripcionTicket").value = data.descripcion;
-                document.getElementById("prioridadTicket").value = data.prioridades;
-                document.getElementById("categoriaTicket").value = data.categoriaID;
+                document.getElementById("nombreUsuariocreador").value = data.usuarioCreador.nombreCompleto;
+                document.getElementById("emailUsuarioCreador").value = data.usuarioCreador.email;
+                document.getElementById("TicketID").value = data.ticket.ticketID;
+                document.getElementById("tituloTicket").value = data.ticket.titulo;
+                document.getElementById("descripcionTicket").value = data.ticket.descripcion;
+                document.getElementById("prioridadTicket").value = data.ticket.prioridades;
+                document.getElementById("categoriaTicket").value = data.ticket.categoriaID;
 
                 document.getElementById("staticBackdropLabel").innerText = "Editar Ticket";
+                document.getElementById("nombreUsuariocreador").classList.remove("d-none");
+                document.getElementById("emailUsuarioCreador").classList.remove("d-none");
 
                 $('#modalAgregarTicket').modal('show');
             }
@@ -336,12 +340,13 @@ function BuscarTicketparadetalle(id) {
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        document.getElementById("fechadetalleTicket").value = data.fechaCreacionString;
-        document.getElementById("titulodetealleTicket").value = data.titulo;
-        document.getElementById("categoriadetalleTicket").value = data.categoriaString;
-        document.getElementById("estadodetalleTicket").value = data.estadoString;
-        document.getElementById("prioridaddetalleTicket").value = data.prioridadString;
-        document.getElementById("detalledetalleTicket").value = data.descripcion;
+        document.getElementById("usuariocreadorDetalle").value = data.usuarioCreador.nombreCompleto + " " + "-" + " " + "Email: " + data.usuarioCreador.email;
+        document.getElementById("fechadetalleTicket").value = data.ticket.fechaCreacionString;
+        document.getElementById("titulodetealleTicket").value = data.ticket.titulo;
+        document.getElementById("categoriadetalleTicket").value = data.ticket.categoriaString;
+        document.getElementById("estadodetalleTicket").value = data.ticket.estadoString;
+        document.getElementById("prioridaddetalleTicket").value = data.ticket.prioridadString;
+        document.getElementById("detalledetalleTicket").value = data.ticket.descripcion;
 
         $('#modalDetalleTicket').modal('show');
     })
@@ -378,7 +383,8 @@ function MostrarHistorialTickets(data) {
             "<td class='data-ticket celda-titulo'>" + item.campoModificado + "</td>",
             "<td class='data-ticket celda-titulo'>" + item.valorAnterior + "</td>",
             "<td class='data-ticket celda-titulo'>" + item.valorNuevo + "</td>",
-            "<td class='data-ticket celda-titulo'>" + fechaFormateada + "</td>"
+            "<td class='data-ticket celda-titulo'>" + fechaFormateada + "</td>",
+            "<td class='data-ticket celda-titulo'>" + item.usuarioClienteID + "</td>"
         )
     })
 }

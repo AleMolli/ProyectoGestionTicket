@@ -17,4 +17,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 public DbSet<ProyectoGestionTicket.Models.General.HistorialTicket> HistorialTicket { get; set; } = default!;
 
 public DbSet<ProyectoGestionTicket.Models.General.Cliente> Cliente { get; set; } = default!;
+
+public DbSet<ProyectoGestionTicket.Models.General.PuestoLaboral> PuestoLaboral { get; set; } = default!;
+
+public DbSet<ProyectoGestionTicket.Models.General.Desarrollador> Desarrollador { get; set; } = default!;
     }

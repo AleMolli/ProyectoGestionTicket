@@ -1,0 +1,96 @@
+<div class="container-fluid pt-4 px-4">
+    <div class="col-12">
+        <div class="bg-secondary rounded h-100 p-4 mb-3" style="display: flex;">
+            <button type="button" class="btn btn-lg btn-lg-square btn-outline-success m-2" data-bs-toggle="modal"
+                data-bs-target="#modalAgregarDesa"><i class="bi bi-plus fs-1"></i></button>
+            <h6 class="mb-4">Crear Desarrollador</h6>
+        </div>
+    </div>
+
+    <!-- TABLA -->
+
+    <div class="col-12">
+        <div class="bg-secondary rounded h-100 p-4 mb-3">
+            <h6 class="mb-4">Desarrolladores</h6>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">DNI</th>
+                            <th scope="col" class="d-none d-sm-table-cell">Email</th>
+                            <th scope="col" class="d-none d-sm-table-cell">Telefono</th>
+                            <th scope="col" class="d-none d-sm-table-cell">Puesto</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="todosLosDesa">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- MODAL -->
+
+
+    <div class="modal fade" id="modalAgregarDesa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary">
+                    <h1 class="modal-title fs-5" id="CrearEditar">Nuevo Desarrollador</h1>
+                </div>
+                <div class="modal-body bg-secondary">
+
+                    <input type="number" id="DesarrolladorID" class="form-control" readonly hidden>
+
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="nombredesarrollador" placeholder="Alejandro Molli">
+                        <label for="nombredesarrollador">Nombre y Apellido</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="number" class="form-control" id="dnidesarrollador">
+                        <label for="dnidesarrollador">DNI</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" id="emaildesarrollador" placeholder="alemolli@gmail.com">
+                        <label for="emaildesarrollador">Email</label>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="telefonodesarrollador" placeholder="3562510850">
+                        <label for="telefonodesarrollador">Telefono</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <select class="form-select colorletra" id="puestodesa" aria-label="Floating label select example">
+
+                        </select>
+                        <label for="puestodesa" class="colorletra">Seleccione Puesto</label>
+                    </div>
+                    
+                    <div class="form-floating">
+                        <textarea class="form-control" placeholder="Deje una observacion para este Cliente"
+                            id="observaciondesarrollador" style="height: 150px;"></textarea>
+                        <label for="observaciondesarrollador">Observaciones</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer bg-secondary">
+                    <button type="button" class="btn btn-danger" onclick="VaciarModalDesarrollador();">Cerrar</button>
+                    <button type="button" class="btn btn-success" onclick="BotonGuardarDesarrollador();">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="./JS/common/Capitalizar.js"></script>
+<!-- <script src="./JS/common/auth.js"></script> -->
+<script src="./JS/desarrollador.js"></script>

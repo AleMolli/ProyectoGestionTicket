@@ -11,6 +11,7 @@ namespace ProyectoGestionTicket.Models.General
         public string? ValorAnterior { get; set; }
         public string? ValorNuevo { get; set; }
         public DateTime FechaCambio { get; set; }
+        public string? UsuarioClienteID { get; set; }
 
         public virtual Ticket? Ticket { get; set; }
     }

@@ -45,6 +45,7 @@ function verificarUsuario() {
   if (!token) {
     localStorage.removeItem("token");
     localStorage.removeItem("email");
+    localStorage.removeItem("rolusuario");
     window.location.href = "login.html";
     return;
   }

@@ -38,9 +38,9 @@
 
     <div class="col-12">
         <div class="contenedortablasgeneral mb-3 rounded">
-            <div class="d-flex">
-                <h6 class="mb-4 col-8">Listado de Tickets</h6>
-                <button type="button" class="btn btn-link" onclick="ImprimirPdf();">Imprimir Pdf</button>
+            <div class="d-flex justify-content-between">
+                <h6 class="mb-4">Listado de Tickets</h6>
+                <button type="button" class="btn btn-light mb-4" onclick="ImprimirPdf();"><i class="bi bi-printer"></i>Imprimir Pdf</button>
             </div>
             <div class="table-responsive">
                 <table class="table" id="tablaTicket">
@@ -75,32 +75,34 @@
                 <div class="modal-header bg-secondary">
                     <h1 class="modal-title fs-5" id="staticBackdropLabel">Nuevo Ticket</h1>
                 </div>
-                <div class="modal-body bg-secondary">
+                <div class="modal-body bg-secondary" id="usuarioCreador">
 
                     <input type="number" id="TicketID" class="form-control" readonly hidden>
+                    <input type="text" id="nombreUsuariocreador" class="form-control colorletra bg-secondary mb-3 d-none" readonly>
+                    <input type="text" id="emailUsuarioCreador" class="form-control colorletra bg-secondary mb-3 d-none" readonly>
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="tituloTicket" placeholder="Alimento">
-                        <label for="tituloTicket">Titulo</label>
+                        <input type="text" class="form-control colorletra" id="tituloTicket" placeholder="Alimento">
+                        <label for="tituloTicket" class="colorletra">Titulo</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="categoriaTicket" aria-label="Floating label select example">
+                        <select class="form-select colorletra" id="categoriaTicket" aria-label="Floating label select example">
 
                         </select>
-                        <label for="categoriaTicket">Seleccione la Categoria</label>
+                        <label for="categoriaTicket" class="colorletra">Seleccione la Categoria</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="form-select" id="prioridadTicket" aria-label="Floating label select example">
+                        <select class="form-select colorletra" id="prioridadTicket" aria-label="Floating label select example">
                             <option value="1">Baja</option>
                             <option value="2">Media</option>
                             <option value="3">Alta</option>
                         </select>
-                        <label for="prioridadTicket">Seleccione la Prioridad</label>
+                        <label for="prioridadTicket" class="colorletra">Seleccione la Prioridad</label>
                     </div>
                     <div class="form-floating">
-                        <textarea class="form-control" placeholder="Deja una descripcion para este Ticket"
+                        <textarea class="form-control colorletra" placeholder="Deja una descripcion para este Ticket"
                             id="descripcionTicket" style="height: 150px;"></textarea>
-                        <label for="descripcionTicket">Descripcion</label>
+                        <label for="descripcionTicket" class="colorletra">Descripcion</label>
                     </div>
 
                 </div>
@@ -122,34 +124,34 @@
                     <h1 class="modal-title fs-5" id="staBackdropLabel">Detalles del Ticket</h1>
                 </div>
                 <div class="modal-body bg-secondary">
+                    <div class="form-floating mb-3 bg-secondary">
+                        <input class="form-control bg-secondary colorletra" id="usuariocreadorDetalle" disabled>
+                        <label for="usuariocreadorDetalle">Creado por:</label>
+                    </div>
 
                     <div class="form-floating mb-3 bg-secondary">
-                        <input class="form-control bg-secondary" id="fechadetalleTicket" disabled>
+                        <input class="form-control bg-secondary colorletra" id="fechadetalleTicket" disabled>
                         <label for="fechadetalleTicket">Fecha Alta</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input class="form-control bg-secondary" id="titulodetealleTicket" disabled>
+                        <input class="form-control bg-secondary colorletra" id="titulodetealleTicket" disabled>
                         <label for="titulodetealleTicket">Titulo</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input class="form-control bg-secondary" id="categoriadetalleTicket" disabled>
+                        <input class="form-control bg-secondary colorletra" id="categoriadetalleTicket" disabled>
                         <label for="categoriadetalleTicket">Categoria</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input class="form-control bg-secondary" id="estadodetalleTicket" disabled>
+                        <input class="form-control bg-secondary colorletra" id="estadodetalleTicket" disabled>
                         <label for="estadodetalleTicket">Estado</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input class="form-control bg-secondary" id="prioridaddetalleTicket" disabled>
+                        <input class="form-control bg-secondary colorletra" id="prioridaddetalleTicket" disabled>
                         <label for="prioridaddetalleTicket">Prioridad</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input class="form-control bg-secondary" id="detalledetalleTicket" disabled>
+                        <input class="form-control bg-secondary colorletra" id="detalledetalleTicket" disabled>
                         <label for="detalledetalleTicket">Descripcion</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control bg-secondary" id="usuariodetalleTicket" disabled>
-                        <label for="usuariodetalleTicket">Usuario</label>
                     </div>
                 </div>
                 <div class="modal-footer bg-secondary">
@@ -178,6 +180,7 @@
                                     <th scope="col">ValorAnterior</th>
                                     <th scope="col">ValorNuevo</th>
                                     <th scope="col">FechaCambio</th>
+                                    <th scope="col">Usuario</th>
                                 </tr>
                             </thead>
                             <tbody id="historialdeTickets">

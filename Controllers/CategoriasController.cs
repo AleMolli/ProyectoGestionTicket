@@ -27,9 +27,6 @@ namespace ProyectoGestionTicket.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Categoria>>> GetCategoria()
         {
-            var usuarioLogueadoID = HttpContext.User.Identity.Name;
-            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var rol = HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;
             return await _context.Categoria.OrderBy(c => c.Nombre).ToListAsync();
         }
 

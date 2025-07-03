@@ -54,6 +54,12 @@ public class AuthController : ControllerBase
             var roleResult = await _rolManager.CreateAsync(new IdentityRole("CLIENTE"));
         }
 
+        var desarrolladorRolCrearExiste = _context.Roles.Where(r => r.Name == "DESARROLLADOR").SingleOrDefault();
+        if (clienteRolCrearExiste == null)
+        {
+            var roleResult = await _rolManager.CreateAsync(new IdentityRole("DESARROLLADOR"));
+        }
+
 
         //ARMAMOS EL OBJETO COMPLETANDO LOS ATRIBUTOS COMPLETADOS POR EL USUARIO
         var user = new ApplicationUser
@@ -83,7 +89,7 @@ public class AuthController : ControllerBase
         var user = await _userManager.FindByEmailAsync(model.Email);
         if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
         {
-            string rolNombre = "CLIENTE";
+            string rolNombre = "";
             //BUSCAR ROL QUE TIENE
             var rolUsuario = _context.UserRoles.Where(r => r.UserId == user.Id).SingleOrDefault();
             if (rolUsuario != null)

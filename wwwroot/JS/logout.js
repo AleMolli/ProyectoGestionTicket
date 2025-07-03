@@ -8,6 +8,7 @@ async function cerrarSesion() {
     if (!token || !email) {
         localStorage.removeItem("token");
         localStorage.removeItem("email");
+        localStorage.removeItem("rolusuario");
         window.location.href = "login.html";
         return;
     }
@@ -34,5 +35,6 @@ async function cerrarSesion() {
     // Limpiar token y redirigir
     localStorage.removeItem("token");
     localStorage.removeItem("email");
+    localStorage.removeItem("rolusuario");
     window.location.href = "login.html";
 };

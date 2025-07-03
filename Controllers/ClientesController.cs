@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -31,6 +32,9 @@ namespace ProyectoGestionTicket.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cliente>>> GetCliente()
         {
+            var usuarioLogueadoID = HttpContext.User.Identity.Name;
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var rol = HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;
             return await _context.Cliente.OrderBy(c => c.Nombre).ToListAsync();
         }
 
@@ -62,6 +66,7 @@ namespace ProyectoGestionTicket.Controllers
             {
                 return BadRequest();
             }
+            
             var clienteemail = await _context.Cliente.FindAsync(id);
 
             try
