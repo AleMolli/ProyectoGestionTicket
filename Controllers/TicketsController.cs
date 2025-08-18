@@ -70,6 +70,27 @@ namespace ProyectoGestionTicket.Controllers
 
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var rol = HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;
+            var desId = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+
+            if (rol == "DESARROLLADOR")
+            {
+                var puesto = await _context.Desarrollador
+                .Where(d => d.Email == desId)
+                .FirstOrDefaultAsync();
+                var categories = await _context.PuestoCategoria
+                .Where(p => p.PuestoLaboralID == puesto.PuestoLaboralID)
+                .Select(p => p.CategoriaID)
+                .ToListAsync();
+
+                var ticketsFiltrados = new List<Ticket>();
+
+                foreach (var namecat in categories)
+                {
+                    var filtrados = await tickets.Where(t => t.CategoriaID == namecat).ToListAsync();
+                    ticketsFiltrados.AddRange(filtrados);
+                }
+                tickets = ticketsFiltrados.AsQueryable();
+            }
 
             if (rol == "CLIENTE")
             {

@@ -338,13 +338,36 @@ namespace ProyectoGestionTicket.Migrations
                     b.ToTable("HistorialTicket");
                 });
 
-            modelBuilder.Entity("ProyectoGestionTicket.Models.General.PuestoLaboral", b =>
+            modelBuilder.Entity("ProyectoGestionTicket.Models.General.PuestoCategoria", b =>
                 {
-                    b.Property<int>("PuestoID")
+                    b.Property<int>("PuestoCategoriaID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PuestoID"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PuestoCategoriaID"));
+
+                    b.Property<int>("CategoriaID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PuestoLaboralID")
+                        .HasColumnType("int");
+
+                    b.HasKey("PuestoCategoriaID");
+
+                    b.HasIndex("CategoriaID");
+
+                    b.HasIndex("PuestoLaboralID");
+
+                    b.ToTable("PuestoCategoria");
+                });
+
+            modelBuilder.Entity("ProyectoGestionTicket.Models.General.PuestoLaboral", b =>
+                {
+                    b.Property<int>("PuestoLaboralID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PuestoLaboralID"));
 
                     b.Property<bool>("Eliminado")
                         .HasColumnType("bit");
@@ -352,7 +375,7 @@ namespace ProyectoGestionTicket.Migrations
                     b.Property<string>("Nombre")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("PuestoID");
+                    b.HasKey("PuestoLaboralID");
 
                     b.ToTable("PuestoLaboral");
                 });
@@ -467,6 +490,25 @@ namespace ProyectoGestionTicket.Migrations
                         .IsRequired();
 
                     b.Navigation("Ticket");
+                });
+
+            modelBuilder.Entity("ProyectoGestionTicket.Models.General.PuestoCategoria", b =>
+                {
+                    b.HasOne("ProyectoGestionTicket.Models.General.Categoria", "Categoria")
+                        .WithMany()
+                        .HasForeignKey("CategoriaID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ProyectoGestionTicket.Models.General.PuestoLaboral", "PuestoLaboral")
+                        .WithMany()
+                        .HasForeignKey("PuestoLaboralID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Categoria");
+
+                    b.Navigation("PuestoLaboral");
                 });
 
             modelBuilder.Entity("ProyectoGestionTicket.Models.General.Ticket", b =>

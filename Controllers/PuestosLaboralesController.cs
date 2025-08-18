@@ -48,12 +48,12 @@ namespace ProyectoGestionTicket.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPuestoLaboral(int id, PuestoLaboral puestoLaboral)
         {
-            if (await _context.PuestoLaboral.AnyAsync(p => p.Nombre.ToLower() == puestoLaboral.Nombre.ToLower() && p.PuestoID != id))
+            if (await _context.PuestoLaboral.AnyAsync(p => p.Nombre.ToLower() == puestoLaboral.Nombre.ToLower() && p.PuestoLaboralID != id))
             {
                 return BadRequest($"El Puesto: '{puestoLaboral.Nombre}' ya existe.");
             }
 
-            if (id != puestoLaboral.PuestoID)
+            if (id != puestoLaboral.PuestoLaboralID)
             {
                 return BadRequest();
             }
@@ -91,7 +91,7 @@ namespace ProyectoGestionTicket.Controllers
             _context.PuestoLaboral.Add(puestoLaboral);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPuestoLaboral", new { id = puestoLaboral.PuestoID }, puestoLaboral);
+            return CreatedAtAction("GetPuestoLaboral", new { id = puestoLaboral.PuestoLaboralID }, puestoLaboral);
         }
 
         // DELETE: api/PuestosLaborales/5
@@ -122,7 +122,7 @@ namespace ProyectoGestionTicket.Controllers
 
         private bool PuestoLaboralExists(int id)
         {
-            return _context.PuestoLaboral.Any(e => e.PuestoID == id);
+            return _context.PuestoLaboral.Any(e => e.PuestoLaboralID == id);
         }
     }
 }

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProyectoGestionTicket.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250501214815_Categoria_Ticket")]
-    partial class Categoria_Ticket
+    [Migration("20250804224819_idPuestolaboral")]
+    partial class idPuestolaboral
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -244,6 +244,141 @@ namespace ProyectoGestionTicket.Migrations
                     b.ToTable("Categoria");
                 });
 
+            modelBuilder.Entity("ProyectoGestionTicket.Models.General.Cliente", b =>
+                {
+                    b.Property<int>("ClienteID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClienteID"));
+
+                    b.Property<long>("Dni")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("Eliminado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Observaciones")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefono")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ClienteID");
+
+                    b.ToTable("Cliente");
+                });
+
+            modelBuilder.Entity("ProyectoGestionTicket.Models.General.Desarrollador", b =>
+                {
+                    b.Property<int>("DesarrolladorID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DesarrolladorID"));
+
+                    b.Property<long>("DNI")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NombreCompleto")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Observaciones")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PuestoLaboralID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Telefono")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DesarrolladorID");
+
+                    b.HasIndex("PuestoLaboralID");
+
+                    b.ToTable("Desarrollador");
+                });
+
+            modelBuilder.Entity("ProyectoGestionTicket.Models.General.HistorialTicket", b =>
+                {
+                    b.Property<int>("HistorialTicketID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HistorialTicketID"));
+
+                    b.Property<string>("CampoModificado")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FechaCambio")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TicketID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UsuarioClienteID")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ValorAnterior")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ValorNuevo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("HistorialTicketID");
+
+                    b.HasIndex("TicketID");
+
+                    b.ToTable("HistorialTicket");
+                });
+
+            modelBuilder.Entity("ProyectoGestionTicket.Models.General.PuestoCategoria", b =>
+                {
+                    b.Property<int>("PuestoCategoriaID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PuestoCategoriaID"));
+
+                    b.Property<int>("CategoriaID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PuestoLaboralID")
+                        .HasColumnType("int");
+
+                    b.HasKey("PuestoCategoriaID");
+
+                    b.ToTable("PuestoCategoria");
+                });
+
+            modelBuilder.Entity("ProyectoGestionTicket.Models.General.PuestoLaboral", b =>
+                {
+                    b.Property<int>("PuestoLaboralID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PuestoLaboralID"));
+
+                    b.Property<bool>("Eliminado")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("PuestoLaboralID");
+
+                    b.ToTable("PuestoLaboral");
+                });
+
             modelBuilder.Entity("ProyectoGestionTicket.Models.General.Ticket", b =>
                 {
                     b.Property<int>("TicketID")
@@ -261,10 +396,10 @@ namespace ProyectoGestionTicket.Migrations
                     b.Property<int>("Estados")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("FechaCierre")
+                    b.Property<DateTime>("FechaCierre")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("FechaCreacion")
+                    b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Prioridades")
@@ -273,8 +408,8 @@ namespace ProyectoGestionTicket.Migrations
                     b.Property<string>("Titulo")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UsuarioClienteID")
-                        .HasColumnType("int");
+                    b.Property<string>("UsuarioClienteID")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TicketID");
 
@@ -334,6 +469,28 @@ namespace ProyectoGestionTicket.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProyectoGestionTicket.Models.General.Desarrollador", b =>
+                {
+                    b.HasOne("ProyectoGestionTicket.Models.General.PuestoLaboral", "PuestoLaboral")
+                        .WithMany("Desarrollador")
+                        .HasForeignKey("PuestoLaboralID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PuestoLaboral");
+                });
+
+            modelBuilder.Entity("ProyectoGestionTicket.Models.General.HistorialTicket", b =>
+                {
+                    b.HasOne("ProyectoGestionTicket.Models.General.Ticket", "Ticket")
+                        .WithMany("HistorialTicket")
+                        .HasForeignKey("TicketID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ticket");
+                });
+
             modelBuilder.Entity("ProyectoGestionTicket.Models.General.Ticket", b =>
                 {
                     b.HasOne("ProyectoGestionTicket.Models.General.Categoria", "Categoria")
@@ -348,6 +505,16 @@ namespace ProyectoGestionTicket.Migrations
             modelBuilder.Entity("ProyectoGestionTicket.Models.General.Categoria", b =>
                 {
                     b.Navigation("Ticket");
+                });
+
+            modelBuilder.Entity("ProyectoGestionTicket.Models.General.PuestoLaboral", b =>
+                {
+                    b.Navigation("Desarrollador");
+                });
+
+            modelBuilder.Entity("ProyectoGestionTicket.Models.General.Ticket", b =>
+                {
+                    b.Navigation("HistorialTicket");
                 });
 #pragma warning restore 612, 618
         }

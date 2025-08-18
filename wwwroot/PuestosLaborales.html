@@ -30,12 +30,62 @@
                             <th scope="col">Nombre Puesto</th>
                             <th></th>
                             <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody id="tablaDePuestos">
 
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal relaciones -->
+
+    <div class="modal fade" id="modalRelacionpuestoCategoria" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Relaciones entre Puesto Categoria</h1>
+                </div>
+                <div class="modal-body bg-secondary">
+                    <div>
+                        <input class="form-control bg-secondary colorletra" id="puestoLaboralid" hidden>
+                        <div class="form-floating mb-3 bg-secondary">
+                            <input class="form-control bg-secondary colorletra" id="puestoLaboral">
+                            <label for="puestoLaboral">Puesto:</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <select class="form-select colorletra" id="categoriaPuesto" aria-label="Floating label select example">
+
+                            </select>
+                        <label for="categoriaPuesto" class="colorletra">Seleccione la Categoria</label>
+                        <div class="modal-footer bg-secondary">
+                            <!-- <button type="button" class="btn btn-danger">Cerrar</button> -->
+                            <button type="button" class="btn btn-success" onclick="guardarrelaciones();">Guardar</button>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Puesto Laboral</th>
+                                    <th scope="col">Categoria</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="puestoCategoria">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer bg-secondary">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>

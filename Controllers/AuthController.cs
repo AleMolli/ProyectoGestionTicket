@@ -157,14 +157,7 @@ public class AuthController : ControllerBase
         if (user == null)
             return Unauthorized();
 
-        //BUSCAMOS EL TOKENREFRESH GUARDADO
-        var savedToken = await _userManager.GetAuthenticationTokenAsync(user, "MyApp", "RefreshToken");
-
-        //COMPARAMOS EL REFRESH TOKEN DE BD CON EL GUARDADO EN EL DISPOSITIVO DEL USUARIO PARA UNA MAYOR SEGURIDAD
-        if (savedToken != model.RefreshToken)
-            return Unauthorized("Refresh token inválido");
-
-        string rolNombre = "CLIENTE";
+        var rolNombre = "CLIENTE";
             //BUSCAR ROL QUE TIENE
         var rolUsuario = _context.UserRoles.Where(r => r.UserId == user.Id).SingleOrDefault();
         if (rolUsuario != null)
@@ -172,6 +165,13 @@ public class AuthController : ControllerBase
             var rol = _context.Roles.Where(r => r.Id == rolUsuario.RoleId).SingleOrDefault();
             rolNombre = rol.Name;
         }
+
+        //BUSCAMOS EL TOKENREFRESH GUARDADO
+        var savedToken = await _userManager.GetAuthenticationTokenAsync(user, "MyApp", "RefreshToken");
+
+        //COMPARAMOS EL REFRESH TOKEN DE BD CON EL GUARDADO EN EL DISPOSITIVO DEL USUARIO PARA UNA MAYOR SEGURIDAD
+        if (savedToken != model.RefreshToken)
+            return Unauthorized("Refresh token inválido");
 
         //GENERAMOS EL NUEVO TOKEN DE ACCESO PRINCIPAL
         var claims = new[]

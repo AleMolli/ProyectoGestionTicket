@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ProyectoGestionTicket.Migrations
 {
     /// <inheritdoc />
-    public partial class Categoria_Ticket : Migration
+    public partial class idPuestolaboral : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,6 +63,52 @@ namespace ProyectoGestionTicket.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categoria", x => x.CategoriaID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cliente",
+                columns: table => new
+                {
+                    ClienteID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Dni = table.Column<long>(type: "bigint", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Telefono = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Observaciones = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cliente", x => x.ClienteID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PuestoCategoria",
+                columns: table => new
+                {
+                    PuestoCategoriaID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PuestoLaboralID = table.Column<int>(type: "int", nullable: false),
+                    CategoriaID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PuestoCategoria", x => x.PuestoCategoriaID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PuestoLaboral",
+                columns: table => new
+                {
+                    PuestoLaboralID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Eliminado = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PuestoLaboral", x => x.PuestoLaboralID);
                 });
 
             migrationBuilder.CreateTable(
@@ -181,9 +227,9 @@ namespace ProyectoGestionTicket.Migrations
                     Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Estados = table.Column<int>(type: "int", nullable: false),
                     Prioridades = table.Column<int>(type: "int", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    FechaCierre = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UsuarioClienteID = table.Column<int>(type: "int", nullable: false),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaCierre = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UsuarioClienteID = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoriaID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -194,6 +240,54 @@ namespace ProyectoGestionTicket.Migrations
                         column: x => x.CategoriaID,
                         principalTable: "Categoria",
                         principalColumn: "CategoriaID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Desarrollador",
+                columns: table => new
+                {
+                    DesarrolladorID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NombreCompleto = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DNI = table.Column<long>(type: "bigint", nullable: false),
+                    Telefono = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PuestoLaboralID = table.Column<int>(type: "int", nullable: false),
+                    Observaciones = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Desarrollador", x => x.DesarrolladorID);
+                    table.ForeignKey(
+                        name: "FK_Desarrollador_PuestoLaboral_PuestoLaboralID",
+                        column: x => x.PuestoLaboralID,
+                        principalTable: "PuestoLaboral",
+                        principalColumn: "PuestoLaboralID",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HistorialTicket",
+                columns: table => new
+                {
+                    HistorialTicketID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TicketID = table.Column<int>(type: "int", nullable: false),
+                    CampoModificado = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ValorAnterior = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ValorNuevo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FechaCambio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UsuarioClienteID = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HistorialTicket", x => x.HistorialTicketID);
+                    table.ForeignKey(
+                        name: "FK_HistorialTicket_Ticket_TicketID",
+                        column: x => x.TicketID,
+                        principalTable: "Ticket",
+                        principalColumn: "TicketID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -237,6 +331,16 @@ namespace ProyectoGestionTicket.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Desarrollador_PuestoLaboralID",
+                table: "Desarrollador",
+                column: "PuestoLaboralID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HistorialTicket_TicketID",
+                table: "HistorialTicket",
+                column: "TicketID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Ticket_CategoriaID",
                 table: "Ticket",
                 column: "CategoriaID");
@@ -261,13 +365,28 @@ namespace ProyectoGestionTicket.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Ticket");
+                name: "Cliente");
+
+            migrationBuilder.DropTable(
+                name: "Desarrollador");
+
+            migrationBuilder.DropTable(
+                name: "HistorialTicket");
+
+            migrationBuilder.DropTable(
+                name: "PuestoCategoria");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "PuestoLaboral");
+
+            migrationBuilder.DropTable(
+                name: "Ticket");
 
             migrationBuilder.DropTable(
                 name: "Categoria");

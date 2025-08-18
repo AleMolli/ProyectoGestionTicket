@@ -5,7 +5,7 @@ namespace ProyectoGestionTicket.Models.General
     public class PuestoLaboral
     {
         [Key]
-        public int PuestoID { get; set; }
+        public int PuestoLaboralID { get; set; }
         public string? Nombre { get; set; }
         public bool Eliminado { get; set; }
         

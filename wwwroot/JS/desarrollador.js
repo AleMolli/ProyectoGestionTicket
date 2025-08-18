@@ -13,7 +13,7 @@ function CompletarDropdownpuestos(data) {
 
     data.forEach(element => {
         opt = document.createElement("option");
-        opt.value = element.puestoID;
+        opt.value = element.puestoLaboralID;
         opt.text = element.nombre
 
         bodySelect.add(opt);
@@ -134,11 +134,12 @@ function CrearDesarrolladorNuevo(){
             
         })
         .catch(error => {
+            console.log(error)
             Swal.fire({
                     icon: "warning",
                     title: error,
                     showConfirmButton: false,
-                    timer: 2000
+                    timer: 10000
                 });
         })
     }

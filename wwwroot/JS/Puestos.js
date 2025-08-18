@@ -1,3 +1,30 @@
+function ObtenerCategoriaparaPuestos() {
+    authFetch(`Categorias`, {
+        method: 'GET',
+    })
+        .then(response => response.json())
+        .then(data => CompletarDropdownCategoria(data))
+        .catch(error => console.log("No se pudo acceder acceder al servicio.", error))
+}
+
+function CompletarDropdownCategoria(data) {
+    let bodySelect = document.getElementById("categoriaPuesto");
+    bodySelect.innerHTML = "";
+
+    data.forEach(element => {
+        optmodal = document.createElement("option");
+        optmodal.value = element.categoriaID;
+        optmodal.text = element.nombre
+
+        bodySelect.add(optmodal);
+        //console.log(optFiltro);
+    })
+    ObtenerPuestos();
+    //ObtenerPrioridadDropdown();
+}
+
+ObtenerCategoriaparaPuestos();
+
 function ObtenerPuestos(){
     authFetch("PuestosLaborales")
     .then(response => response.json())
@@ -15,27 +42,26 @@ function MostrarPuestos(data){
             $('#tablaDePuestos').append(
                 "<tr>",
                 "<td class='data-false celda-titulo'>" + item.nombre + "</td>",
-                "<td class='text-center'><a onclick='deshabilitarPuesto(" + item.puestoID + ")'><i class='bi bi-trash text-danger'></i></a></td>",
-                "<td class='text-center'><a onclick='BuscarPuesto(" + item.puestoID + ")'><i class='bi bi-brush text-info'></i></a></td>"
+                "<td class='text-center'><a onclick='deshabilitarPuesto(" + item.puestoLaboralID + ")'><i class='bi bi-trash text-danger'></i></a></td>",
+                "<td class='text-center'><a onclick='BuscarPuesto(" + item.puestoLaboralID + ")'><i class='bi bi-brush text-info'></i></a></td>",
+                "<td class='text-center'><a onclick='AbrirModalRelacion(" + item.puestoLaboralID + ")'><i class='bi bi-search text-warning'></i></a></td>"
             )
         }
         else{//SI EL CAMPO ELIMINADO ES VERDADERO LO MOSTRAMOS ASI
             $('#tablaDePuestos').append(
                 "<tr>",
                 "<td class='data-true'>" + item.nombre + "</td>",
-                "<td class='text-center'><a onclick='habilitarPuesto(" + item.puestoID + ")'><i class='bi bi-arrow-clockwise fs-5 text-success' style='text-shadow: 0 0 4px green;'></i></a></td>"
+                "<td class='text-center'><a onclick='habilitarPuesto(" + item.puestoLaboralID + ")'><i class='bi bi-arrow-clockwise fs-5 text-success' style='text-shadow: 0 0 4px green;'></i></a></td>"
             )
         }
     })
 }
-
 
 //limpia el imput si se hace clik en boton cancelar.
 function VaciadoImput(){
     document.getElementById("puestoID").value = 0;
     document.getElementById("nombrePuesto").value = "";
 }
-
 
 //FUNCION PARA AGREGAR UNA CATEGORIA NUEVA
 function AgregarPuesto(){
@@ -115,8 +141,6 @@ function habilitarPuesto(id){
     .catch(error => console.log("No se puede ingresar a la api: ", error))
 }
 
-
-
 //busca una categoria para completar el modal para despues editar
 function BuscarPuesto(id){
     authFetch(`PuestosLaborales/${id}`, {
@@ -124,22 +148,20 @@ function BuscarPuesto(id){
     })
     .then(response => response.json())
     .then(data => {
-        document.getElementById("puestoID").value = data.puestoID;
+        document.getElementById("puestoID").value = data.puestoLaboralID;
         document.getElementById("nombrePuesto").value = data.nombre;
     })
     .catch(error => console.log("No se puede ingresar a la api: ", error))
 }
 
-
 //PARA EDITAR UNA CATEGORIA YA CREADA
-
 function EditarunPuesto(){
     let idpuesto = document.getElementById("puestoID").value;
     let nombrepuestoEditado = document.getElementById("nombrePuesto").value;
 
     if (nombrepuestoEditado.trim() != 0) {//PARA CORROBORAR DE QUE EL IMPUT NO ESTE VACIO
         let puestoEditado = {
-            puestoID: idpuesto,
+            puestoLaboralID: idpuesto,
             nombre: capitalizarTexto(nombrepuestoEditado.trim()) //LLAMA A UNA FUNCION PARA GUARDAR EL CAMPO CON LA PRIMER LETRA DE CADA PALABRA EN MAYUSCULA
         };
 
@@ -183,9 +205,7 @@ function EditarunPuesto(){
     }
 }
 
-
 //PARA INDICARLE AL BOTON GUARDAR A QUE CATEGORIA LLAMAR.
-
 function BotonGuardarPuesto(){
     let inputIDconvalor = document.getElementById("puestoID").value;
 
@@ -197,4 +217,75 @@ function BotonGuardarPuesto(){
     }
 }
 
-ObtenerPuestos();
+function AbrirModalRelacion(id){
+    authFetch(`PuestosLaborales/${id}`,{
+        method: 'GET',
+    })
+    .then(response => response.json())
+    .then(data => {
+        //console.log(data);
+        document.getElementById("puestoLaboralid").value = data.puestoLaboralID;
+        document.getElementById("puestoLaboral").value = data.nombre;
+
+        ObtenerRelacionLaborCategoria(data.puestoLaboralID);
+
+        $('#modalRelacionpuestoCategoria').modal('show');
+    })
+    .catch(error => console.log("No se puede ingresar a la api: ", error));
+}
+
+
+function ObtenerRelacionLaborCategoria(puestoLaboralID){
+    authFetch(`PuestoCategorias/por-puesto/${puestoLaboralID}`, {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => MostrarPuestosCategoria(data))
+    .catch(error => console.log("No se puede ingresar a la api: ", error));
+}
+
+function MostrarPuestosCategoria(data){
+    $("#puestoCategoria").empty();
+    
+    $.each(data, function(index, item) {
+        $('#puestoCategoria').append(
+                "<tr>",
+                "<td class='data-false celda-titulo'>" + item.puesto + "</td>",
+                "<td class='data-false celda-titulo'>" + item.categoria + "</td>",
+                "<td class='text-center'><a onclick='deshabilitarPuesto(" + item.id + ")'><i class='bi bi-trash text-danger'></i></a></td>",
+            )
+    })
+}
+
+
+function guardarrelaciones(){
+    let puestorelacio = document.getElementById('puestoLaboralid').value;
+    let categoriarelacion = document.getElementById('categoriaPuesto').value;
+
+    let puestocategoria = {
+        puestoLaboralID: puestorelacio,
+        categoriaID: categoriarelacion
+    };
+    authFetch("PuestoCategorias",
+            {
+                method: 'POST',
+                body: JSON.stringify(puestocategoria)
+            }
+        )
+    .then(async response => {
+        if(!response.ok){
+            const errorTexto = await response.text();
+            alert(errorTexto)
+            throw new Error(errorTexto);
+        }
+        return response.json()
+    })
+    .then(data => {
+        ObtenerRelacionLaborCategoria(puestorelacio);
+    })
+    .catch(error => console.log("No se puede ingresar a la api: ", error));
+}
+
+
+
+ObtenerCategoriaparaPuestos();
