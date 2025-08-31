@@ -6,14 +6,23 @@
             <h6 class="mb-4 mt-4">Crear Ticket</h6>
         </div>
         <div class="bg-secondary rounded h-100 p-4 d-lg-flex mb-3">
+            <div class="form-floating col-3 m-1 d-none" id="soloparaAdmin">
+                <select class="form-select" id="clienteFiltro" onchange="ObtenerTickets()"
+                    aria-label="Floating label select example">
+
+                </select>
+                <label for="clienteFiltro">Cliente:</label>
+            </div>
             <div class="form-floating col-3 m-1">
-                <select class="form-select" id="categoriaFiltro" onchange="ObtenerTickets()" aria-label="Floating label select example">
-                    
+                <select class="form-select" id="categoriaFiltro" onchange="ObtenerTickets()"
+                    aria-label="Floating label select example">
+
                 </select>
                 <label for="categoriaFiltro">Categoria:</label>
             </div>
-            <div class="form-floating col-3 m-1">
-                <select class="form-select" id="prioridadFiltro" onchange="ObtenerTickets()" aria-label="Floating label select example">
+            <div class="form-floating col-2 m-1">
+                <select class="form-select" id="prioridadFiltro" onchange="ObtenerTickets()"
+                    aria-label="Floating label select example">
                     <option value="0" selected>[Todas las Prioridades]</option>
                     <option value="1">Baja</option>
                     <option value="2">Media</option>
@@ -21,8 +30,9 @@
                 </select>
                 <label for="prioridadFiltro">Prioridad:</label>
             </div>
-            <div class="form-floating col-3 m-1">
-                <select class="form-select" id="estadoFiltro" onchange="ObtenerTickets()" aria-label="Floating label select example">
+            <div class="form-floating col-2 m-1">
+                <select class="form-select" id="estadoFiltro" onchange="ObtenerTickets()"
+                    aria-label="Floating label select example">
                     <option value="0" selected>[Todos los Estados]</option>
                     <option value="1">Abierto</option>
                     <option value="2">En Proceso</option>
@@ -30,6 +40,14 @@
                     <option value="4">Cancelado</option>
                 </select>
                 <label for="estadoFiltro">Estado:</label>
+            </div>
+            <div class="form-floating col-2 m-1">
+                <input type="date" class="form-control" id="FechaDesdeBuscar" onchange="ObtenerTickets()">
+                <label class="colorletra" for="FechaDesdeBuscar">Desde</label>
+            </div>
+            <div class="form-floating col-2 m-1">
+                <input type="date" class="form-control" id="FechaHastaBuscar" onchange="ObtenerTickets()">
+                <label class="colorletra" for="FechaHastaBuscar">Hasta</label>
             </div>
         </div>
     </div>
@@ -40,7 +58,8 @@
         <div class="contenedortablasgeneral mb-3 rounded">
             <div class="d-flex justify-content-between">
                 <h6 class="mb-4">Listado de Tickets</h6>
-                <button type="button" class="btn btn-light mb-4" onclick="ImprimirPdf();"><i class="bi bi-printer"></i>Imprimir Pdf</button>
+                <button type="button" class="btn btn-light mb-4" onclick="ImprimirPdf();"><i
+                        class="bi bi-printer"></i>Imprimir Pdf</button>
             </div>
             <div class="table-responsive">
                 <table class="table" id="tablaTicket">
@@ -54,6 +73,7 @@
                             <th></th>
                             <th></th>
                             <th></th>
+                            <th class="d-none" id="botonunicoparaDesarrollador"></th>
                         </tr>
                     </thead>
                     <tbody id="todosLosTickets">
@@ -78,21 +98,25 @@
                 <div class="modal-body bg-secondary" id="usuarioCreador">
 
                     <input type="number" id="TicketID" class="form-control" readonly hidden>
-                    <input type="text" id="nombreUsuariocreador" class="form-control colorletra bg-secondary mb-3 d-none" readonly>
-                    <input type="text" id="emailUsuarioCreador" class="form-control colorletra bg-secondary mb-3 d-none" readonly>
+                    <input type="text" id="nombreUsuariocreador"
+                        class="form-control colorletra bg-secondary mb-3 d-none" readonly>
+                    <input type="text" id="emailUsuarioCreador" class="form-control colorletra bg-secondary mb-3 d-none"
+                        readonly>
 
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control colorletra" id="tituloTicket" placeholder="Alimento">
                         <label for="tituloTicket" class="colorletra">Titulo</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="form-select colorletra" id="categoriaTicket" aria-label="Floating label select example">
+                        <select class="form-select colorletra" id="categoriaTicket"
+                            aria-label="Floating label select example">
 
                         </select>
                         <label for="categoriaTicket" class="colorletra">Seleccione la Categoria</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <select class="form-select colorletra" id="prioridadTicket" aria-label="Floating label select example">
+                        <select class="form-select colorletra" id="prioridadTicket"
+                            aria-label="Floating label select example">
                             <option value="1">Baja</option>
                             <option value="2">Media</option>
                             <option value="3">Alta</option>

@@ -21,6 +21,9 @@ namespace ProyectoGestionTicket.Models.General
 
         [NotMapped]
         public string FechaCreacionString { get { return FechaCreacion.ToString("dd/MM/yyyy"); } }
+        public DateTime FechaComienzoRespuesta { get; set; }
+        [NotMapped]
+        public string FechaComienzoRespuestaString { get { return FechaComienzoRespuesta.ToString("dd/MM/yyyy HH:mm"); }}
         public DateTime FechaCierre { get; set; }
         public string? UsuarioClienteID { get; set; }
         public int CategoriaID { get; set; }
@@ -55,6 +58,7 @@ namespace ProyectoGestionTicket.Models.General
         public string EstadoString { get; set; }
         public Estado Estados { get; set; }
         public string FechaCreacionString { get; set; }
+        public string FechaComienzoRespuestaString { get; set; }
         public string PrioridadString { get; set; }
         public string? CategoriaString { get; set; }
     }
@@ -65,5 +69,15 @@ namespace ProyectoGestionTicket.Models.General
         public int CategoriaID { get; set; }
         public int Prioridad { get; set; }
         public int Estado { get; set; }
+        public string? FechaDesde { get; set; }
+        public string? FechaHasta { get; set; }
+    }
+
+
+    public class FiltroTicketCliente
+    {
+        public int ClienteID { get; set; }
+        public string? FechaDesde { get; set; }
+        public string? FechaHasta { get; set; }
     }
 }

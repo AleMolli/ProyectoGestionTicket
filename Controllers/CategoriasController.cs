@@ -27,7 +27,33 @@ namespace ProyectoGestionTicket.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Categoria>>> GetCategoria()
         {
-            return await _context.Categoria.OrderBy(c => c.Nombre).ToListAsync();
+            var categorias = new List<Categoria>();
+
+            var rol = HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;
+            var desId = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+
+            if (rol == "DESARROLLADOR") //preguntamos si el rol es desarrollador
+            {
+                //buscamos que desarrollador es
+                var puestoLaboralID = await _context.Desarrollador
+                .Where(d => d.Email == desId)
+                .Select(d => d.PuestoLaboralID)
+                .FirstOrDefaultAsync();
+                //del puesto laboral que tiene el desarrollador, buscamos en la tabla intermedia
+                //PuestoCategoria, que categorias tiene asignadas.
+                var categories = await _context.PuestoCategoria
+                .Where(p => p.PuestoLaboralID == puestoLaboralID)
+                .Select(p => p.Categoria)
+                .ToListAsync();
+
+                categorias.AddRange(categories);
+            }
+            else
+            {
+                categorias.AddRange(await _context.Categoria.OrderBy(c => c.Nombre).ToListAsync()); 
+            }
+
+            return categorias;
         }
 
         // GET: api/Categorias/5
@@ -82,6 +108,7 @@ namespace ProyectoGestionTicket.Controllers
 
         // POST: api/Categorias
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "ADMINISTRADOR")]
         [HttpPost]
         public async Task<ActionResult<Categoria>> PostCategoria(Categoria categoria)
         {

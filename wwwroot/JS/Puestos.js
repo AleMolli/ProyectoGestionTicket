@@ -252,7 +252,7 @@ function MostrarPuestosCategoria(data){
                 "<tr>",
                 "<td class='data-false celda-titulo'>" + item.puesto + "</td>",
                 "<td class='data-false celda-titulo'>" + item.categoria + "</td>",
-                "<td class='text-center'><a onclick='deshabilitarPuesto(" + item.id + ")'><i class='bi bi-trash text-danger'></i></a></td>",
+                "<td class='text-center'><a onclick='eliminarRelacion(" + item.id + ")'><i class='bi bi-trash text-danger'></i></a></td>",
             )
     })
 }
@@ -286,6 +286,19 @@ function guardarrelaciones(){
     .catch(error => console.log("No se puede ingresar a la api: ", error));
 }
 
+function eliminarRelacion(id){
+    let inputPuesto = document.getElementById("puestoLaboralid").value
+    let ELiminarrelacion = confirm("Esta seguro de borrar esta Relacion?")
 
+    if (ELiminarrelacion) {
+        authFetch(`PuestoCategorias/${id}`, {
+            method: 'DELETE',
+        })
+        .then(() => {
+            ObtenerRelacionLaborCategoria(inputPuesto);
+        })
+        .catch(error => console.log("No se puede ingresar a la api: ", error))
+    }
+}
 
 ObtenerCategoriaparaPuestos();

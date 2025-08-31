@@ -37,20 +37,36 @@ function CompletarDropdown(data) {
     //ObtenerPrioridadDropdown();
 }
 
-ObtenerCategoriaDropdown();
+//ObtenerCategoriaDropdown();
 
 
 function ObtenerTickets() {
     //console.log("hola")
+    let fechaDesde = document.getElementById("FechaDesdeBuscar").value;
+    let fechaHasta = document.getElementById("FechaHastaBuscar").value;
+
+ // Convertir a objetos Date
+    // const fecha1 = new Date(fechaDesde);
+    // const fecha2 = new Date(fechaHasta);
+
+    // // Comparar 
+    // if (fecha1 > fecha2) {
+    //     fechaHasta = fechaDesde ;
+    //     document.getElementById("FechaHastaBuscar").value = fechaDesde;
+    // } 
+
     let categoriaIDBuscar = document.getElementById("categoriaFiltro").value;
     let prioridadesBuscar = document.getElementById("prioridadFiltro").value;
     let estadoBuscar = document.getElementById("estadoFiltro").value;
+
     const filtrosCategoria = {
+        fechaDesde: fechaDesde,
+        fechaHasta: fechaHasta,
         categoriaID: categoriaIDBuscar,
         prioridad: prioridadesBuscar,
         estado: estadoBuscar
     };
-
+    //console.log(filtrosCategoria);
     authFetch(`Tickets/Filtrar`,
         {
             method: 'POST',
@@ -67,6 +83,12 @@ function MostrarTickets(data) {
     $("#todosLosTickets").empty();
 
     $.each(data, function (index, item) {
+        let obtenerrol = getRol();
+        let verdadero = false;
+        if(obtenerrol == "DESARROLLADOR"){
+            document.getElementById("botonunicoparaDesarrollador").classList.remove('d-none');
+            verdadero = true;
+        }
         let prioridad = item.prioridadString.toLowerCase();
         let icono = '';
         let clase = '';
@@ -95,12 +117,21 @@ function MostrarTickets(data) {
             "<td class='data-ticket celda-titulo d-none d-lg-table-cell'>" + item.categoriaString + "</td>",
             "<td class='text-center'><a onclick='BuscarTicketparaEditar(" + item.ticketID + ")'><i class='bi bi-brush text-info'></i></a></td>",
             "<td class='text-center'><a onclick='BuscarTicketparadetalle(" + item.ticketID + ")'><i class='bi bi-card-checklist text-success'></i></a></td>",
-            "<td class='text-center'><a onclick='ObtenerHistorialTicket(" + item.ticketID + ")'><i class='bi bi-search text-warning'></i></a></td>"
+            "<td class='text-center'><a onclick='ObtenerHistorialTicket(" + item.ticketID + ")'><i class='bi bi-search text-warning'></i></a></td>",
+            `<td class='text-center'>${verdadero ? `<a onclick='cambioEstado(${item.ticketID})'><i class='bi bi-gear text-light' id='botonRespuesta'></i></a>` : ''}</td>`
         )
     })
 }
 
-
+function cambioEstado(id) {
+    authFetch(`Tickets/CambioEstado/${id}`,{
+    method: 'PUT',
+    })
+   .then(()=>{
+    ObtenerTickets();
+   })
+}
+  
 
 function CrearTicketNuevo() {
     let tituloTicket = document.getElementById("tituloTicket").value.trim();
@@ -171,8 +202,6 @@ function CrearTicketNuevo() {
     }
 }
 
-
-
 // function EliminarTicket(id) {
 //     authFetch(`Tickets/${id}`,
 //         {
@@ -212,8 +241,6 @@ function CrearTicketNuevo() {
 //     });
 // }
 
-
-
 function BuscarTicketparaEditar(id) {
     authFetch(`Tickets/${id}`,
         {
@@ -249,8 +276,6 @@ function BuscarTicketparaEditar(id) {
         })
         .catch(error => console.log("No se puede acceder a la api: ", error))
 }
-
-
 
 function EditarTicket() {
     let IDticket = document.getElementById("TicketID").value;
@@ -339,7 +364,6 @@ function BuscarTicketparadetalle(id) {
     )
     .then(response => response.json())
     .then(data => {
-        console.log(data);
         document.getElementById("usuariocreadorDetalle").value = data.usuarioCreador.nombreCompleto + " " + "-" + " " + "Email: " + data.usuarioCreador.email;
         document.getElementById("fechadetalleTicket").value = data.ticket.fechaCreacionString;
         document.getElementById("titulodetealleTicket").value = data.ticket.titulo;
@@ -363,6 +387,7 @@ function ObtenerHistorialTicket(id) {
         .then(data => {
             $('#modalHistorialTicket').modal('show');
             MostrarHistorialTickets(data);
+            console.log(data);
         })
         .catch(error => console.log("No se puede acceder a la api: ", error))
 }

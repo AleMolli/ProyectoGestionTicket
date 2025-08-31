@@ -42,6 +42,10 @@ function verificarUsuario() {
   $("#NombredeUsuario").text(nombre);
   $("#rolusuario").text(rolusuario);
 
+  if(rolusuario == "ADMINISTRADOR"){
+    document.getElementById("soloparaAdmin").classList.remove("d-none");
+  }
+
   if (!token) {
     localStorage.removeItem("token");
     localStorage.removeItem("email");
