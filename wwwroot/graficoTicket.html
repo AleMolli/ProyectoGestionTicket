@@ -1,0 +1,47 @@
+<div class="collapse" id="collapseExample">
+    <div class="d-flex flex-wrap bg-secondary rounded mb-3 ">
+        <div class="form-floating flex-grow-1 m-1">
+            <select class="form-select" id="prioridadFiltroGrafico"
+                aria-label="Floating label select example">
+                <option value="0" selected>[Prioridades]</option>
+                <option value="1">Baja</option>
+                <option value="2">Media</option>
+                <option value="3">Alta</option>
+            </select>
+            <label class="colorletra" for="prioridadFiltroGrafico">Prioridad:</label>
+        </div>
+        <div class="form-floating flex-grow-1 m-1">
+            <select class="form-select" id="estadoFiltroGrafico"
+                aria-label="Floating label select example">
+                <option value="0" selected>[Estados]</option>
+                <option value="1">Abierto</option>
+                <option value="2">En Proceso</option>
+                <option value="3">Cerrado</option>
+                <option value="4">Cancelado</option>
+            </select>
+            <label class="colorletra" for="estadoFiltroGrafico">Estado:</label>
+        </div>
+        <div class="form-floating flex-grow-1 m-1">
+            <input type="date" class="form-select" id="FechaDesdeBuscarGrafico">
+            <label class="colorletra" for="FechaDesdeBuscarGrafico">Desde</label>
+        </div>
+        <div class="form-floating flex-grow-1 m-1 me-2">
+            <input type="date" class="form-select" id="FechaHastaBuscarGrafico">
+            <label class="colorletra" for="FechaHastaBuscarGrafico">Hasta</label>
+        </div>
+    </div>
+</div>
+<div class="col-sm-6 col-xl-6">
+    <div class="bg-secondary rounded h-100 py-4 px-2">
+        <div class="d-flex">
+            <h5 class="my-2">Tickets por Categoria</h5>
+            <i class="btn bi bi-filter" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+                aria-expanded="false" aria-controls="collapseExample">
+                Filtros
+            </i>
+        </div>
+        <canvas id="doughnut-chart"></canvas>
+    </div>
+</div>
+
+<script src="./JS/graficoTicket.js"></script>

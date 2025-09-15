@@ -42,10 +42,6 @@ function verificarUsuario() {
   $("#NombredeUsuario").text(nombre);
   $("#rolusuario").text(rolusuario);
 
-  if(rolusuario == "ADMINISTRADOR"){
-    document.getElementById("soloparaAdmin").classList.remove("d-none");
-  }
-
   if (!token) {
     localStorage.removeItem("token");
     localStorage.removeItem("email");
@@ -53,8 +49,28 @@ function verificarUsuario() {
     window.location.href = "login.html";
     return;
   }
+  mostrarOpcionesSidebar(rolusuario);
 }
 
+function mostrarOpcionesSidebar(rolUsuario) {
+  const links = document.querySelectorAll('.nav-item.nav-link'); //seleccionamos todos los elementos <a> del sidebar que tienen esas clases
+
+  links.forEach(link => {
+    const rolesPermitidos = link.dataset.visibleFor; //accede al atributo data-visible-for del HTML y obtiene los roles permitidos que declaramos
+
+    if (rolesPermitidos) {
+      const rolesArray = rolesPermitidos.split(',').map(r => r.trim());//convierte un string en un array y le quita espacios innecesarios
+      if (!rolesArray.includes(rolUsuario)) { //si el rol del usuario no esta en el array oculta el acceso con la clase d-none
+        link.classList.add('d-none');
+      } else {//si esta el rol, quita la clase para que quede visible el enlace
+        link.classList.remove('d-none');
+      }
+    } else {
+      // Si no tiene data-visible-for, se muestra por defecto
+      link.classList.remove('d-none');
+    }
+  });
+}
 
 // function cargarComponente(id, path) {
 //     return fetch(path)
@@ -85,6 +101,14 @@ function cargarVista(view) {
         }
         document.body.appendChild(nuevoScript);
       });
+      if (view === 'ticketTabs' || html.includes('id="ticketTabs"')) {
+        // Esperás un pequeño delay para asegurar que el DOM esté listo
+        setTimeout(() => {
+          if (typeof inicializarTabs === 'function') {
+            inicializarTabs();
+          }
+        }, 100);
+      }
     });
 }
 

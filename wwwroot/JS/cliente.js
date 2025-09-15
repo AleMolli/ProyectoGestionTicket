@@ -16,8 +16,8 @@ function MostrarClientes(data) {
                 "<td class='celda-titulo data-ticket data-false'>" + item.nombre + "</td>",
                 "<td class='celda-titulo data-ticket'>" + item.dni + "</td>",
                 "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.email + "</td>",
-                "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.telefono + "</td>",
-                "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.observaciones + "</td>",
+                "<td class='d-none d-md-table-cell celda-titulo data-ticket'>" + item.telefono + "</td>",
+                "<td class='d-none d-lg-table-cell celda-titulo data-ticket'>" + item.observaciones + "</td>",
                 "<td class='text-center'><a onclick='ConfirmacionEliminacionCliente(" + item.clienteID + ")'><i class='bi bi-trash text-danger'></i></a></td>",
                 "<td class='text-center'><a onclick='BuscarClienteparaEditar(" + item.clienteID + ")'><i class='bi bi-brush text-info'></i></a></td>"
             )
@@ -27,8 +27,8 @@ function MostrarClientes(data) {
                 "<td class='celda-titulo data-ticket data-true'>" + item.nombre + "</td>",
                 "<td class='celda-titulo data-ticket'>" + item.dni + "</td>",
                 "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.email + "</td>",
-                "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.telefono + "</td>",
-                "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.observaciones + "</td>",
+                "<td class='d-none d-md-table-cell celda-titulo data-ticket'>" + item.telefono + "</td>",
+                "<td class='d-none d-lg-table-cell celda-titulo data-ticket'>" + item.observaciones + "</td>",
                 "<td class='text-center'><a onclick='habilitarCliente(" + item.clienteID + ")'><i class='bi bi-arrow-clockwise fs-5 text-success' style='text-shadow: 0 0 4px green;'></i></a></td>"
             )
         }

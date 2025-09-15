@@ -64,6 +64,7 @@ namespace ProyectoGestionTicket.Controllers
 
         // PUT: api/PuestoCategorias/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "ADMINISTRADOR")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPuestoCategoria(int id, PuestoCategoria puestoCategoria)
         {
@@ -95,6 +96,7 @@ namespace ProyectoGestionTicket.Controllers
 
         // POST: api/PuestoCategorias
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "ADMINISTRADOR")]
         [HttpPost]
         public async Task<ActionResult<PuestoCategoria>> PostPuestoCategoria(PuestoCategoria puestoCategoria)
         {
@@ -113,6 +115,7 @@ namespace ProyectoGestionTicket.Controllers
         }
 
         // DELETE: api/PuestoCategorias/5
+        [Authorize(Roles = "ADMINISTRADOR")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePuestoCategoria(int id)
         {

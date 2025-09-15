@@ -8,39 +8,53 @@
 //     "Authorization": `Bearer ${getToken()}`
 // });
 
-function ObtenerCategorias(){
-    authFetch("Categorias")
-    .then(response => response.json())
-    .then(data => MostrarCategorias(data))
-    .catch(error => console.log("No se puede ingresar a la api: ", error));
+async function ObtenerCategorias(){
+    const res = await authFetch("Categorias");
+    const categorias = await res.json();
+
+    let tbody = document.querySelector("#tablaDeCategorias tbody");
+    tbody.innerHTML = "";
+
+    categorias.forEach(data => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${data.nombre}</td>
+            <td class="text-center">
+                ${!data.eliminado ? `<a onclick="deshabilitarCategorias(${data.categoriaID})"><i class="btn bi bi-trash text-danger"></i></a>` : `<a onclick="habilitarCategoria(${data.categoriaID})"><i class="btn bi bi-arrow-clockwise fs-5 text-success" style="text-shadow: 0 0 4px green;"></i></a>`}
+                ${!data.eliminado ? `<a onclick="BuscarCategoria(${data.categoriaID})"><i class="btn bi bi-brush text-info"></i></a>` : ""}
+            </td>
+        `;
+        tbody.appendChild(row);
+    });
 }
 
 //MOSTRAMOS EN UNA TABLA LOS DATOS GUARDADOS EN TABLA CATEGORIA
-function MostrarCategorias(data){
-    $("#tablaDeCategorias").empty();
+// function MostrarCategorias(data){
+//     $("#tablaDeCategorias").empty();
     
-    $.each(data, function(index, item) { //SI EL CAMPO ELIMINADO ES FALSO LO MOSTRAMOS ASI
+//     $.each(data, function(index, item) { //SI EL CAMPO ELIMINADO ES FALSO LO MOSTRAMOS ASI
 
-        if(item.eliminado == false){
-            $('#tablaDeCategorias').append(
-                "<tr>",
-                "<td class='data-false celda-titulo'>" + item.nombre + "</td>",
-                "<td class='text-center'><a onclick='deshabilitarCategorias(" + item.categoriaID + ")'><i class='bi bi-trash text-danger'></i></a></td>",
-                "<td class='text-center'><a onclick='BuscarCategoria(" + item.categoriaID + ")'><i class='bi bi-brush text-info'></i></a></td>"
-            )
-        }
-        else{//SI EL CAMPO ELIMINADO ES VERDADERO LO MOSTRAMOS ASI
-            $('#tablaDeCategorias').append(
-                "<tr>",
-                "<td class='data-true'>" + item.nombre + "</td>",
-                "<td class='text-center'><a onclick='habilitarCategoria(" + item.categoriaID + ")'><i class='bi bi-arrow-clockwise fs-5 text-success' style='text-shadow: 0 0 4px green;'></i></a></td>"
-            )
-        }
-    })
-}
+//         if(item.eliminado == false){
+//             $('#tablaDeCategorias').append(
+//                 "<tr>",
+//                 "<td class='data-false celda-titulo'>" + item.nombre + "</td>",
+//                 "<td class='text-center'><a onclick='deshabilitarCategorias(" + item.categoriaID + ")'><i class='bi bi-trash text-danger'></i></a></td>",
+//                 "<td class='text-center'><a onclick='BuscarCategoria(" + item.categoriaID + ")'><i class='bi bi-brush text-info'></i></a></td>"
+//             )
+//         }
+//         else{//SI EL CAMPO ELIMINADO ES VERDADERO LO MOSTRAMOS ASI
+//             $('#tablaDeCategorias').append(
+//                 "<tr>",
+//                 "<td class='data-true'>" + item.nombre + "</td>",
+//                 "<td class='text-center'><a onclick='habilitarCategoria(" + item.categoriaID + ")'><i class='bi bi-arrow-clockwise fs-5 text-success' style='text-shadow: 0 0 4px green;'></i></a></td>"
+//             )
+//         }
+//     })
+// }
 
 
 //limpia el imput si se hace clik en boton cancelar.
+
 function VaciadoImput(){
     document.getElementById("categoriaID").value = 0;
     document.getElementById("nombreCategoria").value = "";
@@ -208,3 +222,72 @@ function BotonGuardarCategoria(){
 }
 
 ObtenerCategorias();
+
+function ImprimirCategorias() {
+const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const fecha = new Date().toLocaleDateString();
+
+  // Encabezado
+  doc.setFontSize(14);
+  doc.setTextColor(40);
+  doc.text("Listado de Categorías", 14, 20);
+  doc.setFontSize(10);
+  doc.text(`Fecha: ${fecha}`, 14, 26);
+  doc.setFontSize(10);
+  doc.text(`Usuario: ${localStorage.getItem("nombre")}`, 80, 26);
+  doc.setFontSize(10);
+  doc.text(`Rol: ${localStorage.getItem("rolusuario")}`, 150, 26);
+  doc.line(14, 28, 195, 28);
+
+  // Clonar tabla y eliminar columnas de acciones
+  const tablaOriginal = document.querySelector(".table");
+  console.log(document.querySelector(".table").outerHTML);
+
+  const tablaClon = tablaOriginal.cloneNode(true);
+
+  tablaClon.querySelectorAll("tr").forEach(tr => {
+    const celdas = tr.querySelectorAll("td, th");
+    if (celdas.length > 1) {
+      celdas[1]?.remove(); // columna de ícono 1
+      celdas[2]?.remove(); // columna de ícono 2
+    }
+  });
+
+  // Generar tabla en PDF
+  doc.autoTable({
+    html: tablaClon,
+    startY: 35,
+    theme: 'grid',
+    styles: {
+      fontSize: 9,
+      cellPadding: 4,
+      lineColor: [220, 220, 220],
+      lineWidth: 0.1
+    },
+    headStyles: {
+      fillColor: [78, 115, 223],
+      textColor: 255,
+      halign: 'center'
+    },
+    alternateRowStyles: {
+      fillColor: [245, 245, 245]
+    },
+    didDrawPage: function (data) {
+      const pageHeight = doc.internal.pageSize.height;
+      doc.setDrawColor(78, 115, 223);
+      doc.setLineWidth(8);
+      doc.line(14, pageHeight - 11, 196, pageHeight - 11);
+      doc.setFontSize(10);
+      doc.setTextColor(255, 255, 255);
+      doc.text(`Página ${data.pageNumber}`, 17, pageHeight - 10);
+    }
+  });
+
+  // Mostrar en iframe
+  const pdfString = doc.output("datauristring");
+  const iframe = `<iframe width='100%' height='100%' src='${pdfString}'></iframe>`;
+  const ventana = window.open();
+  ventana.document.write(iframe);
+  ventana.document.close();
+}

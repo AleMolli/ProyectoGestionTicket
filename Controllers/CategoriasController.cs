@@ -57,6 +57,7 @@ namespace ProyectoGestionTicket.Controllers
         }
 
         // GET: api/Categorias/5
+        [Authorize(Roles = "ADMINISTRADOR")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Categoria>> GetCategoria(int id)
         {
@@ -72,6 +73,7 @@ namespace ProyectoGestionTicket.Controllers
 
         // PUT: api/Categorias/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "ADMINISTRADOR")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategoria(int id, Categoria categoria)
         {
@@ -124,6 +126,7 @@ namespace ProyectoGestionTicket.Controllers
         }
 
         // DELETE: api/Categorias/5
+        [Authorize(Roles = "ADMINISTRADOR")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCategoria(int id)
         {

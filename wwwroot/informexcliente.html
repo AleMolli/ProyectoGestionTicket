@@ -1,0 +1,79 @@
+<div class="col-12">
+    <div class="collapse" id="collapseInforme">
+        <div class="bg-secondary rounded mb-3 d-flex flex-wrap">
+            <div class="form-floating col-3 m-1">
+                <select class="form-select" id="categoriaFiltro" onchange="ObtenerTickets()"
+                    aria-label="Floating label select example">
+
+                </select>
+                <label class="colorletra" for="categoriaFiltro">Categoria:</label>
+            </div>
+            <div class="form-floating col-2 m-1">
+                <select class="form-select" id="prioridadFiltro" onchange="ObtenerTickets()"
+                    aria-label="Floating label select example">
+                    <option value="0" selected>[Todas las Prioridades]</option>
+                    <option value="1">Baja</option>
+                    <option value="2">Media</option>
+                    <option value="3">Alta</option>
+                </select>
+                <label class="colorletra" for="prioridadFiltro">Prioridad:</label>
+            </div>
+            <div class="form-floating col-2 m-1">
+                <select class="form-select" id="estadoFiltro" onchange="ObtenerTickets()"
+                    aria-label="Floating label select example">
+                    <option value="0" selected>[Todos los Estados]</option>
+                    <option value="1">Abierto</option>
+                    <option value="2">En Proceso</option>
+                    <option value="3">Cerrado</option>
+                    <option value="4">Cancelado</option>
+                </select>
+                <label class="colorletra" for="estadoFiltro">Estado:</label>
+            </div>
+            <div class="form-floating col-2 m-1">
+                <input type="date" class="form-control" id="FechaDesdeBuscar" onchange="ObtenerTickets()">
+                <label class="colorletra" for="FechaDesdeBuscar">Desde</label>
+            </div>
+            <div class="form-floating col-2 m-1">
+                <input type="date" class="form-control" id="FechaHastaBuscar" onchange="ObtenerTickets()">
+                <label class="colorletra" for="FechaHastaBuscar">Hasta</label>
+            </div>
+        </div>
+    </div>
+    <div class="bg-secondary rounded h-100 px-4 py-1 mb-3 d-flex">
+        <h5 class="my-2">Listado Tickets por Cliente</h5>
+        <i class="btn bi bi-filter" data-bs-toggle="collapse" data-bs-target="#collapseInforme" aria-expanded="false"
+            aria-controls="collapseExample">
+            Filtros
+        </i>
+    </div>
+</div>
+
+<!-- TABLA -->
+
+<div class="col-12 mb-3">
+    <div class="contenedortablasgeneral mb-3 rounded">
+        <div class="d-flex justify-content-between">
+            <h5 class="mb-4">Listado de Tickets</h5>
+            <button type="button" class="btn btn-light mb-4" onclick="Imprimir()"><i class="bi bi-printer"></i>Imprimir
+                Pdf</button>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover" id="tablaTicket">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">Fecha Alta</th>
+                        <th scope="col" class="d-none d-sm-table-cell">Titulo</th>
+                        <th scope="col" class="d-none d-md-table-cell text-center">Prioridad</th>
+                        <th scope="col" class="text-center">Estado</th>
+                        <th scope="col" class="d-none d-lg-table-cell">Categoria</th>
+                    </tr>
+                </thead>
+                <tbody id="todosLosTickets">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="./JS/informexcliente.js"></script>

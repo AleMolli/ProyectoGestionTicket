@@ -1,4 +1,4 @@
-<div class="container-fluid pt-4 px-4">
+<!-- <div class="container-fluid pt-4 px-4"> -->
     <div class="col-12">
         <!-- <div class="bg-secondary rounded h-100 p-4 mb-3" style="display: flex;">
             <button type="button" class="btn btn-lg btn-lg-square btn-outline-success m-2" data-bs-toggle="modal"
@@ -8,10 +8,10 @@
         <div class="bg-secondary rounded h-100 p-4 d-lg-flex mb-3">
             <div class="form-floating col-3 m-1">
                 <select class="form-select" id="clienteFiltro"
-                    aria-label="Floating label select example">
+                    aria-label="Floating label select example" onchange="ObtenerTicketsporClientes()">
 
                 </select>
-                <label for="clienteFiltro">Cliente:</label>
+                <label class="colorletra" for="clienteFiltro">Cliente:</label>
             </div>
             <div class="form-floating col-3 m-1">
                 <input type="date" class="form-control" id="FechaDesdeBuscarcliente" onchange="ObtenerTicketsporClientes()">
@@ -29,12 +29,12 @@
     <div class="col-12">
         <div class="contenedortablasgeneral mb-3 rounded">
             <div class="d-flex justify-content-between">
-                <h6 class="mb-4">Listado de Tickets</h6>
+                <h5 class="mb-4">Listado de Tickets</h5>
                 <button type="button" class="btn btn-light mb-4" onclick="ImprimirPdf();"><i
                         class="bi bi-printer"></i>Imprimir Pdf</button>
             </div>
             <div class="table-responsive">
-                <table class="table" id="tablaTicket">
+                <table class="table table-hover" id="tablaTicketClientes">
                     <thead>
                         <tr>
                             <th scope="col">Fecha Alta</th>
@@ -52,7 +52,7 @@
         </div>
     </div>
 
-</div>
+<!-- </div> -->
 <script src="./JS/common/Capitalizar.js"></script>
 <!-- <script src="./JS/common/auth.js"></script> -->
 <script src="./JS/ticketxCliente.js"></script>

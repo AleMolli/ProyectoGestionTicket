@@ -49,21 +49,6 @@ namespace ProyectoGestionTicket.Models.General
         Alta
     }
 
-    public class VistaTickets
-    {
-        public int TicketID { get; set; }
-        public string Titulo { get; set; }
-        public string? Descripcion { get; set; }
-        public Prioridad Prioridades { get; set; }
-        public string EstadoString { get; set; }
-        public Estado Estados { get; set; }
-        public string FechaCreacionString { get; set; }
-        public string FechaComienzoRespuestaString { get; set; }
-        public string PrioridadString { get; set; }
-        public string? CategoriaString { get; set; }
-    }
-
-
     public class FiltroTicket
     {
         public int CategoriaID { get; set; }

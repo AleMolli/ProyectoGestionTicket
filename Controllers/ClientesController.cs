@@ -14,7 +14,7 @@ using ProyectoGestionTicket.Models.General;
 
 namespace ProyectoGestionTicket.Controllers
 {
-    [Authorize(Roles = "ADMINISTRADOR")]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ClientesController : ControllerBase
@@ -54,6 +54,7 @@ namespace ProyectoGestionTicket.Controllers
 
         // PUT: api/Clientes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "ADMINISTRADOR")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCliente(int id, Cliente cliente)
         {
@@ -97,6 +98,7 @@ namespace ProyectoGestionTicket.Controllers
 
         // POST: api/Clientes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [Authorize(Roles = "ADMINISTRADOR")]
         [HttpPost]
         public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
         {
@@ -133,6 +135,7 @@ namespace ProyectoGestionTicket.Controllers
         }
 
         // DELETE: api/Clientes/5
+        [Authorize(Roles = "ADMINISTRADOR")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCliente(int id)
         {

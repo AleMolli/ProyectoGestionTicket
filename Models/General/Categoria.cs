@@ -5,10 +5,17 @@ namespace ProyectoGestionTicket.Models.General
     public class Categoria
     {
         [Key]
-        public int CategoriaID { get; set;}
+        public int CategoriaID { get; set; }
         public string? Nombre { get; set; }
         public bool Eliminado { get; set; }
 
         public virtual ICollection<Ticket>? Ticket { get; set; }
+    }
+    
+    public class TicketsPorCategoria
+    {
+        public int CategoriaID { get; set; }
+        public string? Nombre { get; set; }
+        public int Cantidad { get; set; }
     }
 }

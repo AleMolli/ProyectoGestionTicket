@@ -1,10 +1,10 @@
-function ObtenerClienteDropdown() {
-    authFetch(`Clientes`, {
+async function ObtenerClienteDropdown() {
+    await authFetch(`Clientes`, {
         method: 'GET',
     })
-        .then(response => response.json())
-        .then(data => DropdownClientes(data))
-        .catch(error => console.log("No se pudo acceder acceder al servicio.", error))
+    .then(response => response.json())
+    .then(data => DropdownClientes(data))
+    .catch(error => console.log("No se pudo acceder acceder al servicio.", error))
 }
 
 function DropdownClientes(data) {
@@ -27,13 +27,13 @@ function DropdownClientes(data) {
     //ObtenerTicketsporClientes();
 }
 
-const inputCliente = document.getElementById("clienteFiltro");
-inputCliente.onchange = function () {
-  ObtenerTicketsporClientes();
-};
+// const inputCliente = document.getElementById("clienteFiltro");
+// inputCliente.onchange = function () {
+//   ObtenerTicketsporClientes();
+// };
 
 
-function ObtenerTicketsporClientes() {
+async function ObtenerTicketsporClientes() {
     //console.log("hola")
     let fechaDesde = document.getElementById("FechaDesdeBuscarcliente").value;
     let fechaHasta = document.getElementById("FechaHastaBuscarcliente").value;
@@ -44,24 +44,19 @@ function ObtenerTicketsporClientes() {
         fechaHasta: fechaHasta,
         clienteID: clienteID
     };
-    console.log(filtrosClientes);
-    authFetch(`Tickets/FiltrarCliente`,
+    const res = await authFetch(`Informes/FiltrarCliente`,
         {
             method: 'POST',
             body: JSON.stringify(filtrosClientes)
         }
     )
-    .then(response => response.json())
-    .then(data => MostrarTicketsxCliente(data))
-    .catch(error => console.log("No se puede acceder a la api: ", error))
-}
+    const data = await res.json();
 
+    let tbody = document.querySelector("#tablaTicketClientes tbody")
+    tbody.innerHTML = "";
 
-function MostrarTicketsxCliente(data) {
-    $("#todosLosTicketsClientes").empty();
-
-    $.each(data, function (index, item) {
-        let prioridad = item.prioridadString.toLowerCase();
+    data.forEach(tick => {
+        let prioridad = tick.prioridadString.toLowerCase();
         let icono = '';
         let clase = '';
 
@@ -79,15 +74,15 @@ function MostrarTicketsxCliente(data) {
                 clase = 'prioridad-baja';
                 break;
         }
-
-        $('#todosLosTicketsClientes').append(
-            "<tr>",
-            "<td class='data-ticket celda-titulo'>" + item.fechaCreacionString + "</td>",
-            "<td class='data-ticket celda-titulo d-none d-sm-table-cell'>" + item.titulo + "</td>",
-            "<td class='data-ticket celda-titulo d-none d-md-table-cell'>" + item.estadoString + "</td>",
-            "<td class='data-ticket subrayado " + clase + " '>" + icono + " " + item.prioridadString + "</td>",
-            "<td class='data-ticket celda-titulo d-none d-lg-table-cell'>" + item.categoriaString + "</td>"
-        )
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td class='data-ticket celda-titulo'>${tick.fechaCreacionString}</td>
+            <td class='data-ticket celda-titulo d-none d-sm-table-cell'>${tick.titulo}</td>
+            <td class='data-ticket celda-titulo d-none d-md-table-cell'>${tick.estadoString}</td>
+            <td class='data-ticket subrayado ${clase}'>${icono} ${tick.prioridadString}</td>
+            <td class='data-ticket celda-titulo d-none d-lg-table-cell'>${tick.categoriaString}</td>
+        `;
+        tbody.appendChild(row);
     })
 }
 
