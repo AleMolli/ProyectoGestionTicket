@@ -1,6 +1,8 @@
+using System.Runtime.Intrinsics.X86;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using ProyectoGestionTicket.Models.General;
 using ProyectoGestionTicket.ModelsVistas;
@@ -196,6 +198,54 @@ namespace ProyectoGestionTicket.Controllers
             return resumenPorCategoria;
         }
 
+        [HttpGet("graficoticketscerrados")] // Grafico de Tickets por Categoria
+        public async Task<ActionResult<IEnumerable<GraficoTicketsCerrados>>> TicketsCerrados()
+        {
+            List<GraficoTicketsCerrados> ticketspormes = new List<GraficoTicketsCerrados>();
+
+            for (int i = 3; i >= 0; i--)
+            {
+                var fechaComparar = DateTime.Now.AddMonths(-i);
+                var ticketsdelMes = await _context.Ticket
+                .Where(t => t.FechaCierre.Month == fechaComparar.Month && t.Estados == Estado.Cerrado)
+                .ToListAsync();
+                var mesMostrar = new GraficoTicketsCerrados
+                {
+                    Mes = fechaComparar.ToString("MMM"),
+                    Cantidad = ticketsdelMes.Count(),
+                };
+                ticketspormes.Add(mesMostrar);
+            }
+
+            return ticketspormes;
+        }
+
+        [HttpGet("ticketscreadosycerradospormes")] // Grafico de Tickets por creados y cerrados por mes
+        public async Task<ActionResult<IEnumerable<GraficoTicketscreadosycerrados>>> TicketsCreadosyCerrados()
+        {
+            List<GraficoTicketscreadosycerrados> ticketsCreadosyCerradospormes = new List<GraficoTicketscreadosycerrados>();
+
+            for (int i = 5; i >= 0; i--)
+            {
+                var fechaComparar = DateTime.Now.AddMonths(-i);
+                var ticketsCreadosdelMes = await _context.Ticket
+                .Where(t => t.FechaCreacion.Month == fechaComparar.Month)
+                .ToListAsync();
+                var ticketsCerradosdelMes = await _context.Ticket
+                .Where(t => t.FechaCierre.Month == fechaComparar.Month && t.Estados == Estado.Cerrado)
+                .ToListAsync();
+                var mesMostrar = new GraficoTicketscreadosycerrados
+                {
+                    Mes = fechaComparar.ToString("MMM"),
+                    CantidadCreados = ticketsCreadosdelMes.Count(),
+                    CantidadCerrados = ticketsCerradosdelMes.Count()
+                };
+                ticketsCreadosyCerradospormes.Add(mesMostrar);
+            }
+
+            return ticketsCreadosyCerradospormes;
+        }
+
         [HttpPost("ticketsporcategoria")] //Informe de 2 niveles por Categoria
         public async Task<ActionResult<IEnumerable<CategoriaTickets>>> InformePorCategoria([FromBody] FiltroTicket filtro)
         {
@@ -334,6 +384,146 @@ namespace ProyectoGestionTicket.Controllers
                 .ToListAsync();
 
             return clientes;
+        }
+
+        [HttpPost("ticketsporDesarrolladores")] //4niveles
+        public async Task<ActionResult<IEnumerable<DesarrolladorTickets>>> InformePorDesCliCat([FromBody] FiltroTicket filtro)
+        {
+            List<DesarrolladorTickets> desarrolladormostrar = new List<DesarrolladorTickets>();
+
+            var tickets = _context.Ticket.Include(t => t.Categoria).AsQueryable();
+
+            DateTime fechaDesde = new DateTime();
+            bool fechaDesdeValida = DateTime.TryParse(filtro.FechaDesde, out fechaDesde);
+
+            DateTime fechaHasta = new DateTime();
+            bool fechaHastaValida = DateTime.TryParse(filtro.FechaHasta, out fechaHasta);
+
+            if (fechaDesdeValida && fechaHastaValida)
+            {
+                fechaHasta = fechaHasta.AddHours(23);
+                fechaHasta = fechaHasta.AddMinutes(59);
+                fechaHasta = fechaHasta.AddSeconds(59);
+                tickets = tickets.Where(t => t.FechaCreacion >= fechaDesde && t.FechaCreacion <= fechaHasta);
+            }
+
+            if (filtro.CategoriaID > 0)
+                tickets = tickets.Where(t => t.CategoriaID == filtro.CategoriaID);
+
+            if (filtro.Prioridad > 0)
+            {
+                tickets = tickets.Where(t => (int)t.Prioridades == filtro.Prioridad);
+            }
+
+            if (filtro.Estado > 0)
+            {
+                tickets = tickets.Where(t => (int)t.Estados == filtro.Estado);
+            }
+
+            var clientes = tickets
+                .Join(_context.Users,
+                    ticket => ticket.UsuarioClienteID,
+                    user => user.Id,
+                    (ticket, user) => new { ticket, user })
+                .Join(_context.Cliente,
+                    tu => tu.user.UserName,
+                    cliente => cliente.Email,
+                    (tu, cliente) => new { tu.ticket, cliente });
+
+            var desarrolladores = _context.Desarrollador
+                .Include(d => d.PuestoLaboral)
+                .ToList();
+            var PuestoCategoria = _context.PuestoCategoria
+                .Include(pc => pc.PuestoLaboral)
+                .Include(pc => pc.Categoria)
+                .ToList();
+
+            var informe = desarrolladores.Select(d => new DesarrolladorTickets
+            {
+                DesarrolladorID = d.DesarrolladorID,
+                Nombre = d.NombreCompleto,
+                Categorias = PuestoCategoria
+                    .Where(pc => pc.PuestoLaboralID == d.PuestoLaboralID && (filtro.CategoriaID == 0 || pc.CategoriaID == filtro.CategoriaID))
+                    .GroupBy(pc => pc.Categoria)
+                    .Select(gCat => new CategoriaDesarrolladorTickets
+                    {
+                        CategoriaID = gCat.Key.CategoriaID,
+                        Nombre = gCat.Key.Nombre,
+                        Clientes = clientes
+                            .Where(tc => tc.ticket.CategoriaID == gCat.Key.CategoriaID)
+                            .GroupBy(tc => tc.cliente)
+                            .Select(gCli => new ClienteTicket
+                            {
+                                ClienteID = gCli.Key.ClienteID,
+                                Nombre = gCli.Key.Nombre,
+                                Email = gCli.Key.Email,
+                                Tickets = gCli.Select(tc => new VistaTickets
+                                {
+                                    TicketID = tc.ticket.TicketID,
+                                    Titulo = tc.ticket.Titulo,
+                                    Prioridades = tc.ticket.Prioridades,
+                                    PrioridadString = tc.ticket.PrioridadString,
+                                    EstadoString = tc.ticket.EstadoString,
+                                    FechaCreacionString = tc.ticket.FechaCreacionString,
+                                    CategoriaString = tc.ticket.CategoriaString
+                                }).ToList()
+                            }).ToList()
+                    }).ToList()
+            }).ToList();
+
+            return informe;
+        }
+
+        [HttpPost("ticketsporfechacierre")]
+        public async Task<ActionResult<IEnumerable<DesarrolladorCierreTickets>>> InformePorCierreTicket([FromBody] FiltroTicket filtro)
+        {
+            List<DesarrolladorCierreTickets> desarroladormostrar = new List<DesarrolladorCierreTickets>();
+
+            var tickets = _context.Ticket.Include(t => t.Categoria).Where(t => t.Estados == Estado.Cerrado).AsQueryable();
+
+            DateTime fechaDesde = new DateTime();
+            bool fechaDesdeValida = DateTime.TryParse(filtro.FechaDesde, out fechaDesde);
+
+            DateTime fechaHasta = new DateTime();
+            bool fechaHastaValida = DateTime.TryParse(filtro.FechaHasta, out fechaHasta);
+
+            if (fechaDesdeValida && fechaHastaValida)
+            {
+                fechaHasta = fechaHasta.AddHours(23);
+                fechaHasta = fechaHasta.AddMinutes(59);
+                fechaHasta = fechaHasta.AddSeconds(59);
+                tickets = tickets.Where(t => t.FechaCierre >= fechaDesde && t.FechaCierre <= fechaHasta);
+            }
+
+            var desarrolladores = await tickets
+                .Join(_context.Users,
+                    ticket => ticket.UsuarioDesarrolladorID,
+                    user => user.Id,
+                    (ticket, user) => new { ticket, user })
+                .Join(_context.Desarrollador,
+                    tu => tu.user.UserName,
+                    desarrollador => desarrollador.Email,
+                    (tu, desarrollador) => new { tu.ticket, desarrollador })
+                .GroupBy(x => new { x.desarrollador.DesarrolladorID, x.desarrollador.NombreCompleto, x.desarrollador.Email })
+                .Select(g => new DesarrolladorCierreTickets
+                {
+                    DesarrolladorID = g.Key.DesarrolladorID,
+                    Nombre = g.Key.NombreCompleto,
+                    Tickets = g.Select(x => new VistaTickets
+                    {
+                        TicketID = x.ticket.TicketID,
+                        Titulo = x.ticket.Titulo,
+                        Prioridades = x.ticket.Prioridades,
+                        PrioridadString = x.ticket.PrioridadString,
+                        EstadoString = x.ticket.EstadoString,
+                        FechaCreacionString = x.ticket.FechaCreacionString,
+                        CategoriaString = x.ticket.CategoriaString,
+                        FechaCierreString = x.ticket.FechaCierreString
+                    }).ToList()
+                })
+                .ToListAsync();
+
+            return desarrolladores;
         }
     }
 }

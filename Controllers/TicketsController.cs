@@ -65,6 +65,7 @@ namespace ProyectoGestionTicket.Controllers
         [HttpPut("CambioEstado/{id}")]
         public async Task<IActionResult> CambioEstado(int id)
         {
+            var desId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var ticket = await _context.Ticket.FindAsync(id);
             if (ticket == null)
             {
@@ -74,12 +75,14 @@ namespace ProyectoGestionTicket.Controllers
             {
                 ticket.Estados = Estado.EnProceso;
                 ticket.FechaComienzoRespuesta = DateTime.Now;
+                ticket.UsuarioDesarrolladorID = desId;
             }
             else
             {
-                ticket.Estados = Estado.Abierto;
-                ticket.FechaComienzoRespuesta = Convert.ToDateTime("01/01/2025 00:00");
+                ticket.Estados = Estado.Cerrado;
+                ticket.FechaCierre = DateTime.Now;
             }
+
             _context.Ticket.Update(ticket);
             await _context.SaveChangesAsync();
 
@@ -207,6 +210,7 @@ namespace ProyectoGestionTicket.Controllers
             ticket.FechaCierre = Convert.ToDateTime("01/01/2025");
             ticket.UsuarioClienteID = userId;
             ticket.Estados = Estado.Abierto;
+            ticket.UsuarioDesarrolladorID = null;
 
             _context.Ticket.Add(ticket);
             await _context.SaveChangesAsync();

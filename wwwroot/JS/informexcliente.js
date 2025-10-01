@@ -56,7 +56,7 @@ async function ObtenerTickets() {
 
         const rowCliente = document.createElement("tr");
         rowCliente.innerHTML = `          
-            <td class='text-bold table-success text-center' colspan='5'>${cliente.nombre}</td>          
+            <td class='colorfilainforme text-center' colspan='5'>${cliente.nombre}</td>          
         `;
         tbody.appendChild(rowCliente);
 

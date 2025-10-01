@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ProyectoGestionTicket.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250916224808_20250916")]
+    partial class _20250916
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -391,6 +394,9 @@ namespace ProyectoGestionTicket.Migrations
                     b.Property<int>("CategoriaID")
                         .HasColumnType("int");
 
+                    b.Property<int?>("DesarrolladorID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Descripcion")
                         .HasColumnType("nvarchar(max)");
 
@@ -415,12 +421,11 @@ namespace ProyectoGestionTicket.Migrations
                     b.Property<string>("UsuarioClienteID")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UsuarioDesarrolladorID")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("TicketID");
 
                     b.HasIndex("CategoriaID");
+
+                    b.HasIndex("DesarrolladorID");
 
                     b.ToTable("Ticket");
                 });
@@ -525,7 +530,13 @@ namespace ProyectoGestionTicket.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("ProyectoGestionTicket.Models.General.Desarrollador", "Desarrollador")
+                        .WithMany()
+                        .HasForeignKey("DesarrolladorID");
+
                     b.Navigation("Categoria");
+
+                    b.Navigation("Desarrollador");
                 });
 
             modelBuilder.Entity("ProyectoGestionTicket.Models.General.Categoria", b =>

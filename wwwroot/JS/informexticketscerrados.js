@@ -1,24 +1,3 @@
-//HACER PRIMERO EL METODO PARA ARMAR EL COMBO DESPLEGABLE DE CATEGORIAS
-async function comboCategorias() {
-
-    const res = await authFetch("Categorias");
-
-    const categorias = await res.json();
-
-    const comboSelectBuscar = document.querySelector("#categoriaFiltro");
-    comboSelectBuscar.innerHTML = "";
-
-
-    let opcionesBuscar = `<option value="0">[Categorias]</option>`;
-    categorias.forEach(cat => {
-
-        opcionesBuscar += `<option value="${cat.categoriaID}">${cat.nombre}</option>`;
-    });
-  
-    comboSelectBuscar.innerHTML = opcionesBuscar;
-
-    ObtenerTickets();
-}
 
 async function ObtenerTickets() {
     let fechaDesde = document.getElementById("FechaDesdeBuscar").value;
@@ -35,12 +14,12 @@ async function ObtenerTickets() {
     const filtros = {
         fechaDesde: fechaDesde,
         fechaHasta: fechaHasta,
-        categoriaID: document.getElementById("categoriaFiltro").value,
-        prioridad: document.getElementById("prioridadFiltro").value,
-        estado: document.getElementById("estadoFiltro").value
+        categoriaID: 0,
+        prioridad: 0,
+        estado: 0
     };
 
-    const res = await authFetch(`Informes/ticketsporcategoria`, {
+    const res = await authFetch(`Informes/ticketsporfechacierre`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -48,19 +27,20 @@ async function ObtenerTickets() {
         body: JSON.stringify(filtros)
     });
 
-    const categorias = await res.json();
+    const desarrolladores = await res.json();
+    console.log(desarrolladores);
     const tbody = document.querySelector("#tablaTicket tbody");
     tbody.innerHTML = "";
 
-    categorias.forEach(categoria => {
+    desarrolladores.forEach(desarrollador => {
 
-        const rowCategoria = document.createElement("tr");
-        rowCategoria.innerHTML = `          
-            <td class='colorfilainforme text-center' colspan='4'>${categoria.nombre}</td>          
+        const rowDesarrollador = document.createElement("tr");
+        rowDesarrollador.innerHTML = `          
+            <td class='colorfilainforme text-center' colspan='5'>${desarrollador.nombre}</td>          
         `;
-        tbody.appendChild(rowCategoria);
+        tbody.appendChild(rowDesarrollador);
 
-        categoria.tickets.forEach(tic => {
+        desarrollador.tickets.forEach(tic => {
             const row = document.createElement("tr");
             let clase = "prioridad-baja";
             if (tic.prioridades == 2) {
@@ -70,10 +50,11 @@ async function ObtenerTickets() {
             }
 
             row.innerHTML = `
-            <td class="text-center celda-titulo">${tic.fechaCreacionString}</td>
+            <td class="text-center celda-titulo">${tic.fechaCierreString}</td>
             <td class='celda-titulo'>${tic.titulo}</td>
             <td class="text-center ${clase}">${tic.prioridadString}</td>
             <td class="text-center celda-titulo">${tic.estadoString}</td>
+            <td class="text-center celda-titulo">${tic.categoriaString}</td>
         `;
             tbody.appendChild(row);
         });
@@ -82,4 +63,4 @@ async function ObtenerTickets() {
 }
 
 //getTickets();
-comboCategorias();
+ObtenerTickets();

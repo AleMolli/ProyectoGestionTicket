@@ -2,19 +2,29 @@
     <div class="py-1 px-1 mb-3 bg-secondary rounded">
         <ul class="nav nav-pills m-2" id="ticketTabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" data-file="Ticket.html" data-script="./JS/Ticket.js" type="button">Tickets</button>
+                <button class="nav-link active" data-file="Ticket.html" data-script="./JS/Ticket.js"
+                    type="button">Tickets</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" data-file="ticketxCliente.html" data-script="./JS/ticketxCliente.js" type="button">Filtro por Cliente</button>
+                <button class="nav-link" data-file="ticketxCliente.html" data-script="./JS/ticketxCliente.js"
+                    type="button">Filtro por Cliente</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" data-file="graficoTicket.html" data-script="./JS/graficoTicket.js" type="button">Graficos</button>
+                <button class="nav-link" data-file="graficoTicket.html" data-script="./JS/graficoTicket.js"
+                    type="button">Graficos</button>
             </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" data-file="informexcategoria.html" data-script="./JS/informexcategoria.js" type="button">Informe por Categoria</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" data-file="informexcliente.html" data-script="./JS/informexcliente.js" type="button">Informe por Cliente</button>
+            <li class="nav-item dropdown">
+                <button class="nav-link dropdown-toggle" data-bs-toggle="dropdown" type="button">Informes</button>
+                <ul class="dropdown-menu">
+                    <li><button class="dropdown-item nav-link" data-file="informexcategoria.html"
+                            data-script="./JS/informexcategoria.js">Por Categoría</button></li>
+                    <li><button class="dropdown-item nav-link" data-file="informexcliente.html"
+                            data-script="./JS/informexcliente.js">Por Cliente</button></li>
+                    <li><button class="dropdown-item nav-link" data-file="informexdesarrollador.html"
+                            data-script="./JS/informexdesarrollador.js">Por Desarrollador</button></li>
+                    <li><button class="dropdown-item nav-link" data-file="informexticketscerrados.html"
+                            data-script="./JS/informexticketscerrados.js">Por Tickets Cerrados</button></li>
+                </ul>
             </li>
         </ul>
     </div>

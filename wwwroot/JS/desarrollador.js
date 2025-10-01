@@ -18,50 +18,78 @@ function CompletarDropdownpuestos(data) {
 
         bodySelect.add(opt);
     })
-    ObtenerDesarrollador();
+    ObtenerDesarrolladores();
 }
 
 ObtenerpuestosDropdown();
 
-function ObtenerDesarrollador(){
-    authFetch("Desarrolladores")
-    .then(response => response.json())
-    .then(data => MostrarDesarrolladores(data))
-    .catch(error => console.log("No se puede ingresar a la api: ", error));
+// function ObtenerDesarrollador(){
+//     authFetch("Desarrolladores")
+//     .then(response => response.json())
+//     .then(data => MostrarDesarrolladores(data))
+//     .catch(error => console.log("No se puede ingresar a la api: ", error));
+// }
+
+
+// function MostrarDesarrolladores(data) {
+//     $("#todosLosDesa").empty();
+
+//     $.each(data, function (index, item) {
+//         //if(item.eliminado == false){
+//             $('#todosLosDesa').append(
+//                 "<tr>",
+//                 "<td class='celda-titulo data-ticket data-false'>" + item.nombreCompleto + "</td>",
+//                 "<td class='celda-titulo data-ticket'>" + item.dni + "</td>",
+//                 "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.email + "</td>",
+//                 "<td class='d-none d-md-table-cell celda-titulo data-ticket'>" + item.telefono + "</td>",
+//                 "<td class='d-none d-lg-table-cell celda-titulo data-ticket'>" + item.puestoLaboral.nombre + "</td>",
+//                 "<td class='text-center'><a onclick='ConfirmacionEliminaciondesarrollador(" + item.desarrolladorID + ")'><i class='bi bi-trash text-danger'></i></a></td>",
+//                 "<td class='text-center'><a onclick='BuscarDesarrolladorparaEditar(" + item.desarrolladorID + ")'><i class='bi bi-brush text-info'></i></a></td>"
+//             )
+//         // }else{
+//         //     $('#todosLosDesa').append(
+//         //         "<tr>",
+//         //         "<td class='celda-titulo data-ticket data-true'>" + item.nombreCompleto + "</td>",
+//         //         "<td class='celda-titulo data-ticket'>" + item.dni + "</td>",
+//         //         "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.email + "</td>",
+//         //         "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.telefono + "</td>",
+//         //         "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.observaciones + "</td>",
+//         //         "<td class='text-center'><a onclick='habilitarDesarrollador(" + item.desarrolladorID + ")'><i class='bi bi-arrow-clockwise fs-5 text-success' style='text-shadow: 0 0 4px green;'></i></a></td>"
+//         //     )
+//         // }
+//     })
+// }
+
+async function ObtenerDesarrolladores() {
+
+    const res = await authFetch("Desarrolladores");
+    const desarrolladores = await res.json();
+
+    const tbody = document.querySelector("#todosLosDesa tbody");
+    tbody.innerHTML = "";
+
+    desarrolladores.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+                <td class='celda-titulo data-ticket ${item.eliminado ? "data-true" : "data-false"}'>${item.nombreCompleto}</td>
+                <td class='celda-titulo data-ticket'>${item.dni}</td>
+                <td class='d-none d-sm-table-cell celda-titulo data-ticket'>${item.email}</td>
+                <td class='d-none d-md-table-cell celda-titulo data-ticket'>${item.telefono}</td>
+                <td class='d-none d-lg-table-cell celda-titulo data-ticket'>${item.puestoLaboral?.nombre ?? ""}</td>
+                <td class='text-center'>
+                    ${item.eliminado
+                ? `<a onclick='habilitarDesarrollador(${item.desarrolladorID})'><i class='btn bi bi-arrow-clockwise fs-5 text-success m-2' style='text-shadow: 0 0 4px green;'></i></a>`
+                : `<a onclick='ConfirmacionEliminaciondesarrollador(${item.desarrolladorID})'><i class='btn bi bi-trash text-danger m-2'></i></a>
+                           <a onclick='BuscarDesarrolladorparaEditar(${item.desarrolladorID})'><i class='btn bi bi-brush text-info m-2'></i></a>`
+            }
+                </td>
+            `;
+        tbody.appendChild(row);
+    });
 }
 
 
-function MostrarDesarrolladores(data) {
-    $("#todosLosDesa").empty();
-
-    $.each(data, function (index, item) {
-        //if(item.eliminado == false){
-            $('#todosLosDesa').append(
-                "<tr>",
-                "<td class='celda-titulo data-ticket data-false'>" + item.nombreCompleto + "</td>",
-                "<td class='celda-titulo data-ticket'>" + item.dni + "</td>",
-                "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.email + "</td>",
-                "<td class='d-none d-md-table-cell celda-titulo data-ticket'>" + item.telefono + "</td>",
-                "<td class='d-none d-lg-table-cell celda-titulo data-ticket'>" + item.puestoLaboral.nombre + "</td>",
-                "<td class='text-center'><a onclick='ConfirmacionEliminaciondesarrollador(" + item.desarrolladorID + ")'><i class='bi bi-trash text-danger'></i></a></td>",
-                "<td class='text-center'><a onclick='BuscarDesarrolladorparaEditar(" + item.desarrolladorID + ")'><i class='bi bi-brush text-info'></i></a></td>"
-            )
-        // }else{
-        //     $('#todosLosDesa').append(
-        //         "<tr>",
-        //         "<td class='celda-titulo data-ticket data-true'>" + item.nombreCompleto + "</td>",
-        //         "<td class='celda-titulo data-ticket'>" + item.dni + "</td>",
-        //         "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.email + "</td>",
-        //         "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.telefono + "</td>",
-        //         "<td class='d-none d-sm-table-cell celda-titulo data-ticket'>" + item.observaciones + "</td>",
-        //         "<td class='text-center'><a onclick='habilitarDesarrollador(" + item.desarrolladorID + ")'><i class='bi bi-arrow-clockwise fs-5 text-success' style='text-shadow: 0 0 4px green;'></i></a></td>"
-        //     )
-        // }
-    })
-}
-
-
-function CrearDesarrolladorNuevo(){
+function CrearDesarrolladorNuevo() {
     let nombredesarrollador = document.getElementById("nombredesarrollador").value.trim();
     let dnidesarrollador = document.getElementById("dnidesarrollador").value.trim();
     let emaildesarrollador = document.getElementById("emaildesarrollador").value.trim();
@@ -70,25 +98,25 @@ function CrearDesarrolladorNuevo(){
     let observaciondesarrollador = document.getElementById("observaciondesarrollador").value.trim();
 
     let posiblesErrores = "";
-    
-    if(!nombredesarrollador){
+
+    if (!nombredesarrollador) {
         posiblesErrores = "Debe cargar un Nombre para el Desarrollador.";
     }
-    if(!dnidesarrollador){
+    if (!dnidesarrollador) {
         posiblesErrores += " - Debe cargar un DNI para el Desarrollador.";
-    } 
+    }
     // if(!telefonodesarrollador){
     //     posiblesErrores += " - SDebe cargar un numero de Telefono para el Desarrollador.";
     // }
-        
-    if(posiblesErrores != ""){
+
+    if (posiblesErrores != "") {
         Swal.fire({
             icon: "error",
             title: "Corrija los errores para continuar",
             text: posiblesErrores,
         });
     }
-    else{
+    else {
         let Desarrollador = {
             nombreCompleto: capitalizarTexto(nombredesarrollador),
             dni: dnidesarrollador,
@@ -104,49 +132,49 @@ function CrearDesarrolladorNuevo(){
                 body: JSON.stringify(Desarrollador)
             }
         )
-        .then(async response => {
-            if (!response.ok){
-                let textoError = await response.text(); //CAPTURA ERROR DEL CONTROLADOR SI LA CATEGORIA YA EXISTE Y LA MUESTRA EN EL CATCH
-                throw (textoError);
-            }
-            return response.json();
-        })
-        .then(data => {
-            if(data.status == 201 || data.status == undefined){
-                document.getElementById("nombredesarrollador").value = "";
-                document.getElementById("emaildesarrollador").value = "";
-                document.getElementById("telefonodesarrollador").value = "";
-                document.getElementById("observaciondesarrollador").value = "";
+            .then(async response => {
+                if (!response.ok) {
+                    let textoError = await response.text(); //CAPTURA ERROR DEL CONTROLADOR SI LA CATEGORIA YA EXISTE Y LA MUESTRA EN EL CATCH
+                    throw (textoError);
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.status == 201 || data.status == undefined) {
+                    document.getElementById("nombredesarrollador").value = "";
+                    document.getElementById("emaildesarrollador").value = "";
+                    document.getElementById("telefonodesarrollador").value = "";
+                    document.getElementById("observaciondesarrollador").value = "";
 
-                $('#modalAgregarDesa').modal('hide');
-                ObtenerDesarrollador();
+                    $('#modalAgregarDesa').modal('hide');
+                    ObtenerDesarrollador();
 
+                    Swal.fire({
+                        icon: "success",
+                        title: "Desarrollador creado",
+                        showConfirmButton: false,
+                        timer: 1000
+                    });
+                }
+                else {
+                    //console.log(data);
+                }
+
+            })
+            .catch(error => {
+                console.log(error)
                 Swal.fire({
-                    icon: "success",
-                    title: "Desarrollador creado",
-                    showConfirmButton: false,
-                    timer: 1000
-                });
-            }
-            else{
-                //console.log(data);
-            }
-            
-        })
-        .catch(error => {
-            console.log(error)
-            Swal.fire({
                     icon: "warning",
                     title: error,
                     showConfirmButton: false,
                     timer: 10000
                 });
-        })
+            })
     }
 }
 
 
-function ConfirmacionEliminaciondesarrollador(id){
+function ConfirmacionEliminaciondesarrollador(id) {
     Swal.fire({
         title: "Esta seguro de eliminar este Desarrollador?",
         showCancelButton: true,
@@ -161,38 +189,38 @@ function ConfirmacionEliminaciondesarrollador(id){
 }
 
 
-function EliminarDesarrollador(id){
+function EliminarDesarrollador(id) {
     authFetch(`Desarrolladores/${id}`,
         {
             method: 'DELETE',
         }
     )
-    .then(async response => {
-        if (!response.ok){
-            let errorEliminar = await response.text();
-            throw (errorEliminar)
-        }
-        ObtenerDesarrollador();
-    })
-    .catch(error => {
-        Swal.fire({
-            icon: "warning",
-            title: error,
-            showConfirmButton: false,
-            timer: 2000
-        });
-    })
+        .then(async response => {
+            if (!response.ok) {
+                let errorEliminar = await response.text();
+                throw (errorEliminar)
+            }
+            ObtenerDesarrollador();
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: "warning",
+                title: error,
+                showConfirmButton: false,
+                timer: 2000
+            });
+        })
 }
 
 
-function habilitarDesarrollador(id){
+function habilitarDesarrollador(id) {
     authFetch(`Desarrolladores/${id}`, {
         method: 'DELETE',  //EN EL METODO DELETE TENEMOS UN IF PREGUNTANDO EN QUE ESTADO ESTA EL ATRIBUTO "ELIMINADO"
     })
-    .then(() => {
-        ObtenerDesarrollador();
-    })
-    .catch(error => console.log("No se puede ingresar a la api: ", error))
+        .then(() => {
+            ObtenerDesarrollador();
+        })
+        .catch(error => console.log("No se puede ingresar a la api: ", error))
 }
 
 
@@ -202,28 +230,28 @@ function BuscarDesarrolladorparaEditar(id) {
             method: 'GET',
         }
     )
-    .then(response => response.json())
-    .then(data => {
-        //console.log(data);
+        .then(response => response.json())
+        .then(data => {
+            //console.log(data);
 
-        document.getElementById("DesarrolladorID").value = data.desarrolladorID;
-        document.getElementById("nombredesarrollador").value = data.nombreCompleto;
-        document.getElementById("dnidesarrollador").value = data.dni;
-        document.getElementById("emaildesarrollador").value = data.email;
-        document.getElementById("telefonodesarrollador").value = data.telefono;
-        document.getElementById("puestodesa").value = data.puestoLaboralID;
-        document.getElementById("observaciondesarrollador").value = data.observaciones;
+            document.getElementById("DesarrolladorID").value = data.desarrolladorID;
+            document.getElementById("nombredesarrollador").value = data.nombreCompleto;
+            document.getElementById("dnidesarrollador").value = data.dni;
+            document.getElementById("emaildesarrollador").value = data.email;
+            document.getElementById("telefonodesarrollador").value = data.telefono;
+            document.getElementById("puestodesa").value = data.puestoLaboralID;
+            document.getElementById("observaciondesarrollador").value = data.observaciones;
 
-        document.getElementById("CrearEditar").innerText = "Editar Desarrollador";
-        document.getElementById("emaildesarrollador").disabled = true;
+            document.getElementById("CrearEditar").innerText = "Editar Desarrollador";
+            document.getElementById("emaildesarrollador").disabled = true;
 
-        $('#modalAgregarDesa').modal('show');
-    })
-    .catch(error => console.log("No se puede acceder a la api: ", error))
+            $('#modalAgregarDesa').modal('show');
+        })
+        .catch(error => console.log("No se puede acceder a la api: ", error))
 }
 
 
-function EditarDesarrollador(){
+function EditarDesarrollador() {
     let IDDesarrollador = document.getElementById("DesarrolladorID").value;
     let nombredesarrolladoreditar = document.getElementById("nombredesarrollador").value.trim();
     let dnidesarrolladoreditar = document.getElementById("dnidesarrollador").value.trim();
@@ -232,19 +260,19 @@ function EditarDesarrollador(){
     let observacioneseditar = document.getElementById("observaciondesarrollador").value.trim();
 
     let posiblesErroreseditar = "";
-    
-    if(!nombredesarrolladoreditar){
+
+    if (!nombredesarrolladoreditar) {
         posiblesErroreseditar = "Debe cargar un Nombre para el Desarrollador.";
     }
-    
-    if(posiblesErroreseditar != ""){
+
+    if (posiblesErroreseditar != "") {
         Swal.fire({
             icon: "error",
             title: "Corrija los errores para continuar",
             text: posiblesErroreseditar,
         });
     }
-    else{
+    else {
         let editarDesarrollador = {
             desarrolladorID: IDDesarrollador,
             nombreCompleto: capitalizarTexto(nombredesarrolladoreditar),
@@ -260,19 +288,19 @@ function EditarDesarrollador(){
                 body: JSON.stringify(editarDesarrollador)
             }
         )
-        //.then(response => response.json())
-        .then(data => {
+            //.then(response => response.json())
+            .then(data => {
                 VaciarModalDesarrollador();
                 //$('#modalAgregarTicket').modal('hide');
                 //ObtenerTickets();
                 document.getElementById("CrearEditar").innerText = "Nuevo Ticket";
-        })
-        .catch(error => console.log("No se puede acceder a la api: ", error))
+            })
+            .catch(error => console.log("No se puede acceder a la api: ", error))
     }
 }
 
 
-function VaciarModalDesarrollador(){
+function VaciarModalDesarrollador() {
     document.getElementById("DesarrolladorID").value = 0;
     document.getElementById("nombredesarrollador").value = "";
     document.getElementById("emaildesarrollador").value = "";
@@ -284,13 +312,13 @@ function VaciarModalDesarrollador(){
     ObtenerDesarrollador();
 }
 
-function BotonGuardarDesarrollador(){
+function BotonGuardarDesarrollador() {
     let inputIDconvalor = document.getElementById("DesarrolladorID").value;
 
-    if (inputIDconvalor != 0){
+    if (inputIDconvalor != 0) {
         EditarDesarrollador();
     }
-    else{
+    else {
         CrearDesarrolladorNuevo();
     }
 }

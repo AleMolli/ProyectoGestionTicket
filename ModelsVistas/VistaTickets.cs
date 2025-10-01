@@ -12,6 +12,7 @@ namespace ProyectoGestionTicket.ModelsVistas
         public string EstadoString { get; set; }
         public string FechaCreacionString { get; set; }
         public string FechaComienzoRespuestaString { get; set; }
+        public string FechaCierreString { get; set; }
         public string? CategoriaString { get; set; }
     }
 }

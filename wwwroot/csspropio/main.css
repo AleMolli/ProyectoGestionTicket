@@ -30,6 +30,14 @@ table tr th{
 
 /* tabla ticket */
 
+.colorfilainforme{
+  background-color: #6C7293 !important;
+  /* opacity: 0.5; */
+  color: #ffffff;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
 .data-ticket{
     text-align: left;
     font-size: 14px;

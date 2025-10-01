@@ -25,11 +25,12 @@ namespace ProyectoGestionTicket.Models.General
         [NotMapped]
         public string FechaComienzoRespuestaString { get { return FechaComienzoRespuesta.ToString("dd/MM/yyyy HH:mm"); }}
         public DateTime FechaCierre { get; set; }
+        public string FechaCierreString { get { return FechaCierre.ToString("dd/MM/yyyy HH:mm"); }}
         public string? UsuarioClienteID { get; set; }
         public int CategoriaID { get; set; }
         [NotMapped]
         public string? CategoriaString { get { return Categoria?.Nombre; } }
-
+        public string? UsuarioDesarrolladorID { get; set; }
         public virtual Categoria? Categoria { get; set; }
         public virtual ICollection<HistorialTicket>? HistorialTicket { get; set; }
     }

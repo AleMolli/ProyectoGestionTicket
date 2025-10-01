@@ -2031,7 +2031,7 @@ progress {
 }
 
 .table-sm>:not(caption)>*>* {
-    padding: .25rem .25rem
+    padding: .05rem .05rem
 }
 
 .table-bordered>:not(caption)>* {

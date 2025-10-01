@@ -14,7 +14,7 @@ async function comboCategorias() {
 
         opcionesBuscar += `<option value="${cat.categoriaID}">${cat.nombre}</option>`;
     });
-  
+
     comboSelectBuscar.innerHTML = opcionesBuscar;
 
     ObtenerTickets();
@@ -40,7 +40,7 @@ async function ObtenerTickets() {
         estado: document.getElementById("estadoFiltro").value
     };
 
-    const res = await authFetch(`Informes/ticketsporcategoria`, {
+    const res = await authFetch(`Informes/ticketsporDesarrolladores`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -48,36 +48,52 @@ async function ObtenerTickets() {
         body: JSON.stringify(filtros)
     });
 
-    const categorias = await res.json();
+    const desarrolladores = await res.json();
+    console.log(desarrolladores);
     const tbody = document.querySelector("#tablaTicket tbody");
     tbody.innerHTML = "";
 
-    categorias.forEach(categoria => {
+    desarrolladores.forEach(desarrollador => {
 
-        const rowCategoria = document.createElement("tr");
-        rowCategoria.innerHTML = `          
-            <td class='colorfilainforme text-center' colspan='4'>${categoria.nombre}</td>          
+        const rowdesarrollador = document.createElement("tr");
+        rowdesarrollador.innerHTML = `          
+            <td class='colorfilainforme text-start' colspan='4'>Desarrollador: ${desarrollador.nombre}</td>          
         `;
-        tbody.appendChild(rowCategoria);
+        tbody.appendChild(rowdesarrollador);
 
-        categoria.tickets.forEach(tic => {
-            const row = document.createElement("tr");
-            let clase = "prioridad-baja";
-            if (tic.prioridades == 2) {
-                clase = "prioridad-media";
-            } else if (tic.prioridades == 3) {
-                clase = "prioridad-alta";
-            }
+        desarrollador.categorias.forEach(categoria => {
+            const rowcategoria = document.createElement("tr");
+            rowcategoria.innerHTML = `          
+            <td class='colorfilainforme text-center' colspan='4'>Categoria: ${categoria.nombre}</td>          
+        `;
+            tbody.appendChild(rowcategoria);
 
-            row.innerHTML = `
+            categoria.clientes.forEach(cliente => {
+                const rowcliente = document.createElement("tr");
+                rowcliente.innerHTML = `          
+            <td class='colorfilainforme text-end' colspan='4'>Cliente: ${cliente.nombre}</td>          
+        `;
+                tbody.appendChild(rowcliente);
+
+                cliente.tickets.forEach(tic => {
+                    const row = document.createElement("tr");
+                    let clase = "prioridad-baja";
+                    if (tic.prioridades == 2) {
+                        clase = "prioridad-media";
+                    } else if (tic.prioridades == 3) {
+                        clase = "prioridad-alta";
+                    }
+
+                    row.innerHTML = `
             <td class="text-center celda-titulo">${tic.fechaCreacionString}</td>
             <td class='celda-titulo'>${tic.titulo}</td>
             <td class="text-center ${clase}">${tic.prioridadString}</td>
             <td class="text-center celda-titulo">${tic.estadoString}</td>
         `;
-            tbody.appendChild(row);
-        });
-
+                    tbody.appendChild(row);
+                });
+            })
+        })
     });
 }
 

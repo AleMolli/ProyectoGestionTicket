@@ -1,4 +1,6 @@
 let graficoDonnaCategoria;
+let graficoBarraTickets;
+let GraficoCreadosyCerrados;
 
 const inputPrioridad = document.getElementById("prioridadFiltroGrafico");
 inputPrioridad.onchange = function () {
@@ -74,7 +76,82 @@ async function GenerarGraficoCategoria() {
     });
 }
 
+
+async function GraficoTicketsCerrados() {
+
+    const res = await authFetch(`Informes/graficoticketscerrados`);
+
+    const ticketsxMes = await res.json();
+    var labels = [];
+    var data = [];
+    var fondo = [];
+
+    ticketsxMes.forEach(ticketporMes => {
+        labels.push(ticketporMes.mes);
+        var color = generarColorRojo();
+        fondo.push(color);
+        data.push(ticketporMes.cantidad);
+    });
+
+    var ctx4 = document.getElementById("bar-chart");
+    //var ctx4 = $("#bar-chart").get(0).getContext("2d");
+    graficoBarraTickets = new Chart(ctx4, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                backgroundColor: fondo,
+                data: data,
+                label: 'Tickets'
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+}
+
+async function GraficoTicketsCreadosyCerrados(){
+    const res = await authFetch(`Informes/ticketscreadosycerradospormes`);
+
+    const ticketscreadosycerradospormes = await res.json();
+    var labels = [];
+    var dataCreado = [];
+    var dataCerrado = [];
+    console.log(ticketscreadosycerradospormes);
+
+    ticketscreadosycerradospormes.forEach(cantidadPorMes => {
+        labels.push(cantidadPorMes.mes);
+        dataCreado.push(cantidadPorMes.cantidadCreados);
+        dataCerrado.push(cantidadPorMes.cantidadCerrados);
+    });
+
+    var ctx1 = $("#worldwide-sales").get(0).getContext("2d");
+    var GraficoCreadosyCerrados = new Chart(ctx1, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [{
+                    label: "Creados",
+                    data: dataCreado,
+                    backgroundColor: "rgba(235, 22, 22, .3)"
+                },
+                {
+                    label: "Cerrados",
+                    data: dataCerrado,
+                    backgroundColor: "rgba(235, 22, 22, .7)"
+                }
+            ]
+            },
+        options: {
+            responsive: true
+        }
+    });
+}
+
 GenerarGraficoCategoria();
+GraficoTicketsCerrados();
+GraficoTicketsCreadosyCerrados();
 
 function generarColorRojo() {
     // El valor de RR será alto (de 128 a 255) para garantizar que predomine el Rojo.
