@@ -280,32 +280,26 @@ namespace ProyectoGestionTicket.Controllers
                 tickets = tickets.Where(t => (int)t.Estados == filtro.Estado);
             }
 
-            foreach (var ticket in tickets.OrderByDescending(t => t.FechaCreacion))
-            {
-                //POR CADA TICKETS VAMOS A BUSCAR LA CATEGORIA  
-                var categoriaMostrar = categoriasMostrar.Where(c => c.CategoriaID == ticket.CategoriaID).SingleOrDefault();
-                if (categoriaMostrar == null)
-                {
-                    categoriaMostrar = new CategoriaTickets
-                    {
-                        CategoriaID = ticket.CategoriaID,
-                        Nombre = ticket.CategoriaString,
-                        Tickets = new List<VistaTickets>()
-                    };
-                    categoriasMostrar.Add(categoriaMostrar);
-                }
+            var categoriasID = tickets.GroupBy(t => t.CategoriaID).ToList();
 
-                var ticketMostrar = new VistaTickets
+            foreach (var categoria in categoriasID)
+            {
+                //RECORREMOS LAS CATEGORIAS Y BUSCAMOS SUS TICKETS 
+                
+                var categoriaMostrar = new CategoriaTickets
                 {
-                    TicketID = ticket.TicketID,
-                    Titulo = ticket.Titulo,
-                    FechaCreacionString = ticket.FechaCreacionString,
-                    Prioridades = ticket.Prioridades,
-                    EstadoString = ticket.EstadoString,
-                    CategoriaString = ticket.CategoriaString,
-                    PrioridadString = ticket.PrioridadString
+                    Nombre = _context.Categoria.Where(c => c.CategoriaID == categoria.Key).Select(c => c.Nombre).FirstOrDefault(),
+                    Tickets = categoria.Select(x => new VistaTickets
+                    {
+                        TicketID = x.TicketID,
+                        Titulo = x.Titulo,
+                        Prioridades = x.Prioridades,
+                        PrioridadString = x.PrioridadString,
+                        FechaCreacionString = x.FechaCreacionString,
+                        EstadoString = x.EstadoString,
+                    }).ToList()
                 };
-                categoriaMostrar.Tickets.Add(ticketMostrar);
+                categoriasMostrar.Add(categoriaMostrar);
             }
 
             return categoriasMostrar.ToList();
