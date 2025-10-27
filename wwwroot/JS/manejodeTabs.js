@@ -58,7 +58,7 @@ function inicializarTabs() {
                 const html = await res.text();
 
                 document.getElementById('tabContent').innerHTML = html;
-                 const wrapper = document.getElementById('ticketWrapper');
+                const wrapper = document.getElementById('ticketWrapper');
                 if (wrapper) {
                     wrapper.classList.remove('container-fluid', 'pt-4', 'px-4');
                 }
@@ -67,16 +67,19 @@ function inicializarTabs() {
                 btn.classList.add('active');
 
                 if (scriptPath) {
-                    const script = document.createElement('script');
-                    script.src = scriptPath;
-                    script.defer = true;
-                    document.body.appendChild(script);
+                    const scripts = scriptPath.split(',').map(s => s.trim());
+                    scripts.forEach(src => {
+                        const script = document.createElement('script');
+                        script.src = src;
+                        script.defer = true;
+                        document.body.appendChild(script);
+                    });
                 }
             }
         });
     });
 
-    // 🔥 Ejecutar el tab activo automáticamente
+    // Ejecutar el tab activo automáticamente
     const activo = document.querySelector('button.nav-link.active');
     if (activo) activo.click();
 }

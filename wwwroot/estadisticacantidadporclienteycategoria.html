@@ -1,0 +1,30 @@
+<div class="col-12 mb-3">
+    <div class="contenedortablasgeneral mb-3 rounded">
+        <div class="d-flex justify-content-between">
+            <h5 class="mb-4">Listado de Tickets</h5>
+            <button type="button" class="btn btn-light mb-4" onclick="Imprimir()"><i class="bi bi-printer"></i>Imprimir
+                Pdf</button>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover" id="tablaTicket">
+                <thead>
+                    <tr>
+                        <th scope="col" class="text-center">Nombre Cliente</th>
+                        <th scope="col" class="text-center">Tickets totales</th>
+                        <th scope="col" class="d-none d-sm-table-cell">Tickets Abiertos</th>
+                        <th scope="col" class="d-none d-md-table-cell text-center">Tickets Cerrados</th>
+                        <th scope="col" class="text-center">Critico</th>
+                        <th scope="col" class="text-center">Ultimo Creado</th>
+                        <th scope="col" class="text-center">Ultimo Cerrado</th>
+                    
+                    </tr>
+                </thead>
+                <tbody id="todosLosTickets">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="./JS/estadisticacantidadporclienteycategoria.js"></script>

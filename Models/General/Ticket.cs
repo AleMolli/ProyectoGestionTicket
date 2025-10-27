@@ -20,7 +20,7 @@ namespace ProyectoGestionTicket.Models.General
         public DateTime FechaCreacion { get; set; }
 
         [NotMapped]
-        public string FechaCreacionString { get { return FechaCreacion.ToString("dd/MM/yyyy"); } }
+        public string FechaCreacionString { get { return FechaCreacion.ToString("dd/MM/yyyy HH:mm"); } }
         public DateTime FechaComienzoRespuesta { get; set; }
         [NotMapped]
         public string FechaComienzoRespuestaString { get { return FechaComienzoRespuesta.ToString("dd/MM/yyyy HH:mm"); }}

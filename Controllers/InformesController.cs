@@ -525,5 +525,299 @@ namespace ProyectoGestionTicket.Controllers
 
             return desarrolladores;
         }
+
+        [HttpPost("ticketsporfechacreacion")]
+        public async Task<ActionResult<IEnumerable<InformeTicketxFecha>>> InformeTicketporFechaCreacion([FromBody] FiltroTicket filtro)
+        {
+            //Creampos lista vacia
+            //List<InformeTicketxFecha> vistaxfechaCreacion = [];
+            //obtenemos todos los tickets
+            var tickets = _context.Ticket.Include(t => t.Categoria).ToList();
+
+            if (filtro.Estado > 0)
+            {
+                //Filtramos los tickets obtenidos por el estado que pasemos desde Front
+                tickets = tickets.Where(t => (int)t.Estados == filtro.Estado).ToList();
+            }
+
+            //Agregamos los tickets a la lista creada agrupados por fecha de creacion.
+            // foreach (var ticket in tickets)
+            // {
+            //     //guardamos en la variable la primer fecha de creacion encontrada
+            //     var fechaExiste = vistaxfechaCreacion.Where(f => f.FechaCreacion == ticket.FechaCreacionString).FirstOrDefault();
+            //     //si no existe
+            //     if (fechaExiste == null)
+            //     {
+            //         //guardamos en la lista de primer nivel la fecha encontrada
+            //         fechaExiste = new InformeTicketxFecha
+            //         {
+            //             FechaCreacion = ticket.FechaCreacionString,
+            //             Prioridades = new List<TicketsxPrioridad>()
+            //         };
+            //         vistaxfechaCreacion.Add(fechaExiste);
+            //     }
+            //     //buscar en el listado de fecha la prioridad para ir separando los tickets
+            //     var prioridadExiste = fechaExiste.Prioridades.Where(p => p.Prioridad == ticket.PrioridadString).FirstOrDefault();
+            //     //si no existe
+            //     if (prioridadExiste == null)
+            //     {
+            //         //guardamos en la lista de segundo nivel la prioridad encontrada
+            //         prioridadExiste = new TicketsxPrioridad
+            //         {
+            //             Prioridad = ticket.PrioridadString,
+            //             Tickets = new List<VistaTickets>()
+            //         };
+            //         fechaExiste.Prioridades.Add(prioridadExiste);
+            //     }
+            //     var ticketMostrar = new VistaTickets
+            //     {
+            //         TicketID = ticket.TicketID,
+            //         Titulo = ticket.Titulo,
+            //         CategoriaString = ticket.CategoriaString,
+            //     };
+            //     prioridadExiste.Tickets.Add(ticketMostrar);
+            // }
+            //var ticketList = await tickets.ToListAsync();
+
+            var ticketscreados = tickets
+                .GroupBy(t => new { t.FechaCreacionString })
+                .Select(gFecha => new InformeTicketxFecha
+                {
+                    FechaCreacion = gFecha.Key.FechaCreacionString,
+                    Prioridades = gFecha
+                        .GroupBy(t => t.PrioridadString)
+                        .Select(gPrio => new TicketsxPrioridad
+                        {
+                            Prioridad = gPrio.Key,
+                            Tickets = gPrio.Select(x => new VistaTickets
+                            {
+                                TicketID = x.TicketID,
+                                Titulo = x.Titulo,
+                                CategoriaString = x.CategoriaString,
+                            }).ToList()
+                        }).ToList()
+                }).ToList();
+
+            return ticketscreados;
+        }
+
+        [HttpPost("cantidadticketsporClientes")] //Informe de 2 niveles por clientes
+        public async Task<ActionResult<IEnumerable<ClienteTicket>>> InformeCantidadTicketPorClientes([FromBody] FiltroTicket filtro)
+        {
+            List<ClienteTicket> clientesMostrar = new List<ClienteTicket>();
+
+            var tickets = await _context.Ticket.Include(t => t.Categoria).ToListAsync();
+
+            DateTime fechaDesde = new DateTime();
+            bool fechaDesdeValida = DateTime.TryParse(filtro.FechaDesde, out fechaDesde);
+
+            DateTime fechaHasta = new DateTime();
+            bool fechaHastaValida = DateTime.TryParse(filtro.FechaHasta, out fechaHasta);
+
+            if (fechaDesdeValida && fechaHastaValida)
+            {
+                fechaHasta = fechaHasta.AddHours(23);
+                fechaHasta = fechaHasta.AddMinutes(59);
+                fechaHasta = fechaHasta.AddSeconds(59);
+                tickets = tickets.Where(t => t.FechaCreacion >= fechaDesde && t.FechaCreacion <= fechaHasta).ToList();
+            }
+
+            // 1) BUSCAR TODOS LOS CLIENTES
+            var clientes = await _context.Cliente.ToListAsync();
+            //1.2 RECORREMOS LOS CLIENTES
+            foreach (var cliente in clientes)
+            {
+                var usuario = await _context.Users.Where(u => u.Email == cliente.Email).FirstOrDefaultAsync();
+                //BUSCAMOS TICKETS DEL CLIENTE
+                var ticketsCliente = tickets.Where(t => t.UsuarioClienteID == usuario.Id).ToList();
+                var clienteMostrar = new ClienteTicket
+                {
+                    Nombre = cliente.Nombre,
+                    Categorias = new List<CategoriaTickets>()
+                };
+                clientesMostrar.Add(clienteMostrar);
+
+                // 2) BUSCAMOS LOS TICKETS DEL CLIENTE POR CATEGORIAS
+                var categoriasID = ticketsCliente.GroupBy(t => t.CategoriaID).ToList();
+
+                //RECORREMOS LAS CATEGORIAS ENCONTRADAS
+                foreach (var categoria in categoriasID)
+                {
+                    // 3) BUSCAMOS TODOS LOS TICKETS DE ESA CATEGORIA DE ESE CLIENTE
+                    var ticketsClienteCategoria = ticketsCliente.Where(c => c.CategoriaID == categoria.Key).ToList();
+                    //MOSTRAMOS RESULTADOS
+                    var categoriaMostrar = new CategoriaTickets
+                    {
+                        // 4) CONTAMOS LOS TICKETS POR CADA UNO DE LOS ESTADOS
+                        Nombre = _context.Categoria.Where(c => c.CategoriaID == categoria.Key).Select(c => c.Nombre).FirstOrDefault(),
+                        CantidadAbiertos = ticketsClienteCategoria.Where(t => t.Estados == Estado.Abierto).Count(),
+                        CantidadenProceso = ticketsClienteCategoria.Where(t => t.Estados == Estado.EnProceso).Count(),
+                        CantidadCerrados = ticketsClienteCategoria.Where(t => t.Estados == Estado.Cerrado).Count()
+                    };
+                    clienteMostrar.Categorias.Add(categoriaMostrar);
+                }
+            }
+
+            return clientesMostrar;
+        }
+
+        [HttpGet("estadisticaticketporcliente")]
+        public async Task<ActionResult<IEnumerable<EstadisticaTickets>>> EstadisticaTicketsporCliente()
+        {
+            List<EstadisticaTickets> clientesMostrar = new List<EstadisticaTickets>();
+
+            //1) PRIMERO BUSCAMOS TODOS LOS CLIENTES
+            var clientes = await _context.Cliente.ToListAsync();
+            //2)RECORREMOS LOS CLIENTES
+            foreach (var cliente in clientes)
+            {
+                //BUSCAR EL USUARIO DE ESE CLIENTE
+                var usuario = await _context.Users.Where(u => u.Email == cliente.Email).FirstOrDefaultAsync();
+
+                //3)BUSCAMOS TODOS LOS TICKETS DE ESE CLIENTE
+                var ticketsCliente = await _context.Ticket.Where(t => t.UsuarioClienteID == usuario.Id && t.Estados != Estado.Cancelado).ToListAsync();
+
+                //4) DE TODOS LOS TICKETS DE ESE CLIENTE, BUSCAR LOS ABIERTOS O EN PROCESO
+                var ticketsClienteAbiertos = ticketsCliente.Where(t => t.Estados != Estado.Cerrado).ToList();
+
+                //5) DE TODOS LOS TICKETS DE ESE CLIENTE, BUSCAR LOS CERRADOS
+                var ticketsClienteCerrados = ticketsCliente.Where(t => t.Estados == Estado.Cerrado).ToList();
+
+                //6) DE TODOS LOS TICKETS DEFINIR EL PORCENTAJE DE CRITICOS SEGUN LA PRIORIDAD
+                var cantidadTicketsAltaPrioridad = ticketsCliente.Where(t => t.Prioridades == Prioridad.Alta).Count();
+                var porcentajeCriticos = decimal.Round(cantidadTicketsAltaPrioridad * 100 / ticketsCliente.Count(), 2);
+
+                //7) DE TODOS LOS TICKETS BUSCAR EL MAS NUEVO, ES DECIR, EL ULTIMO CREADO
+                string fechaUltimoTicketCreado = "";
+                var ultimoTicketsCreado = ticketsCliente.OrderByDescending(t => t.FechaCreacion).FirstOrDefault();
+                if (ultimoTicketsCreado != null)
+                {
+                    fechaUltimoTicketCreado = ultimoTicketsCreado.FechaCreacionString;
+                }
+
+                //8) DE TODOS LOS TICKETS CERRADOS, BUSCAMOS EL ULTIMO CON ESA FECHA DE CIERRE
+                string fechaUltimoTicketFinalizado = "";
+                var ultimoTicketsCerrado = ticketsClienteCerrados.OrderByDescending(t => t.FechaCierre).FirstOrDefault();
+                if (ultimoTicketsCerrado != null)
+                {
+                    fechaUltimoTicketFinalizado = ultimoTicketsCerrado.FechaCierreString;
+                }
+
+                var clienteMostrar = new EstadisticaTickets
+                {
+                    NombreCliente = cliente.Nombre,
+                    TicketsTotales = ticketsCliente.Count(),
+                    TicketsAbiertos = ticketsClienteAbiertos.Count(),
+                    TicketsCerrados = ticketsClienteCerrados.Count(),
+                    Critico = porcentajeCriticos,
+                    FechaUltimoTicketCreado = fechaUltimoTicketCreado,
+                    FechaUltimoTicketFinalizado = fechaUltimoTicketFinalizado,
+                };
+                clientesMostrar.Add(clienteMostrar);
+            }
+
+            return clientesMostrar;
+        }
+
+        [HttpGet("estadisticaticketporclienteporcategoria")]
+        public async Task<ActionResult<IEnumerable<EstadisticaTickets>>> EstadisticaTicketsporClienteyCategoria()
+        {
+            List<EstadisticaTickets> clientesMostrar = new List<EstadisticaTickets>();
+
+            //1) PRIMERO BUSCAMOS TODOS LOS CLIENTES
+            var clientes = await _context.Cliente.ToListAsync();
+            //2)RECORREMOS LOS CLIENTES
+            foreach (var cliente in clientes)
+            {
+                //BUSCAR EL USUARIO DE ESE CLIENTE
+                var usuario = await _context.Users.Where(u => u.Email == cliente.Email).FirstOrDefaultAsync();
+
+                //3)BUSCAMOS TODOS LOS TICKETS DE ESE CLIENTE
+                var ticketsCliente = await _context.Ticket.Where(t => t.UsuarioClienteID == usuario.Id && t.Estados != Estado.Cancelado).Include(t => t.Categoria).ToListAsync();
+
+                //4) DE TODOS LOS TICKETS DE ESE CLIENTE, BUSCAR LOS ABIERTOS O EN PROCESO
+                var ticketsClienteAbiertos = ticketsCliente.Where(t => t.Estados != Estado.Cerrado).ToList();
+
+                //5) DE TODOS LOS TICKETS DE ESE CLIENTE, BUSCAR LOS CERRADOS
+                var ticketsClienteCerrados = ticketsCliente.Where(t => t.Estados == Estado.Cerrado).ToList();
+
+                //6) DE TODOS LOS TICKETS DEFINIR EL PORCENTAJE DE CRITICOS SEGUN LA PRIORIDAD
+                var cantidadTicketsAltaPrioridad = ticketsCliente.Where(t => t.Prioridades == Prioridad.Alta).Count();
+                var porcentajeCriticos = decimal.Round(cantidadTicketsAltaPrioridad * 100 / ticketsCliente.Count(), 2);
+
+                //7) DE TODOS LOS TICKETS BUSCAR EL MAS NUEVO, ES DECIR, EL ULTIMO CREADO
+                string fechaUltimoTicketCreado = "";
+                var ultimoTicketsCreado = ticketsCliente.OrderByDescending(t => t.FechaCreacion).FirstOrDefault();
+                if (ultimoTicketsCreado != null)
+                {
+                    fechaUltimoTicketCreado = ultimoTicketsCreado.FechaCreacionString;
+                }
+
+                //8) DE TODOS LOS TICKETS CERRADOS, BUSCAMOS EL ULTIMO CON ESA FECHA DE CIERRE
+                string fechaUltimoTicketFinalizado = "";
+                var ultimoTicketsCerrado = ticketsClienteCerrados.OrderByDescending(t => t.FechaCierre).FirstOrDefault();
+                if (ultimoTicketsCerrado != null)
+                {
+                    fechaUltimoTicketFinalizado = ultimoTicketsCerrado.FechaCierreString;
+                }
+
+                var clienteMostrar = new EstadisticaTickets
+                {
+                    NombreCliente = cliente.Nombre,
+                    TicketsTotales = ticketsCliente.Count(),
+                    TicketsAbiertos = ticketsClienteAbiertos.Count(),
+                    TicketsCerrados = ticketsClienteCerrados.Count(),
+                    Critico = porcentajeCriticos,
+                    FechaUltimoTicketCreado = fechaUltimoTicketCreado,
+                    FechaUltimoTicketFinalizado = fechaUltimoTicketFinalizado,
+                    Categorias = new List<CategoriaTickets>()
+                };
+                clientesMostrar.Add(clienteMostrar);
+
+                //DIVIDIR LOS TICKETS DEL CLIENTE POR CATEGORIA
+                var categoriasID = ticketsCliente.GroupBy(t => t.CategoriaID).ToList();
+
+                foreach (var categoria in categoriasID)
+                {
+                    //buscamos los tickets totales por categoria
+                    var ticketsClienteCategoria = ticketsCliente.Where(c => c.CategoriaID == categoria.Key).ToList();
+                    //buscamos los tickets abiertos por categoria
+                    var ticketsCategoriaAbiertos = ticketsClienteCategoria.Where(t => t.Estados != Estado.Cerrado).ToList();
+                    //buscamos los tickets cerrados
+                    var ticketsCategoriaCerrados = ticketsClienteCategoria.Where(t => t.Estados == Estado.Cerrado).ToList();
+                    //definimos el porcentaje critico
+                    var cantidadTicketsProridadAlta = ticketsClienteCategoria.Where(t => t.Prioridades == Prioridad.Alta).Count();
+                    var porcentajeCategoriaCritico = decimal.Round(cantidadTicketsProridadAlta * 100 / ticketsClienteCategoria.Count(), 2);
+                    //buscamos el ultimo ticket creado
+                    string fechaultimoticketcreadoCategoria = "";
+                    var ultimoTicketCreadoCategoria = ticketsClienteCategoria.OrderByDescending(t => t.FechaCreacion).FirstOrDefault();
+                    if (ultimoTicketCreadoCategoria != null)
+                    {
+                        fechaultimoticketcreadoCategoria = ultimoTicketCreadoCategoria.FechaCreacionString;
+                    }
+                    //buscamos ultimo ticket cerrado
+                    string fechaultimoticketcerradoCategoria = "";
+                    var ultimoTicketCerradoCategoria = ticketsClienteCategoria.OrderByDescending(t => t.FechaCierre).FirstOrDefault();
+                    if (ultimoTicketCerradoCategoria != null)
+                    {
+                        fechaultimoticketcerradoCategoria = ultimoTicketCerradoCategoria.FechaCierreString;
+                    }
+
+                    var categoriaMostrar = new CategoriaTickets
+                    {
+                        Nombre = _context.Categoria.Where(c => c.CategoriaID == categoria.Key).Select(c => c.Nombre).FirstOrDefault(),
+                        TicketsTotales = ticketsClienteCategoria.Count(),
+                        CantidadAbiertos = ticketsCategoriaAbiertos.Count(),
+                        CantidadCerrados = ticketsCategoriaCerrados.Count(),
+                        Critico = porcentajeCategoriaCritico,
+                        FechaUltimoTicketCreado = fechaultimoticketcreadoCategoria,
+                        FechaUltimoTicketFinalizado = fechaultimoticketcerradoCategoria
+                    };
+                    clienteMostrar.Categorias.Add(categoriaMostrar);
+                }
+            }
+
+            return clientesMostrar;
+        }
     }
 }
